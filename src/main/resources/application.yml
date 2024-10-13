@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: study_hub
+
+#tomcat ?? ????(30?)
+server:
+  servlet:
+    session:
+      timeout: 1800
