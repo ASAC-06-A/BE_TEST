@@ -11,10 +11,10 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 @Getter
 public enum ExceptionType {
-    EXIST_EMAIL(HttpStatus.CONFLICT, "중복된 이메일입니다.", "exist email account", Level.WARN),
+    EXIST_EMAIL(HttpStatus.CONFLICT, "중복된 이메일입니다. email: ", "exist email account", Level.WARN),
     EMPTY_ID_FIELD(HttpStatus.BAD_REQUEST, "아이디는 필수 입력 값입니다.", "not allowed empty user_id", Level.WARN),
-    EXIST_NICKNAME(HttpStatus.CONFLICT, "중복된 닉네임입니다.", "exist nickname", Level.WARN),
-    INVALID_EMAIL_FORMAT(HttpStatus.BAD_REQUEST, "올바른 이메일 형식이 아닙니다.", "Invalid email format", Level.WARN),
+    EXIST_NICKNAME(HttpStatus.CONFLICT, "중복된 닉네임입니다. name: ", "exist nickname", Level.WARN),
+    INVALID_EMAIL_FORMAT(HttpStatus.BAD_REQUEST, "올바른 이메일 형식이 아닙니다. email: ", "Invalid email format", Level.WARN),
     INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호는 8자 이상 20자 이하로 작성해주세요.", "Invalid password", Level.WARN),
     UNCLASSIFIED_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "내부에서 에러가 발생했습니다.", "Internal server error", Level.ERROR);
 
