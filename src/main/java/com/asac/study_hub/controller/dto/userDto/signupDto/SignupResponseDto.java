@@ -25,17 +25,6 @@ public class SignupResponseDto {
         this.userId = user.getId();
     }
 
-    public static class SignupResponseDtoBuilder {
-        public SignupResponseDtoBuilder message(String message) {
-            if (!UserSuccessResponse.valueOf("SIGNUP").getMessage().equals(message))  {
-                throw new RuntimeException("UserSuccessResponse 객체에 없는 message 입니다. message: " + message);
-            }
-            this.message = message;
-            return this;
-
-        }
-    }
-
     public static SignupResponseDto of(User user) {
         return new SignupResponseDto(user);
     }

@@ -1,8 +1,7 @@
 package com.asac.study_hub.controller;
 
+import com.asac.study_hub.controller.dto.common.BaseResponse;
 import com.asac.study_hub.controller.dto.userDto.signupDto.SignupRequestDto;
-import com.asac.study_hub.controller.dto.userDto.signupDto.SignupResponseDto;
-import com.asac.study_hub.domain.User;
 import com.asac.study_hub.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,12 +25,12 @@ public class UserController {
     UserService userService;
 
     @PostMapping("/signup")
-    public ResponseEntity<SignupResponseDto> signup(@RequestBody SignupRequestDto signupRequestDto) {
-        return ResponseEntity.status(CREATED).body((userService.signup(signupRequestDto)));
+    public ResponseEntity<BaseResponse> signup(@RequestBody SignupRequestDto signupRequestDto) {
+        return ResponseEntity.status(CREATED).body(userService.signup(signupRequestDto));
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<SignupResponseDto> signin(HttpServletRequest request, HttpServletResponse response, @RequestBody SignupRequestDto userDto) {
+    public ResponseEntity<BaseResponse> signin(HttpServletRequest request, HttpServletResponse response, @RequestBody SignupRequestDto userDto) {
         return ResponseEntity.status(OK).body(userService.signin(request, response, userDto));
     }
 }

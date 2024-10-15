@@ -1,5 +1,7 @@
 package com.asac.study_hub.service;
 
+import com.asac.study_hub.controller.dto.common.BaseResponse;
+import com.asac.study_hub.controller.dto.common.SuccessType;
 import com.asac.study_hub.controller.dto.userDto.signupDto.SignupRequestDto;
 import com.asac.study_hub.controller.dto.userDto.signupDto.SignupResponseDto;
 import com.asac.study_hub.domain.User;
@@ -28,11 +30,15 @@ public class UserService {
 
     private static final HashMap<String, User> sessionStorage = new HashMap<>();
 
-    public SignupResponseDto signup(SignupRequestDto signupRequestDto) {
-        return SignupResponseDto.builder().userId(userRepository.save(SignupRequestDto.of(signupRequestDto)).getId()).message(UserSuccessResponse.SIGNUP.getMessage()).status(HttpStatus.CREATED.value()).build();
+    public BaseResponse<SignupResponseDto> signup(SignupRequestDto signupRequestDto) {
+        signupRequestDto.setId(userRepository.findAll().size() + 1);
+        return BaseResponse.success(
+                SuccessType.SIGNUP,
+                SignupResponseDto.builder().userId(userRepository.save(SignupRequestDto.of(signupRequestDto)).getId()).message(UserSuccessResponse.SIGNUP.getMessage()).status(HttpStatus.CREATED.value()).build()
+        );
     }
 
-    public SignupResponseDto signin(HttpServletRequest request, HttpServletResponse response, SignupRequestDto userDto) {
+    public BaseResponse<SignupResponseDto> signin(HttpServletRequest request, HttpServletResponse response, SignupRequestDto userDto) {
 
         String sessionId = createSession(request, userDto);
         userRepository.saveSession(sessionId, SignupRequestDto.of(userDto));
@@ -40,7 +46,10 @@ public class UserService {
         Cookie cookie = new Cookie("session_key", sessionId);
         response.addCookie(cookie);
 
-        return SignupResponseDto.builder().userId(SignupRequestDto.of(userDto).getId()).message(UserSuccessResponse.SIGNIN.getMessage()).status(HttpStatus.OK.value()).build();
+        return BaseResponse.success(
+                SuccessType.SIGNIN,
+                SignupResponseDto.builder().userId(SignupRequestDto.of(userDto).getId()).message(UserSuccessResponse.SIGNIN.getMessage()).status(HttpStatus.OK.value()).build()
+        );
     }
 
     private String createSession(HttpServletRequest request, SignupRequestDto userDto) {

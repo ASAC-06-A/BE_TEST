@@ -18,6 +18,9 @@ public class BaseResponse<T> {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     T body;
 
+    public static <T> BaseResponse<T> success(SuccessType type, T body) {
+        return new BaseResponse<T>(true, type.getMessage(), body);
+    }
     public static <T> BaseResponse<T> failure(ExceptionType type) {
         return new BaseResponse<T>(false, type.getMessage(), null);
     }
