@@ -9,7 +9,8 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Getter
 public enum UserSuccessResponse {
-    SIGNUP("회원가입 성공");
+    SIGNUP("회원가입 성공"),
+    SIGNIN("로그인 성공");
 
     String message;
 

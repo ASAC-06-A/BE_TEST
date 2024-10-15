@@ -30,9 +30,8 @@ public class UserController {
         return ResponseEntity.status(CREATED).body((userService.signup(signupRequestDto)));
     }
 
-    //회원가입 api는 희재님이 나중에 dto 사용해서 리팩토링해주세요
     @PostMapping("/signin")
-    public ResponseEntity<User> signin(HttpServletRequest request, HttpServletResponse response, @RequestBody User user) {
-        return ResponseEntity.status(OK).body(userService.signin(request, response, user));
+    public ResponseEntity<SignupResponseDto> signin(HttpServletRequest request, HttpServletResponse response, @RequestBody SignupRequestDto userDto) {
+        return ResponseEntity.status(OK).body(userService.signin(request, response, userDto));
     }
 }
