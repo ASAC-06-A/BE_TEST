@@ -15,4 +15,9 @@ public class CustomException extends RuntimeException{
     public CustomException() {
         super();
     }
+
+    public CustomException(ExceptionType exceptionType) {
+        super(exceptionType.getMessage());
+        this.type = exceptionType;
+    }
 }
