@@ -1,6 +1,5 @@
 package com.asac.study_hub.repository;
 
-import com.asac.study_hub.controller.dto.userDto.signupDto.SignupRequestDto;
 import com.asac.study_hub.domain.User;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -31,7 +30,7 @@ public class UserRepository implements IRepository {
     }
 
     public String saveSession(String sessionId, User user) {
-        sessionStorage.put(sessionId, user); //repository로 옮기기
+        sessionStorage.put(sessionId, user);
         return sessionId;
     }
 
