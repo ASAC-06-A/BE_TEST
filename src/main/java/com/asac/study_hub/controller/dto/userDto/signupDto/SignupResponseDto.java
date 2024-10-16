@@ -1,7 +1,6 @@
 package com.asac.study_hub.controller.dto.userDto.signupDto;
 
 import com.asac.study_hub.domain.User;
-import com.asac.study_hub.success.UserSuccessResponse;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AccessLevel;
@@ -18,7 +17,6 @@ import lombok.experimental.FieldDefaults;
 public class SignupResponseDto {
 
     Integer userId;
-    String message;
     int status;
 
     private SignupResponseDto(User user) {

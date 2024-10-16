@@ -1,12 +1,8 @@
 package com.asac.study_hub.service;
 
-import com.asac.study_hub.controller.dto.common.BaseResponse;
-import com.asac.study_hub.controller.dto.common.SuccessType;
 import com.asac.study_hub.controller.dto.userDto.signupDto.SignupRequestDto;
 import com.asac.study_hub.controller.dto.userDto.signupDto.SignupResponseDto;
-import com.asac.study_hub.domain.User;
 import com.asac.study_hub.repository.UserRepository;
-import com.asac.study_hub.success.UserSuccessResponse;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,8 +12,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
 import java.util.UUID;
 
 
@@ -28,17 +22,13 @@ public class UserService {
 
     UserRepository userRepository;
 
-    private static final HashMap<String, User> sessionStorage = new HashMap<>();
-
-    public BaseResponse<SignupResponseDto> signup(SignupRequestDto signupRequestDto) {
+    public SignupResponseDto signup(SignupRequestDto signupRequestDto) {
         signupRequestDto.setId(userRepository.findAll().size() + 1);
-        return BaseResponse.success(
-                SuccessType.SIGNUP,
-                SignupResponseDto.builder().userId(userRepository.save(SignupRequestDto.of(signupRequestDto)).getId()).message(UserSuccessResponse.SIGNUP.getMessage()).status(HttpStatus.CREATED.value()).build()
-        );
+        return SignupResponseDto.builder().userId(userRepository.save(SignupRequestDto.of(signupRequestDto)).getId()).status(HttpStatus.CREATED.value()).build();
+
     }
 
-    public BaseResponse<SignupResponseDto> signin(HttpServletRequest request, HttpServletResponse response, SignupRequestDto userDto) {
+    public SignupResponseDto signin(HttpServletRequest request, HttpServletResponse response, SignupRequestDto userDto) {
 
         String sessionId = createSession(request, userDto);
         userRepository.saveSession(sessionId, SignupRequestDto.of(userDto));
@@ -46,10 +36,7 @@ public class UserService {
         Cookie cookie = new Cookie("session_key", sessionId);
         response.addCookie(cookie);
 
-        return BaseResponse.success(
-                SuccessType.SIGNIN,
-                SignupResponseDto.builder().userId(SignupRequestDto.of(userDto).getId()).message(UserSuccessResponse.SIGNIN.getMessage()).status(HttpStatus.OK.value()).build()
-        );
+        return SignupResponseDto.builder().userId(SignupRequestDto.of(userDto).getId()).status(HttpStatus.OK.value()).build();
     }
 
     private String createSession(HttpServletRequest request, SignupRequestDto userDto) {
