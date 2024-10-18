@@ -2,6 +2,7 @@ package com.asac.study_hub.service;
 
 import com.asac.study_hub.controller.dto.userDto.signupDto.SignupRequestDto;
 import com.asac.study_hub.controller.dto.userDto.signupDto.SignupResponseDto;
+import com.asac.study_hub.domain.User;
 import com.asac.study_hub.exception.CustomException;
 import com.asac.study_hub.exception.ExceptionType;
 import com.asac.study_hub.repository.UserRepository;
@@ -12,6 +13,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import java.util.UUID;
@@ -36,8 +38,10 @@ public class UserService {
         }
 
         signupRequestDto.setId(userRepository.findAll().size() + 1);
+        User user = userRepository.save(SignupRequestDto.of(signupRequestDto));
+
         return SignupResponseDto.builder()
-                .userId(userRepository.save(SignupRequestDto.of(signupRequestDto)).getId())
+                .userId(user.getId())
                 .status(HttpStatus.CREATED.value())
                 .build();
 
@@ -65,10 +69,10 @@ public class UserService {
     }
 
     private boolean checkDuplicatedEmail(String email) {
-        return userRepository.findAll().stream().noneMatch(user -> user.getEmail().equals(email));
+        return userRepository.findAll().stream().anyMatch(user -> user.getEmail().equals(email));
     }
 
     private boolean checkDuplicatedName(String name) {
-        return userRepository.findAll().stream().noneMatch(user -> user.getName().equals(name));
+        return userRepository.findAll().stream().anyMatch(user -> user.getName().equals(name));
     }
 }
