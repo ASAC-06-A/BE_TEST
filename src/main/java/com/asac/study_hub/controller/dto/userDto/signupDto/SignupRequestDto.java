@@ -4,6 +4,7 @@ import com.asac.study_hub.domain.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import jakarta.validation.constraints.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,9 +19,16 @@ import lombok.experimental.FieldDefaults;
 public class SignupRequestDto {
 
     Integer id;
+
+    @NotBlank
     @JsonProperty(value = "user_name")
     String userName;
+
+    @Email
     String email;
+
+    @Size(min = 8, max = 20)
+    @NotBlank
     String password;
 
     public static User of(SignupRequestDto userDto) {

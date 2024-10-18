@@ -16,7 +16,9 @@ public enum ExceptionType {
     EXIST_NICKNAME(HttpStatus.CONFLICT, "중복된 닉네임입니다. name: ", "exist nickname", Level.WARN),
     INVALID_EMAIL_FORMAT(HttpStatus.BAD_REQUEST, "올바른 이메일 형식이 아닙니다. email: ", "Invalid email format", Level.WARN),
     INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호는 8자 이상 20자 이하로 작성해주세요.", "Invalid password", Level.WARN),
+    INVALID_INPUT(HttpStatus.BAD_REQUEST, "잘못된 입력 값입니다","Invalid Input", Level.WARN),
     UNCLASSIFIED_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "내부에서 에러가 발생했습니다.", "Internal server error", Level.ERROR);
+
 
 
     HttpStatus status;

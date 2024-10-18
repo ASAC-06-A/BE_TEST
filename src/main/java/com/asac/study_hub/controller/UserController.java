@@ -7,12 +7,11 @@ import com.asac.study_hub.controller.dto.userDto.signupDto.SignupResponseDto;
 import com.asac.study_hub.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -28,12 +27,12 @@ public class UserController {
     UserService userService;
 
     @PostMapping("/signup")
-    public BaseResponse<SignupResponseDto> signup(@RequestBody SignupRequestDto signupRequestDto) {
+    public BaseResponse<SignupResponseDto> signup(@RequestBody @Valid SignupRequestDto signupRequestDto) {
         return BaseResponse.success(SuccessType.SIGNUP, userService.signup(signupRequestDto));
     }
 
     @PostMapping("/signin")
-    public BaseResponse<SignupResponseDto> signin(HttpServletRequest request, HttpServletResponse response, @RequestBody SignupRequestDto userDto) {
+    public BaseResponse<SignupResponseDto> signin(HttpServletRequest request, HttpServletResponse response, @RequestBody @Valid SignupRequestDto userDto) {
         return BaseResponse.success(SuccessType.SIGNIN, userService.signin(request, response, userDto));
     }
 }
