@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
+
 @Getter
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
@@ -23,5 +25,9 @@ public class BaseResponse<T> {
     }
     public static <T> BaseResponse<T> failure(ExceptionType type) {
         return new BaseResponse<T>(false, type.getMessage(), null);
+    }
+
+    public static <T> BaseResponse<T> failure(ExceptionType type, T body) {
+        return new BaseResponse<T>(false, type.getMessage(), body);
     }
 }
