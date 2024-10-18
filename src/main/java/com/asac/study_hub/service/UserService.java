@@ -35,10 +35,13 @@ public class UserService {
         }
 
         signupRequestDto.setId(userRepository.findAll().size() + 1);
+        User user = userRepository.save(SignupRequestDto.of(signupRequestDto));
+
         return SignupResponseDto.builder()
-            .userId(userRepository.save(SignupRequestDto.of(signupRequestDto)).getId())
+            .userId(user.getId())
             .status(HttpStatus.CREATED.value())
             .build();
+
 
     }
 
@@ -60,10 +63,10 @@ public class UserService {
     }
 
     private boolean checkDuplicatedEmail(String email) {
-        return userRepository.findAll().stream().noneMatch(user -> user.getEmail().equals(email));
+        return userRepository.findAll().stream().anyMatch(user -> user.getEmail().equals(email));
     }
 
     private boolean checkDuplicatedName(String name) {
-        return userRepository.findAll().stream().noneMatch(user -> user.getName().equals(name));
+        return userRepository.findAll().stream().anyMatch(user -> user.getName().equals(name));
     }
 }

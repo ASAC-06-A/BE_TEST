@@ -43,7 +43,7 @@ public class UserRepository implements IRepository {
     }
 
     public List<User> findAll() {
-        return List.of();
+        return users.values().stream().toList();
     }
 
     public void update(User user) {
