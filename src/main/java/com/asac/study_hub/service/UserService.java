@@ -24,7 +24,10 @@ public class UserService {
 
     public SignupResponseDto signup(SignupRequestDto signupRequestDto) {
         signupRequestDto.setId(userRepository.findAll().size() + 1);
-        return SignupResponseDto.builder().userId(userRepository.save(SignupRequestDto.of(signupRequestDto)).getId()).status(HttpStatus.CREATED.value()).build();
+        return SignupResponseDto.builder()
+                .userId(userRepository.save(SignupRequestDto.of(signupRequestDto)).getId())
+                .status(HttpStatus.CREATED.value())
+                .build();
 
     }
 
@@ -36,7 +39,10 @@ public class UserService {
         Cookie cookie = new Cookie("session_key", sessionId);
         response.addCookie(cookie);
 
-        return SignupResponseDto.builder().userId(SignupRequestDto.of(userDto).getId()).status(HttpStatus.OK.value()).build();
+        return SignupResponseDto.builder()
+                .userId(SignupRequestDto.of(userDto).getId())
+                .status(HttpStatus.OK.value())
+                .build();
     }
 
     private String createSession(HttpServletRequest request, SignupRequestDto userDto) {
