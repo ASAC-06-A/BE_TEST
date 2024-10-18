@@ -1,0 +1,9 @@
+### GET request to example server
+POST http://localhost:8080/users/signup
+
+{
+  "user_name": "",
+  "email": "solee3013@gmail.com",
+  "password": "solee6810"
+}
+###
