@@ -1,11 +1,15 @@
 package com.asac.study_hub.controller;
 
+import com.asac.study_hub.controller.dto.common.BaseResponse;
+import com.asac.study_hub.controller.dto.common.SuccessType;
+import com.asac.study_hub.controller.dto.studyDto.StudyResponseDto;
+import com.asac.study_hub.controller.dto.userDto.signupDto.SignupResponseDto;
 import com.asac.study_hub.service.StudyService;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/study")
@@ -23,4 +27,10 @@ public class StudyController {
         StudyResponseDto studyResponseDto = studyService.findAll();
         return BaseResponse.success(SuccessType.GET_ALL_STUDY, studyResponseDto);
     }*/
+
+    @GetMapping("/{id}")
+    public BaseResponse<StudyResponseDto> getStudy(@Valid @PathVariable Integer id) {
+        StudyResponseDto studyResponseDto = studyService.findById(id);
+        return BaseResponse.success(SuccessType.GET_STUDY, studyResponseDto);
+    }
 }

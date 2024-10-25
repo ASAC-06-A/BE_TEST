@@ -24,7 +24,7 @@ public class BaseResponse<T> {
         return new BaseResponse<T>(true, type.getMessage(), body);
     }
     public static <T> BaseResponse<T> failure(ExceptionType type) {
-        return new BaseResponse<T>(false, type.getMessage(), null);
+        return new BaseResponse<T>(false, type.getError(), null);
     }
 
     public static <T> BaseResponse<T> failure(ExceptionType type, T body) {

@@ -6,13 +6,17 @@ import com.asac.study_hub.domain.User;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @RequiredArgsConstructor
-public class StudyRepository {
+@Repository
+public class StudyRepository implements StudyIRepository{
     /**
      * TODO: StudyIRepository 구현
      * findAll() 메서드 구현: studyList 해시앱에 있는 value 값 List 로 반환
@@ -57,5 +61,11 @@ public class StudyRepository {
 
     }
 
+    public List<Study> findAll() {
+        return List.of();
+    }
 
+    public Optional<Study> findById(Integer studyId) {
+        return studyList.values().stream().filter((study) -> studyId.equals(study.getId())).findFirst();
+    }
 }
