@@ -33,8 +33,7 @@ public class UserService {
 
     public SignupResponseDto signin(HttpServletRequest request, HttpServletResponse response, SignupRequestDto userDto) {
 
-        String sessionId = createSession(request, userDto);
-        userRepository.saveSession(sessionId, SignupRequestDto.of(userDto));
+        saveSession(request, userDto);
 
         Cookie cookie = new Cookie("session_key", sessionId);
         response.addCookie(cookie);
@@ -45,10 +44,10 @@ public class UserService {
                 .build();
     }
 
-    private String createSession(HttpServletRequest request, SignupRequestDto userDto) {
+    private void saveSession(HttpServletRequest request, SignupRequestDto userDto) {
+        //로그인 한정 사용하는 메서드 따라서 세션이 있으면 그대로 사용하고 없으면 새로 생성하는 getSession 메서드 사용
         HttpSession session = request.getSession();
-        String sessionId = UUID.randomUUID().toString();
+        if (session.getAttri)
         session.setAttribute("session_key", userDto);
-        return sessionId;
     }
 }

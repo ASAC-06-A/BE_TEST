@@ -6,6 +6,8 @@ import com.asac.study_hub.controller.dto.common.SuccessType;
 import com.asac.study_hub.controller.dto.studyDto.StudyRequestDto;
 import com.asac.study_hub.controller.dto.studyDto.StudyResponseDto;
 import com.asac.study_hub.service.StudyService;
+import com.asac.study_hub.util.SessionProvider;
+import jakarta.servlet.http.Cookie;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -30,13 +32,13 @@ public class StudyController {
     }*/
 
     @GetMapping("/{id}")
-    public BaseResponse<StudyResponseDto> getStudy(@Valid @PathVariable Integer id) {
+    public BaseResponse<StudyResponseDto> getStudy(@CookieValue("JSESSIONID") Cookie cookie, @Valid @PathVariable Integer id) {
         StudyResponseDto studyResponseDto = studyService.findById(id);
         return BaseResponse.success(SuccessType.GET_STUDY, studyResponseDto);
     }
 
     @PostMapping
-    public BaseResponse<ResponseIdDto> save(@Valid @RequestBody StudyRequestDto studyRequestDto) {
+    public BaseResponse<ResponseIdDto> save(@CookieValue("JSESSIONID") Cookie cookie, @Valid @RequestBody StudyRequestDto studyRequestDto) {
         ResponseIdDto studyId = studyService.save(studyRequestDto);
         return BaseResponse.success(SuccessType.SAVE_STUDY, studyId);
     }
