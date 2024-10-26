@@ -1,5 +1,6 @@
 package com.asac.study_hub.service;
 
+import com.asac.study_hub.controller.dto.ListResponseDto;
 import com.asac.study_hub.controller.dto.ResponseIdDto;
 import com.asac.study_hub.controller.dto.studyDto.StudyRequestDto;
 import com.asac.study_hub.controller.dto.studyDto.StudyResponseDto;
@@ -7,12 +8,15 @@ import com.asac.study_hub.domain.Study;
 import com.asac.study_hub.exception.CustomException;
 import com.asac.study_hub.exception.ExceptionType;
 import com.asac.study_hub.repository.StudyIRepository;
+import com.asac.study_hub.repository.StudyRepository;
 import com.asac.study_hub.util.SessionProvider;
 import jakarta.servlet.http.Cookie;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -41,6 +45,15 @@ public class StudyService {
         //강의 제목 중복 허용
         Integer studyId = studyRepository.save(studyRequestDto.to());
         return new ResponseIdDto(studyId);
+    }
+
+    public ListResponseDto<StudyResponseDto> getStudyByCategory(String category) {
+
+        List<StudyResponseDto> studyList = studyRepository.findByCategory(category).stream()
+                .map(StudyResponseDto::of)
+                .toList();
+
+        return new ListResponseDto<StudyResponseDto>(studyList.size(), studyList);
     }
 
 }

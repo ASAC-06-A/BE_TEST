@@ -11,5 +11,6 @@ public interface StudyIRepository {
     Optional<Study> findById(Integer id);
     Integer save(Study study);
     Integer getId();
+    List<Study> findByCategory(String category);
 }
 

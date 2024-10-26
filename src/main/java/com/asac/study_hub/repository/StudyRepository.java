@@ -80,4 +80,10 @@ public class StudyRepository implements StudyIRepository{
     public Integer getId() {
         return studyList.size();
     }
+
+    public List<Study> findByCategory(String category) {
+        return studyList.values().stream()
+                .filter((study) -> category.equals(study.getCategory().getCategory()))
+                .toList();
+    }
 }
