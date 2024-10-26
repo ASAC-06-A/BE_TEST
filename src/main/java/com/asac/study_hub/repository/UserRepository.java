@@ -1,6 +1,8 @@
 package com.asac.study_hub.repository;
 
 import com.asac.study_hub.domain.User;
+import com.asac.study_hub.exception.CustomException;
+import com.asac.study_hub.exception.ExceptionType;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Repository;
@@ -49,5 +51,12 @@ public class UserRepository implements IRepository {
     @Override
     public void delete(User user) {
 
+    }
+
+    public User findByEmail(String email) {
+        User findUser = users.values().stream()
+                .filter((user) -> email.equals(user.getEmail()))
+                .findAny().orElseThrow(() -> new CustomException(ExceptionType.NOT_FOUNT_USER_BY_EMAIL, email));
+        return findUser;
     }
 }

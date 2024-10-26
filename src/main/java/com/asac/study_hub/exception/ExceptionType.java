@@ -20,6 +20,7 @@ public enum ExceptionType {
     NOT_FOUND_STUDY_BY_ID(HttpStatus.NOT_FOUND, "해당 id로 등록된 강의가 존재하지 않습니다. id: ", "not found study", Level.WARN),
     NOT_EXIST_SESSION_ID(HttpStatus.BAD_REQUEST, "Cookie 에 세션 Id가 없습니다.", "not exist session id", Level.WARN),
     EXPIRED_SESSION(HttpStatus.BAD_REQUEST, "만료된 세션 id 입니다.", "expired session", Level.WARN),
+    NOT_FOUNT_USER_BY_EMAIL(HttpStatus.NOT_FOUND, "해당 email로 가입된 유저가 없습니다. email: ", "not found user by email", Level.WARN),
     UNCLASSIFIED_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "내부에서 에러가 발생했습니다.", "Internal server error", Level.ERROR);
 
 
