@@ -20,7 +20,8 @@ public enum SuccessType {
 
     GET_STUDY(HttpStatus.OK, null),
 
-    SAVE_STUDY(HttpStatus.OK, "강의 저장 성공");
+    SAVE_STUDY(HttpStatus.OK, "강의 저장 성공"),
+    VALID_SESSION(HttpStatus.OK, "세션 검증 성공");
 
 
     HttpStatus status;

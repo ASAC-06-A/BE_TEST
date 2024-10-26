@@ -1,21 +1,24 @@
 package com.asac.study_hub.repository;
 
 import com.asac.study_hub.domain.User;
+import com.asac.study_hub.exception.CustomException;
+import com.asac.study_hub.exception.ExceptionType;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
-
 @Repository
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserRepository implements IRepository {
+
     User user;
 
     private static final HashMap<Integer, User> users;
     private static final HashMap<String, User> sessionStorage;
+
     static {
         users = new HashMap<>();
         users.put(1, new User(1, "김정현", "solee3020@gmail.com", "solee6810"));
@@ -25,13 +28,13 @@ public class UserRepository implements IRepository {
     }
 
     public User save(User user) {
-        users.put(users.size()+1, user);
+        users.put(users.size() + 1, user);
         return user;
     }
 
     public String saveSession(String sessionId, User user) {
         sessionStorage.put(sessionId, user);
-        
+
         return sessionId;
     }
 
@@ -50,12 +53,12 @@ public class UserRepository implements IRepository {
     //private String searchSessionId(){}
 
 
-    public  User searchMyProfile(String sessionId){
+    public User searchMyProfile(String sessionId) {
         return sessionStorage.get(sessionId);
     }
 
 
-    public Integer deleteUser(Integer id){
+    public Integer deleteUser(Integer id) {
         return null;
     }
 
@@ -63,6 +66,7 @@ public class UserRepository implements IRepository {
     public void delete(User user) {
 
     }
+
 
     /*
        public Optional<User> findMyProfileByID(String sessionId){
@@ -82,4 +86,12 @@ public User searchUser(Integer id){
     return users.get(id);
 }
     */
+
+    public User findByEmail(String email) {
+        User findUser = users.values().stream()
+            .filter((user) -> email.equals(user.getEmail()))
+            .findAny()
+            .orElseThrow(() -> new CustomException(ExceptionType.NOT_FOUNT_USER_BY_EMAIL, email));
+        return findUser;
+    }
 }
