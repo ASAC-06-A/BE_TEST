@@ -7,6 +7,8 @@ import com.asac.study_hub.domain.Study;
 import com.asac.study_hub.exception.CustomException;
 import com.asac.study_hub.exception.ExceptionType;
 import com.asac.study_hub.repository.StudyIRepository;
+import com.asac.study_hub.util.SessionProvider;
+import jakarta.servlet.http.Cookie;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
