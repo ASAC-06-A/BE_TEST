@@ -15,9 +15,12 @@ public enum SuccessType {
     SIGNUP(HttpStatus.CREATED, "회원가입 성공"),
     SIGNIN(HttpStatus.OK, "로그인 성공"),
 
+
     GETPROFILE(HttpStatus.OK, "프로필 조회 성공"),
 
-    GET_STUDY(HttpStatus.OK, null);
+    GET_STUDY(HttpStatus.OK, null),
+
+    SAVE_STUDY(HttpStatus.OK, "강의 저장 성공");
 
 
     HttpStatus status;

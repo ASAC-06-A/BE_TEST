@@ -15,7 +15,8 @@ public class Study {
     String title;
     String studyLink;
     String description;
-    Category category; //FK
+    @Builder.Default
+    Category category = new Category("None"); //FK
     @Builder.Default
     Integer likes = 0;
     @Builder.Default
@@ -28,4 +29,5 @@ public class Study {
     Status status = Status.ACTIVE;
     User user; //FK
     String studyImgUrl;
+    Integer order;
 }

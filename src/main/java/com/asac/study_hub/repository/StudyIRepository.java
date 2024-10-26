@@ -9,5 +9,7 @@ public interface StudyIRepository {
 
     List<Study> findAll();
     Optional<Study> findById(Integer id);
-
+    Integer save(Study study);
+    Integer getId();
 }
+

@@ -37,6 +37,7 @@ public class StudyRepository implements StudyIRepository{
                 .user(user)
                 .createAt(LocalDateTime.now())
                 .updateAt(LocalDateTime.now())
+                .order(1)
                 .build());
         studyList.put(2, Study.builder()
                 .id(2)
@@ -47,6 +48,7 @@ public class StudyRepository implements StudyIRepository{
                 .user(user)
                 .createAt(LocalDateTime.now())
                 .updateAt(LocalDateTime.now())
+                .order(2)
                 .build());
         studyList.put(3, Study.builder()
                 .id(1)
@@ -57,6 +59,7 @@ public class StudyRepository implements StudyIRepository{
                 .user(user)
                 .createAt(LocalDateTime.now())
                 .updateAt(LocalDateTime.now())
+                .order(3)
                 .build());
 
     }
@@ -67,5 +70,14 @@ public class StudyRepository implements StudyIRepository{
 
     public Optional<Study> findById(Integer studyId) {
         return studyList.values().stream().filter((study) -> studyId.equals(study.getId())).findFirst();
+    }
+
+    public Integer save(Study study) {
+        studyList.put(getId()+1, study);
+        return getId();
+    }
+
+    public Integer getId() {
+        return studyList.size();
     }
 }
