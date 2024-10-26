@@ -13,15 +13,17 @@ public class SessionProvider {
     //1. 쿠케 세션 확인, 세션 만료 확인, 만료되었다면 재로그인, 유효하면 User 객체 사용
     //쿠키에 세션있는지 확인 -> @CookieValue 로 컨트롤러에서 확인
 
-    //세션 만료 확인 -> 로그인 후 모든 요청에 사용
+    //세션 만료 확인
     public static User validSession(HttpSession session) {
-        User user = (User) session.getAttribute(SESSION_ID);
+        User user = (User) session.getAttribute(SESSION_ID); //토큰 만료 검사
         return Optional.ofNullable(user).orElseThrow(() -> new CustomException(ExceptionType.EXPIRED_SESSION));
     }
 
-    //세션 생성 -> 로그인시 사용
-    public static HttpSession createSession(HttpServletRequest request) {
-        return request.getSession();
+    //세션 생성
+    public static User getValidUser(HttpServletRequest request) {
+        HttpSession session = request.getSession(); //기존 세션이 있다면 기존꺼 사용, 없다면 새로 생성(이전에 setAttribute 해서 SESSIONID로 저장한 User객첻 없어짐)
+        User user = validSession(session); //토큰 탈취하여 만료된 토른으로 인증하려고 하면 오류터트리기
+        return user;
     }
 
 
