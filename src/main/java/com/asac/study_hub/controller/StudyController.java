@@ -1,5 +1,6 @@
 package com.asac.study_hub.controller;
 
+import com.asac.study_hub.controller.dto.ListResponseDto;
 import com.asac.study_hub.controller.dto.ResponseIdDto;
 import com.asac.study_hub.controller.dto.common.BaseResponse;
 import com.asac.study_hub.controller.dto.common.SuccessType;
@@ -44,6 +45,12 @@ public class StudyController {
         SessionProvider.validSession(request);
         ResponseIdDto studyId = studyService.save(studyRequestDto);
         return BaseResponse.success(SuccessType.SAVE_STUDY, studyId);
+    }
+
+    @GetMapping
+    public BaseResponse<ListResponseDto<StudyResponseDto>> getStudyByCategory(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request, @RequestParam String category) {
+        SessionProvider.validSession(request);
+        return BaseResponse.success(SuccessType.GET_STUDY_BY_CATEGORY, studyService.getStudyByCategory(category));
     }
 
 }
