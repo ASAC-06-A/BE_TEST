@@ -6,17 +6,15 @@ import com.asac.study_hub.domain.User;
 import com.asac.study_hub.exception.CustomException;
 import com.asac.study_hub.exception.ExceptionType;
 import com.asac.study_hub.repository.UserRepository;
-import jakarta.servlet.http.Cookie;
+import com.asac.study_hub.util.SessionProvider;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import java.util.UUID;
 
 
 @Service
@@ -49,11 +47,7 @@ public class UserService {
 
     public SignupResponseDto signin(HttpServletRequest request, HttpServletResponse response, SignupRequestDto userDto) {
 
-        String sessionId = createSession(request, userDto);
-        userRepository.saveSession(sessionId, SignupRequestDto.of(userDto));
-
-        Cookie cookie = new Cookie("session_key", sessionId);
-        response.addCookie(cookie);
+        saveSession(request, userDto);
 
         return SignupResponseDto.builder()
                 .userId(SignupRequestDto.of(userDto).getId())
@@ -61,11 +55,10 @@ public class UserService {
                 .build();
     }
 
-    private String createSession(HttpServletRequest request, SignupRequestDto userDto) {
-        HttpSession session = request.getSession();
-        String sessionId = UUID.randomUUID().toString();
-        session.setAttribute("session_key", userDto);
-        return sessionId;
+    private void saveSession(HttpServletRequest request, SignupRequestDto userDto) {
+        //로그인 한정 사용하는 메서드 따라서 세션이 있으면 그대로 사용하고 없으면 새로 생성하는 getSession 메서드 사용
+        User user = userRepository.findByEmail(userDto.getEmail());
+        SessionProvider.createSession(request, user);
     }
 
     private boolean checkDuplicatedEmail(String email) {
