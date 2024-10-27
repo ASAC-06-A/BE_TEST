@@ -30,4 +30,15 @@ public class Study {
     User user; //FK
     String studyImgUrl;
     Integer order;
+
+    public void update(Study newStudy) {
+        this.title = newStudy.getTitle() != null ? newStudy.getTitle() : this.title;
+        this.studyLink = newStudy.getStudyLink()!= null ? newStudy.getStudyLink() : this.studyLink;
+        this.category = newStudy.getCategory()!= null ? newStudy.getCategory() : this.category;
+        this.description = newStudy.getDescription()!= null ? newStudy.getDescription() : this.description;
+        this.studyStatus = newStudy.getStudyStatus()!= null ? newStudy.getStudyStatus() : this.studyStatus;
+        this.updateAt = LocalDateTime.now();
+        this.order = newStudy.getOrder()!= null ? newStudy.getOrder() : this.order;
+
+    }
 }

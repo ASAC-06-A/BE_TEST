@@ -55,4 +55,19 @@ public class StudyService {
         return new ListResponseDto<StudyResponseDto>(studyList.size(), studyList);
     }
 
+    public void update(Integer id, StudyRequestDto studyRequestDto, User user) {
+        Study study = studyRepository.findById(id).orElseThrow(() -> new CustomException(ExceptionType.NOT_FOUND_STUDY_BY_ID));
+
+        if (!checkAuthorization(user, study)) {
+            throw new CustomException(ExceptionType.INVALID_AUTHORIZATION);
+        }
+
+        Study newStudy = studyRequestDto.to();
+        studyRepository.update(study, newStudy);
+    }
+
+    private boolean checkAuthorization(User user, Study study) {
+        //수정할 권한이 있는지 확인
+        return study.getUser().equals(user);
+    }
 }

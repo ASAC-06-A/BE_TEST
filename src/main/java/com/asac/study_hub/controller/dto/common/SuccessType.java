@@ -17,7 +17,8 @@ public enum SuccessType {
     GET_STUDY(HttpStatus.OK, null),
     SAVE_STUDY(HttpStatus.OK, "강의 저장 성공"),
     VALID_SESSION(HttpStatus.OK, "세션 검증 성공"),
-    GET_STUDY_BY_CATEGORY(HttpStatus.OK, null);
+    GET_STUDY_BY_CATEGORY(HttpStatus.OK, null),
+    UPDATE_SUCCESS(HttpStatus.OK, null);
 
     HttpStatus status;
     String message;
