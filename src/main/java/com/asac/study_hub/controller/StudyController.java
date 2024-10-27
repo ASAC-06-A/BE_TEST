@@ -54,4 +54,12 @@ public class StudyController {
         return BaseResponse.success(SuccessType.GET_STUDY_BY_CATEGORY, studyService.getStudyByCategory(category));
     }
 
+    //부분 수정
+    @PatchMapping("/{id}")
+    public BaseResponse<StudyResponseDto> update(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request, @PathVariable Integer id, @Valid @RequestBody StudyRequestDto studyRequestDto){
+        User user = SessionProvider.getValidUser(cookie.getValue(), request);
+        studyService.update(id, studyRequestDto, user);
+        return BaseResponse.success(SuccessType.UPDATE_SUCCESS, null);
+    }
+
 }

@@ -86,4 +86,8 @@ public class StudyRepository implements StudyIRepository{
                 .filter((study) -> category.equals(study.getCategory().getCategory()))
                 .toList();
     }
+
+    public void update(Study study, Study newStudy) {
+        study.update(newStudy);
+    }
 }

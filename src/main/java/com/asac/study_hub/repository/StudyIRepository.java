@@ -12,5 +12,6 @@ public interface StudyIRepository {
     Integer save(Study study);
     Integer getId();
     List<Study> findByCategory(String category);
+    void update(Study study, Study newstudy);
 }
 

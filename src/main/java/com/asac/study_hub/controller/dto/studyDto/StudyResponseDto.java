@@ -17,10 +17,11 @@ public class StudyResponseDto {
     String studyTitle;
     String url;
     String desc;
-    Category category;
+    String category;
     LocalDateTime createAt;
+    String studyStatus;
 
     public static StudyResponseDto of(Study study) {
-        return new StudyResponseDto(study.getId(), study.getStudyImgUrl(), study.getTitle(), study.getStudyLink(), study.getDescription(), study.getCategory(), study.getCreateAt());
+        return new StudyResponseDto(study.getId(), study.getStudyImgUrl(), study.getTitle(), study.getStudyLink(), study.getDescription(), study.getCategory().getCategory(), study.getCreateAt(), study.getStudyStatus().name());
     }
 }
