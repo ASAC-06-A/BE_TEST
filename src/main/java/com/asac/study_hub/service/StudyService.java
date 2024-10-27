@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -70,4 +71,16 @@ public class StudyService {
         //수정할 권한이 있는지 확인
         return study.getUser().equals(user);
     }
+
+    public void deleteAll(User user, List<Integer> ids) {
+        List<Study> findStudyList = new ArrayList<>();
+        ids.forEach((id) -> {
+                    Study findStudy = studyRepository.findByIdAndUser(id, user)
+                            .orElseThrow(() -> new CustomException(ExceptionType.NOT_FOUND_STUDY_BY_ID));
+                    findStudyList.add(findStudy);
+                }
+        );
+        studyRepository.deleteAll(findStudyList);
+    }
+
 }

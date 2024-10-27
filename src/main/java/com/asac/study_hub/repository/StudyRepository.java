@@ -90,4 +90,30 @@ public class StudyRepository implements StudyIRepository{
     public void update(Study study, Study newStudy) {
         study.update(newStudy);
     }
+
+    public void deleteAll(List<Study> study) {
+        studyList.values().removeAll(study);
+        reassignId(); //idGenerator
+    }
+
+    private void reassignId() {
+        //강의 삭제후 HashMap id 재정렬
+        HashMap<Integer, Study> tempList = new HashMap<>();
+        Integer id = 1;
+        for (Study study : studyList.values()) {
+            tempList.put(id++, study);
+        }
+
+        studyList.clear();
+        for (Study study : tempList.values()) {
+            studyList.put(id++, study);
+        }
+    }
+
+    public Optional<Study> findByIdAndUser(Integer id, User user) {
+        return studyList.values().stream()
+                .filter((study) -> id.equals(study.getId()) && user.equals(study.getUser()))
+                .findAny();
+    }
+
 }

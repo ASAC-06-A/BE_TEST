@@ -17,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/study")
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
@@ -60,6 +62,13 @@ public class StudyController {
         User user = SessionProvider.getValidUser(cookie.getValue(), request);
         studyService.update(id, studyRequestDto, user);
         return BaseResponse.success(SuccessType.UPDATE_SUCCESS, null);
+    }
+
+    @PostMapping("/delete")
+    public BaseResponse<Void> deleteAll(@CookieValue Cookie cookie, HttpServletRequest request, @RequestBody List<Integer> id) {
+        User user = SessionProvider.getValidUser(cookie.getValue(), request);
+        studyService.deleteAll(user, id);
+        return BaseResponse.success(SuccessType.DELETE_ALL_SUCCESS, null);
     }
 
 }
