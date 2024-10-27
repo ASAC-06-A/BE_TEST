@@ -5,12 +5,10 @@ import com.asac.study_hub.controller.dto.ResponseIdDto;
 import com.asac.study_hub.controller.dto.studyDto.StudyRequestDto;
 import com.asac.study_hub.controller.dto.studyDto.StudyResponseDto;
 import com.asac.study_hub.domain.Study;
+import com.asac.study_hub.domain.User;
 import com.asac.study_hub.exception.CustomException;
 import com.asac.study_hub.exception.ExceptionType;
 import com.asac.study_hub.repository.StudyIRepository;
-import com.asac.study_hub.repository.StudyRepository;
-import com.asac.study_hub.util.SessionProvider;
-import jakarta.servlet.http.Cookie;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -41,8 +39,9 @@ public class StudyService {
         return StudyResponseDto.of(study);
     }
 
-    public ResponseIdDto save(StudyRequestDto studyRequestDto) {
+    public ResponseIdDto save(User user, StudyRequestDto studyRequestDto) {
         //강의 제목 중복 허용
+        studyRequestDto.setUser(user);
         Integer studyId = studyRepository.save(studyRequestDto.to());
         return new ResponseIdDto(studyId);
     }

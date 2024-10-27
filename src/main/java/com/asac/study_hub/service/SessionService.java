@@ -9,11 +9,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class SessionService {
 
-    public User getUser(HttpServletRequest request) {
-        HttpSession session = SessionProvider.validSession(request);
-        User user = SessionProvider.getValidUser(session);
-        SessionProvider.createSession(request, user);
-
+    //세션 검증
+    public User getValidUser(String sessionId, HttpServletRequest request) {
+        User user = SessionProvider.getValidUser(sessionId, request);
         return user;
     }
 }
