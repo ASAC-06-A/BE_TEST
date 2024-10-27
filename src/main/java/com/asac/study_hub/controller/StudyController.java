@@ -6,6 +6,7 @@ import com.asac.study_hub.controller.dto.common.BaseResponse;
 import com.asac.study_hub.controller.dto.common.SuccessType;
 import com.asac.study_hub.controller.dto.studyDto.StudyRequestDto;
 import com.asac.study_hub.controller.dto.studyDto.StudyResponseDto;
+import com.asac.study_hub.domain.User;
 import com.asac.study_hub.service.StudyService;
 import com.asac.study_hub.util.SessionProvider;
 import jakarta.servlet.http.Cookie;
@@ -35,21 +36,21 @@ public class StudyController {
 
     @GetMapping("/{id}")
     public BaseResponse<StudyResponseDto> getStudy(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request, @Valid @PathVariable Integer id) {
-        SessionProvider.validSession(request);
+        SessionProvider.getValidUser(cookie.getValue(), request);
         StudyResponseDto studyResponseDto = studyService.findById(id);
         return BaseResponse.success(SuccessType.GET_STUDY, studyResponseDto);
     }
 
     @PostMapping
     public BaseResponse<ResponseIdDto> save(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request, @Valid @RequestBody StudyRequestDto studyRequestDto) {
-        SessionProvider.validSession(request);
-        ResponseIdDto studyId = studyService.save(studyRequestDto);
+        User user = SessionProvider.getValidUser(cookie.getValue(), request);
+        ResponseIdDto studyId = studyService.save(user, studyRequestDto);
         return BaseResponse.success(SuccessType.SAVE_STUDY, studyId);
     }
 
     @GetMapping
     public BaseResponse<ListResponseDto<StudyResponseDto>> getStudyByCategory(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request, @RequestParam String category) {
-        SessionProvider.validSession(request);
+        SessionProvider.getValidSession(request);
         return BaseResponse.success(SuccessType.GET_STUDY_BY_CATEGORY, studyService.getStudyByCategory(category));
     }
 

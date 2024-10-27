@@ -6,6 +6,7 @@ import com.asac.study_hub.exception.ExceptionType;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import java.util.Optional;
 
 @Slf4j
 public class SessionProvider {
@@ -14,28 +15,26 @@ public class SessionProvider {
     //쿠키에 세션있는지 확인 -> @CookieValue 로 컨트롤러에서 확인 (사용자가 로그아웃 후에 탈취된 쿠키 사용 방지)
 
     //세션 만료 확인
-    public static HttpSession validSession(HttpServletRequest request) {
-        try {
-            return request.getSession(false); //기존 세션이 만료되어서 없어졌다면 nul을 반환
-        } catch (NullPointerException e) {
-            log.warn(e.getMessage(), e);
-            throw new CustomException(ExceptionType.EXPIRED_SESSION);
-        }
+    public static HttpSession getValidSession(HttpServletRequest request) {
+        return Optional.ofNullable(request.getSession(false))
+                .orElseThrow(() -> new CustomException(ExceptionType.EXPIRED_SESSION));
     }
 
     //세션 생성
+    //로그인할때만 사용됨
     public static HttpSession createSession(HttpServletRequest request, User user) {
         HttpSession session = request.getSession(); //기존 세션이 있다면 기존꺼 사용, 없다면 새로 생성(이전에 setAttribute 해서 SESSIONID로 저장한 User객첻 없어짐)
-        if (session.getAttribute(SESSION_ID) != null) {
-            return session;
+        if (session.getAttribute(session.getId()) == null) {
+            session.setAttribute(session.getId(), user);
         }
-        session.setAttribute(SESSION_ID, user);
         return session;
     }
 
-    public static User getValidUser(HttpSession session) {
-        return (User) session.getAttribute(SESSION_ID);
+    public static User getValidUser(String sessionId, HttpServletRequest request) {
+        //기존 세션이 만료되어서 없어졌다면 null 을 반환
+        HttpSession session = getValidSession(request);
+        return (User) Optional.ofNullable(session.getAttribute(sessionId))
+                .orElseThrow(() -> new CustomException(ExceptionType.INVALID_SESSION));
     }
-
 
 }
