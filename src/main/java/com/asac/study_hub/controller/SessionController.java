@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 @Slf4j
 public class SessionController {
 
-    //@SessionAttribute 는 나중에 jwt를 사용하게 된다면 jwt 검증 어노테이션을 사용할 것임 -> test Controller 입니다. 삭제하셔도돼요
-    @GetMapping("/session")
-    public User test(@SessionAttribute(name = "session_key") User user) {
-        log.info(user.toString());
-        return user;
+  //@SessionAttribute 는 나중에 jwt를 사용하게 된다면 jwt 검증 어노테이션을 사용할 것임 -> test Controller 입니다. 삭제하셔도돼요
+  @GetMapping("/session")
+  public User test(@SessionAttribute(name = "session_key") User user) {
+    log.info(user.toString());
+    return user;
 
-    }
+  }
 }
