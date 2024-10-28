@@ -1,13 +1,21 @@
 package com.asac.study_hub.service;
 
-import com.asac.study_hub.controller.studyDto.StudyResponseDto;
+import com.asac.study_hub.controller.dto.ListResponseDto;
+import com.asac.study_hub.controller.dto.ResponseIdDto;
+import com.asac.study_hub.controller.dto.studyDto.StudyRequestDto;
+import com.asac.study_hub.controller.dto.studyDto.StudyResponseDto;
 import com.asac.study_hub.domain.Study;
+import com.asac.study_hub.domain.User;
+import com.asac.study_hub.exception.CustomException;
+import com.asac.study_hub.exception.ExceptionType;
 import com.asac.study_hub.repository.StudyIRepository;
-import java.util.List;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -26,11 +34,60 @@ public class StudyService {
         return studyResponseDtoList;
     }*/
 
-    public List<StudyResponseDto> findAll(){
+    public List<com.asac.study_hub.controller.studyDto.StudyResponseDto> findAll(){
         List<Study> studyList = studyRepository.findAll();
         return studyList
-            .stream()
-            .map(StudyResponseDto::of)
-            .toList();
+                .stream()
+                .map(com.asac.study_hub.controller.studyDto.StudyResponseDto::of)
+                .toList();
     }
+
+    public StudyResponseDto findById(Integer id) {
+        Study study = studyRepository.findById(id).orElseThrow(() -> new CustomException(ExceptionType.NOT_FOUND_STUDY_BY_ID, id));
+        return StudyResponseDto.of(study);
+    }
+
+    public ResponseIdDto save(User user, StudyRequestDto studyRequestDto) {
+        //강의 제목 중복 허용
+        studyRequestDto.setUser(user);
+        Integer studyId = studyRepository.save(studyRequestDto.to());
+        return new ResponseIdDto(studyId);
+    }
+
+    public ListResponseDto<StudyResponseDto> getStudyByCategory(String category) {
+
+        List<StudyResponseDto> studyList = studyRepository.findByCategory(category).stream()
+                .map(StudyResponseDto::of)
+                .toList();
+
+        return new ListResponseDto<StudyResponseDto>(studyList.size(), studyList);
+    }
+
+    public void update(Integer id, StudyRequestDto studyRequestDto, User user) {
+        Study study = studyRepository.findById(id).orElseThrow(() -> new CustomException(ExceptionType.NOT_FOUND_STUDY_BY_ID));
+
+        if (!checkAuthorization(user, study)) {
+            throw new CustomException(ExceptionType.INVALID_AUTHORIZATION);
+        }
+
+        Study newStudy = studyRequestDto.to();
+        studyRepository.update(study, newStudy);
+    }
+
+    private boolean checkAuthorization(User user, Study study) {
+        //수정할 권한이 있는지 확인
+        return study.getUser().equals(user);
+    }
+
+    public void deleteAll(User user, List<Integer> ids) {
+        List<Study> findStudyList = new ArrayList<>();
+        ids.forEach((id) -> {
+                    Study findStudy = studyRepository.findByIdAndUser(id, user)
+                            .orElseThrow(() -> new CustomException(ExceptionType.NOT_FOUND_STUDY_BY_ID));
+                    findStudyList.add(findStudy);
+                }
+        );
+        studyRepository.deleteAll(findStudyList);
+    }
+
 }

@@ -3,16 +3,19 @@ package com.asac.study_hub.repository;
 import com.asac.study_hub.domain.Category;
 import com.asac.study_hub.domain.Study;
 import com.asac.study_hub.domain.User;
-import java.util.List;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @RequiredArgsConstructor
+@Repository
 public class StudyRepository implements StudyIRepository{
     /**
      * TODO: StudyIRepository 구현
@@ -34,6 +37,7 @@ public class StudyRepository implements StudyIRepository{
                 .user(user)
                 .createAt(LocalDateTime.now())
                 .updateAt(LocalDateTime.now())
+                .order(1)
                 .build());
         studyList.put(2, Study.builder()
                 .id(2)
@@ -44,6 +48,7 @@ public class StudyRepository implements StudyIRepository{
                 .user(user)
                 .createAt(LocalDateTime.now())
                 .updateAt(LocalDateTime.now())
+                .order(2)
                 .build());
         studyList.put(3, Study.builder()
                 .id(1)
@@ -54,37 +59,60 @@ public class StudyRepository implements StudyIRepository{
                 .user(user)
                 .createAt(LocalDateTime.now())
                 .updateAt(LocalDateTime.now())
+                .order(3)
                 .build());
 
     }
 
-
-    @Override
     public List<Study> findAll() {
         return studyList.values().stream().toList();
     }
 
-    @Override
-    public Study save(Study entity) {
-        studyList.put(studyList.size()+1, study);
-        return study;
+    public Optional<Study> findById(Integer studyId) {
+        return studyList.values().stream().filter((study) -> studyId.equals(study.getId())).findFirst();
     }
 
-
-    @Override
-    public void delete(Integer id) {
-        studyList.remove(id);
+    public Integer save(Study study) {
+        studyList.put(getId()+1, study);
+        return getId();
     }
 
-
-    @Override
-    public Study update(Integer id, Study entity) {
-        studyList.replace(id,entity);
-        return entity;
+    public Integer getId() {
+        return studyList.size();
     }
 
-    @Override
-    public Study findbyId(Integer id) {
-        return studyList.get(id);
+    public List<Study> findByCategory(String category) {
+        return studyList.values().stream()
+                .filter((study) -> category.equals(study.getCategory().getCategory()))
+                .toList();
+    }
+
+    public void update(Study study, Study newStudy) {
+        study.update(newStudy);
+    }
+
+    public void deleteAll(List<Study> study) {
+        studyList.values().removeAll(study);
+        reassignId(); //idGenerator
+    }
+
+    private void reassignId() {
+        //강의 삭제후 HashMap id 재정렬
+        HashMap<Integer, Study> tempList = new HashMap<>();
+        Integer id = 1;
+        for (Study study : studyList.values()) {
+            tempList.put(id++, study);
+        }
+
+        studyList.clear();
+        for (Study study : tempList.values()) {
+            studyList.put(id++, study);
+        }
+    }
+
+    public Optional<Study> findByIdAndUser(Integer id, User user) {
+        return studyList.values().stream()
+                .filter((study) -> id.equals(study.getId()) && user.equals(study.getUser()))
+                .findAny();
     }
 }

@@ -2,16 +2,20 @@ package com.asac.study_hub.repository;
 
 import com.asac.study_hub.domain.Study;
 import org.springframework.stereotype.Repository;
+import com.asac.study_hub.domain.User;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface StudyIRepository {
 
     List<Study> findAll();
-    Study save(Study entity);
-    void delete(Integer id);
-    Study update(Integer id, Study entity);
-    Study findbyId (Integer id);
-
+    Optional<Study> findById(Integer id);
+    Integer save(Study study);
+    Integer getId();
+    List<Study> findByCategory(String category);
+    void update(Study study, Study newstudy);
+    void deleteAll(List<Study> study);
+    Optional<Study> findByIdAndUser(Integer id, User user);
 }

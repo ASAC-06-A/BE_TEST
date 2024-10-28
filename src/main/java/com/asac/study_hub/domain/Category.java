@@ -5,9 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 
-@Getter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
+@Getter
 public class Category {
     String category;
 }
