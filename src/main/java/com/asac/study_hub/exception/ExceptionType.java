@@ -22,8 +22,11 @@ public enum ExceptionType {
     EXPIRED_SESSION(HttpStatus.BAD_REQUEST, "만료된 세션 id 입니다.", "expired session", Level.WARN),
     INVALID_SESSION(HttpStatus.BAD_REQUEST, "잘못된 형식의 session id 입니다.", "invalid session id", Level.WARN),
     NOT_FOUNT_USER_BY_EMAIL(HttpStatus.NOT_FOUND, "해당 email로 가입된 유저가 없습니다. email: ", "not found user by email", Level.WARN),
+    NOT_FOUNT_USER_BY_ID(HttpStatus.NOT_FOUND, "해당 id의 유저가 없습니다. id: ", "not found user by id", Level.WARN),
     INVALID_AUTHORIZATION(HttpStatus.UNAUTHORIZED, "권한이 없는 접근입니다.", "Invalid Authorization", Level.WARN),
-    UNCLASSIFIED_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "내부에서 에러가 발생했습니다.", "Internal server error", Level.ERROR);
+    UNCLASSIFIED_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "내부에서 에러가 발생했습니다.", "Internal server error", Level.ERROR),
+
+    INVALID_ACCESS(HttpStatus.NOT_FOUND, "잘못된 접근 입니다.", "Invalid access", Level.WARN);
 
 
 
