@@ -11,9 +11,10 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @ToString
 public class User {
+
     Integer id;
     String name;
     String email;
     String password;
-
+    Enum<Status> status;
 }
