@@ -21,7 +21,7 @@ public class ProfileResponseDto {
     String name;
     String email;
     String password;
-    int loginStatus;
+    //int loginStatus;
 
     private ProfileResponseDto(User user) {
         this.userId = user.getId();
