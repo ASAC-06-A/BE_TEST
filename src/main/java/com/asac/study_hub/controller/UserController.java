@@ -20,7 +20,7 @@ import static org.springframework.http.HttpStatus.OK;
 @RestController
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
-@RequestMapping("/users")
+@RequestMapping("/user")
 @Slf4j
 public class UserController {
 
