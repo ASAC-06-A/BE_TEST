@@ -3,6 +3,7 @@ package com.asac.study_hub.repository;
 import com.asac.study_hub.domain.Category;
 import com.asac.study_hub.domain.Study;
 import com.asac.study_hub.domain.User;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -12,7 +13,7 @@ import java.util.HashMap;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @RequiredArgsConstructor
-public class StudyRepository {
+public class StudyRepository implements StudyIRepository{
     /**
      * TODO: StudyIRepository 구현
      * findAll() 메서드 구현: studyList 해시앱에 있는 value 값 List 로 반환
@@ -58,4 +59,32 @@ public class StudyRepository {
     }
 
 
+    @Override
+    public List<Study> findAll() {
+        return studyList.values().stream().toList();
+    }
+
+    @Override
+    public Study save(Study entity) {
+        studyList.put(studyList.size()+1, study);
+        return study;
+    }
+
+
+    @Override
+    public void delete(Integer id) {
+        studyList.remove(id);
+    }
+
+
+    @Override
+    public Study update(Integer id, Study entity) {
+        studyList.replace(id,entity);
+        return entity;
+    }
+
+    @Override
+    public Study findbyId(Integer id) {
+        return studyList.get(id);
+    }
 }

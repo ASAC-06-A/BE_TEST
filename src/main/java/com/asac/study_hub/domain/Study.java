@@ -2,18 +2,22 @@ package com.asac.study_hub.domain;
 
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
 
+
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Builder
+@Builder //HashMap 에 객체 초기화하기 위함.
+@Getter
 public class Study {
     Integer id;
     String title;
     String studyLink;
     String description;
-    Category category;
+    @Builder.Default
+    Category category = new Category("None"); //FK
     @Builder.Default
     Integer likes = 0;
     @Builder.Default
@@ -25,4 +29,6 @@ public class Study {
     @Builder.Default
     Status status = Status.ACTIVE;
     User user; //FK
+    String studyImgUrl;
+    Integer order;
 }

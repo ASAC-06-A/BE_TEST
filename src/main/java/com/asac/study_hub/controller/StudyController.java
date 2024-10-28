@@ -1,6 +1,11 @@
 package com.asac.study_hub.controller;
 
+import com.asac.study_hub.controller.dto.common.BaseResponse;
+import com.asac.study_hub.controller.dto.common.SuccessType;
+import com.asac.study_hub.controller.studyDto.StudyRequestDto;
+import com.asac.study_hub.controller.studyDto.StudyResponseDto;
 import com.asac.study_hub.service.StudyService;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -23,4 +28,10 @@ public class StudyController {
         StudyResponseDto studyResponseDto = studyService.findAll();
         return BaseResponse.success(SuccessType.GET_ALL_STUDY, studyResponseDto);
     }*/
+
+
+    public BaseResponse<List<StudyResponseDto>> getStudy(){
+       List<StudyResponseDto> studyResponseDto = studyService.findAll();
+       return BaseResponse.success(SuccessType.FINDALL, studyResponseDto);
+    }
 }

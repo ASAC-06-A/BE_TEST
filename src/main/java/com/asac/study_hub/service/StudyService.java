@@ -1,6 +1,9 @@
 package com.asac.study_hub.service;
 
+import com.asac.study_hub.controller.studyDto.StudyResponseDto;
+import com.asac.study_hub.domain.Study;
 import com.asac.study_hub.repository.StudyIRepository;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -10,7 +13,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class StudyService {
-
     StudyIRepository studyRepository;
 
     //모든 스터디 조회하는 메서드 구현하시면 됩니다.
@@ -24,4 +26,11 @@ public class StudyService {
         return studyResponseDtoList;
     }*/
 
+    public List<StudyResponseDto> findAll(){
+        List<Study> studyList = studyRepository.findAll();
+        return studyList
+            .stream()
+            .map(StudyResponseDto::of)
+            .toList();
+    }
 }
