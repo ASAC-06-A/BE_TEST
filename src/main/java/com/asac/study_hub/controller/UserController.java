@@ -20,17 +20,19 @@ import static org.springframework.http.HttpStatus.OK;
 @RestController
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
-@RequestMapping("/users")
+@RequestMapping("/user")
 @Slf4j
 public class UserController {
 
     UserService userService;
 
+    @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping("/signup")
     public BaseResponse<SignupResponseDto> signup(@RequestBody @Valid SignupRequestDto signupRequestDto) {
         return BaseResponse.success(SuccessType.SIGNUP, userService.signup(signupRequestDto));
     }
 
+    @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping("/signin")
     public BaseResponse<SignupResponseDto> signin(HttpServletRequest request, HttpServletResponse response, @RequestBody @Valid SignupRequestDto userDto) {
         return BaseResponse.success(SuccessType.SIGNIN, userService.signin(request, response, userDto));
