@@ -12,8 +12,8 @@ import org.springframework.http.HttpStatus;
 public enum SuccessType {
 
     SIGNUP(HttpStatus.CREATED, "회원가입 성공"),
-    SIGNIN(HttpStatus.OK, "로그인 성공");
-
+    SIGNIN(HttpStatus.OK, "로그인 성공"),
+    FINDALL(HttpStatus.OK, "전체 조회 성공");
     HttpStatus status;
     String message;
 }
