@@ -24,7 +24,10 @@ public enum SuccessType {
     VALID_SESSION(HttpStatus.OK, "세션 검증 성공"),
     GET_STUDY_BY_CATEGORY(HttpStatus.OK, null),
     UPDATE_SUCCESS(HttpStatus.OK, null),
-    DELETE_ALL_SUCCESS(HttpStatus.OK, "강의 다수 삭제 성공");
+    DELETE_ALL_SUCCESS(HttpStatus.OK, "강의 다수 삭제 성공"),
+    // 통합여부에 따라 삭제 예정
+    UPDATE_PROFILE_SUCCESS(HttpStatus.OK, "수정에 성공하였습니다"),
+    GET_PROFILE(HttpStatus.OK, "프로필 검색 성공");
 
 
     HttpStatus status;
