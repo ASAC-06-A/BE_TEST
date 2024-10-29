@@ -1,5 +1,7 @@
 package com.asac.study_hub.repository;
 
+import static com.asac.study_hub.domain.Status.ACTIVE;
+
 import com.asac.study_hub.domain.User;
 import com.asac.study_hub.exception.CustomException;
 import com.asac.study_hub.exception.ExceptionType;
@@ -21,8 +23,8 @@ public class UserRepository implements IRepository {
 
     static {
         users = new HashMap<>();
-        users.put(1, new User(1, "김정현", "solee3020@gmail.com", "solee6810"));
-        users.put(2, new User(2, "김지연", "jykim9335@gmail.com", "asas5656"));
+        users.put(1, new User(1, "김정현", "solee3020@gmail.com", "solee6810", ACTIVE));
+        users.put(2, new User(2, "김지연", "jykim9335@gmail.com", "asas5656", ACTIVE));
 
         sessionStorage = new HashMap<>();
     }
