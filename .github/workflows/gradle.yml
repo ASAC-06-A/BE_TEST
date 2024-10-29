@@ -16,7 +16,8 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest #이후에 도커에 배포하면 OS환경 우분투로 통일
+
+    runs-on: ubuntu-latest
     permissions:
       contents: read
 
