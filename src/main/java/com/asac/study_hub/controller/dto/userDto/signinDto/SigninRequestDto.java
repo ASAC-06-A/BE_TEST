@@ -1,8 +1,5 @@
 package com.asac.study_hub.controller.dto.userDto.signinDto;
 
-import com.asac.study_hub.controller.dto.userDto.signupDto.SignupRequestDto;
-import com.asac.study_hub.domain.User;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
