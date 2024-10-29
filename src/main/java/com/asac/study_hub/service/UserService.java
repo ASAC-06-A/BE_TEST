@@ -54,6 +54,11 @@ public class UserService {
         }
 
         User user = userRepository.findByEmail(userDto.getEmail());
+
+        if (!validPassword(user, userDto)) {
+            log.warn(ExceptionType.WRONG_PASSWORD.getMessage());
+            throw new CustomException(ExceptionType.FAILD_SIGNIN);
+        }
         return UserResponseDto.builder()
                 .user(user)
                 .status(HttpStatus.OK.value())
@@ -68,6 +73,10 @@ public class UserService {
 
     private boolean checkEmailExist(String email) {
         return userRepository.findAll().stream().anyMatch(user -> user.getEmail().equals(email));
+    }
+
+    private boolean validPassword(User user, SigninRequestDto userDto) {
+        return user.getPassword().equals(userDto.getPassword());
     }
 
 }
