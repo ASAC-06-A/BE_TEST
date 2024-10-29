@@ -1,5 +1,6 @@
 package com.asac.study_hub.service;
 
+import com.asac.study_hub.controller.dto.userDto.signinDto.SigninRequestDto;
 import com.asac.study_hub.controller.dto.userDto.signupDto.SignupRequestDto;
 import com.asac.study_hub.controller.dto.userDto.signupDto.SignupResponseDto;
 import com.asac.study_hub.domain.User;
@@ -9,11 +10,13 @@ import com.asac.study_hub.repository.UserRepository;
 import com.asac.study_hub.util.SessionProvider;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.objenesis.strategy.SingleInstantiatorStrategy;
 import org.springframework.stereotype.Service;
 
 
@@ -45,17 +48,17 @@ public class UserService {
 
     }
 
-    public SignupResponseDto signin(HttpServletRequest request, HttpServletResponse response, SignupRequestDto userDto) {
+    public SignupResponseDto signin(HttpServletRequest request, HttpServletResponse response, SigninRequestDto userDto) {
 
         saveSession(request, userDto);
-
+        User user = userRepository.findByEmail(userDto.getEmail());
         return SignupResponseDto.builder()
-                .userId(SignupRequestDto.of(userDto).getId())
+                .userId(user.getId())
                 .status(HttpStatus.OK.value())
                 .build();
     }
 
-    private void saveSession(HttpServletRequest request, SignupRequestDto userDto) {
+    private void saveSession(HttpServletRequest request, SigninRequestDto userDto) {
         //로그인 한정 사용하는 메서드 따라서 세션이 있으면 그대로 사용하고 없으면 새로 생성하는 getSession 메서드 사용
         User user = userRepository.findByEmail(userDto.getEmail());
         SessionProvider.createSession(request, user);

@@ -2,6 +2,7 @@ package com.asac.study_hub.controller;
 
 import com.asac.study_hub.controller.dto.common.BaseResponse;
 import com.asac.study_hub.controller.dto.common.SuccessType;
+import com.asac.study_hub.controller.dto.userDto.signinDto.SigninRequestDto;
 import com.asac.study_hub.controller.dto.userDto.signupDto.SignupRequestDto;
 import com.asac.study_hub.controller.dto.userDto.signupDto.SignupResponseDto;
 import com.asac.study_hub.service.UserService;
@@ -32,9 +33,9 @@ public class UserController {
         return BaseResponse.success(SuccessType.SIGNUP, userService.signup(signupRequestDto));
     }
 
-    @CrossOrigin(origins = "http://localhost:5173")
+    @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
     @PostMapping("/signin")
-    public BaseResponse<SignupResponseDto> signin(HttpServletRequest request, HttpServletResponse response, @RequestBody @Valid SignupRequestDto userDto) {
+    public BaseResponse<SignupResponseDto> signin(HttpServletRequest request, HttpServletResponse response, @RequestBody @Valid SigninRequestDto userDto) {
         return BaseResponse.success(SuccessType.SIGNIN, userService.signin(request, response, userDto));
     }
 }
