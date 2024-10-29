@@ -96,4 +96,12 @@ public User searchUser(Integer id){
             .orElseThrow(() -> new CustomException(ExceptionType.NOT_FOUNT_USER_BY_EMAIL, email));
         return findUser;
     }
+
+    public User findByUserId(Integer id) {
+        User findUser = users.values().stream()
+            .filter((user) -> id.equals(user.getId()))
+            .findAny()
+            .orElseThrow(() -> new CustomException(ExceptionType.NOT_FOUNT_USER_BY_ID, id));
+        return findUser;
+    }
 }
