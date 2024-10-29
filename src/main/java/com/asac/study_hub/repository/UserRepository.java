@@ -104,4 +104,9 @@ public User searchUser(Integer id){
             .orElseThrow(() -> new CustomException(ExceptionType.NOT_FOUNT_USER_BY_ID, id));
         return findUser;
     }
+
+    public void uodateUser(User user, User newUser) {
+        user.update(newUser);
+    }
+
 }
