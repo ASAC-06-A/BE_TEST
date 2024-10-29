@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 @Getter
 public enum ExceptionType {
+    FAILD_SIGNIN(HttpStatus.BAD_REQUEST, "로그인 실패", "faild signin", Level.WARN),
     EXIST_EMAIL(HttpStatus.CONFLICT, "중복된 이메일입니다. email: ", "exist email account", Level.WARN),
     EMPTY_ID_FIELD(HttpStatus.BAD_REQUEST, "아이디는 필수 입력 값입니다.", "not allowed empty user_id", Level.WARN),
     EXIST_NICKNAME(HttpStatus.CONFLICT, "중복된 닉네임입니다. name: ", "exist nickname", Level.WARN),
@@ -23,6 +24,8 @@ public enum ExceptionType {
     INVALID_SESSION(HttpStatus.BAD_REQUEST, "잘못된 형식의 session id 입니다.", "invalid session id", Level.WARN),
     NOT_FOUNT_USER_BY_EMAIL(HttpStatus.NOT_FOUND, "해당 email로 가입된 유저가 없습니다. email: ", "not found user by email", Level.WARN),
     INVALID_AUTHORIZATION(HttpStatus.UNAUTHORIZED, "권한이 없는 접근입니다.", "Invalid Authorization", Level.WARN),
+    INVALID_USER(HttpStatus.BAD_REQUEST, "유효하지 않은 사용자 입니다. status: " , "Invalid User", Level.WARN),
+    WRONG_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다", "wrong password", Level.WARN),
     UNCLASSIFIED_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "내부에서 에러가 발생했습니다.", "Internal server error", Level.ERROR);
 
 
