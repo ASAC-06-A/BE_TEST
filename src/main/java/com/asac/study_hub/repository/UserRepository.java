@@ -60,8 +60,9 @@ public class UserRepository implements IRepository {
     }
 
 
-    public Integer deleteUser(Integer id) {
-        return null;
+    public void deleteUser(User user) {
+//        User user = findByUserId(id);
+        user.delete();
     }
 
     @Override

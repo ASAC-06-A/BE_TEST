@@ -29,8 +29,8 @@ public class ProfileService {
         userRepository.uodateUser(user, newUser);
     }
 
-    public void  deleteUser(User user){
-        User
+    public void deleteUser(User user) {
+        userRepository.deleteUser(user);
     }
 
 //    public ProfileResponseDto getMyProfile(HttpServletRequest request){

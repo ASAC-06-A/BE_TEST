@@ -27,4 +27,8 @@ public class User {
         this.password = Optional.ofNullable(newUser.getPassword()).orElse(this.password);
     }
 
+    public void delete() {
+        this.status = Status.DELETED;
+    }
+
 }
