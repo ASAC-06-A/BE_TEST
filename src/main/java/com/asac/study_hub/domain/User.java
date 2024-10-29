@@ -1,5 +1,6 @@
 package com.asac.study_hub.domain;
 
+import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,5 +19,10 @@ public class User {
     String password;
     Enum<Status> status;
 
+    public void update(User newUser) {
+        this.name = Optional.ofNullable(newUser.getName()).orElse(this.name);
+        this.email = Optional.ofNullable(newUser.getEmail()).orElse(this.email);
+        this.password = Optional.ofNullable(newUser.getPassword()).orElse(this.password);
+    }
 
 }
