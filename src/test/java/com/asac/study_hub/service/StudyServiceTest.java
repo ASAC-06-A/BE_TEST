@@ -33,7 +33,7 @@ class StudyServiceTest {
         //given
         User user = new User(10, "김지연", "example@gmail.com", "1234");
         Study study = Study.builder()
-                .id(10)
+                .id(50) //인메모리 저장 방식이라 강의 다수 삭제에서 스터디 id 10이랑 겹치면서 다수 삭제 test에서 id = 10인 스터디 삭제해도 이 데이터가 메모리에 남아 있으므로 예외가 터지지 않음
                 .category(new Category("Backend"))
                 .title("spring basic1")
                 .studyLink("https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%9E%85%EB%AC%B8-%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8/dashboard")
@@ -48,8 +48,8 @@ class StudyServiceTest {
         //when
         MockHttpServletRequest req = new MockHttpServletRequest("PATCH", "/study/10");
         HttpSession session = SessionProvider.createSession(req, user);
-        Integer studyId = 10;
-        StudyRequestDto studyRequestDto = new StudyRequestDto(10, "수정", "http://localhost:8080/study/1", "desc", null, null, null, null, null);
+        Integer studyId = 50;
+        StudyRequestDto studyRequestDto = new StudyRequestDto(50, "수정", "http://localhost:8080/study/1", "desc", null, null, null, null, null);
         studyService.update(studyId, studyRequestDto, user);
         //then
         Assertions.assertThat(study.getTitle()).isEqualTo(studyRequestDto.getStudyTitle());
