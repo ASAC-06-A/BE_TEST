@@ -32,7 +32,7 @@ public class ProfileController {
     ProfileService profileService;
 
     @GetMapping("/")
-    public BaseResponse<ProfileResponseDto> getProfile(@CookieValue("session_key") Cookie cookie,
+    public BaseResponse<ProfileResponseDto> getProfile(@CookieValue("JSESSIONID") Cookie cookie,
         HttpServletRequest request) {
         User user = SessionProvider.getValidUser(cookie.getValue(), request);
         return BaseResponse.success(SuccessType.GET_PROFILE, ProfileResponseDto.of(user));
