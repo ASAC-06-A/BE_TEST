@@ -106,7 +106,7 @@ public User searchUser(Integer id){
         return findUser;
     }
 
-    public void uodateUser(User user, User newUser) {
+    public void updateUser(User user, User newUser) {
         user.update(newUser);
     }
 

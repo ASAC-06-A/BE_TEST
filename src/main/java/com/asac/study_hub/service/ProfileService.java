@@ -26,7 +26,7 @@ public class ProfileService {
         if (!checkAuthorization(user, newUser)) {
             throw new CustomException(ExceptionType.INVALID_ACCESS);
         }
-        userRepository.uodateUser(user, newUser);
+        userRepository.updateUser(user, newUser);
     }
 
     public void deleteUser(User user) {
