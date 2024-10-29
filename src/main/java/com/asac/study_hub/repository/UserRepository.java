@@ -1,5 +1,6 @@
 package com.asac.study_hub.repository;
 
+import com.asac.study_hub.domain.Status;
 import com.asac.study_hub.domain.User;
 import com.asac.study_hub.exception.CustomException;
 import com.asac.study_hub.exception.ExceptionType;
@@ -20,8 +21,8 @@ public class UserRepository implements IRepository {
     private static final HashMap<String, User> sessionStorage;
     static {
         users = new HashMap<>();
-        users.put(1, new User(1, "김정현", "solee3020@gmail.com", "solee6810"));
-        users.put(2, new User(2, "김지연", "jykim9335@gmail.com", "asas5656"));
+        users.put(1, new User(1, "김정현", "solee3020@gmail.com", "solee6810", Status.ACTIVE));
+        users.put(2, new User(2, "김지연", "jykim9335@gmail.com", "asas5656", Status.ACTIVE));
 
         sessionStorage = new HashMap<>();
     }
@@ -56,7 +57,7 @@ public class UserRepository implements IRepository {
     public User findByEmail(String email) {
         User findUser = users.values().stream()
                 .filter((user) -> email.equals(user.getEmail()))
-                .findAny().orElseThrow(() -> new CustomException(ExceptionType.NOT_FOUNT_USER_BY_EMAIL, email));
+                .findAny().orElseThrow(() -> new CustomException(ExceptionType.FAILD_SIGNIN)); //백엔드 개발자에게는 어떤 정보가 틀렸는지 알려줘야함. 클라이언트에게는 그냥 로그인 실패로 띄어주고
         return findUser;
     }
 }
