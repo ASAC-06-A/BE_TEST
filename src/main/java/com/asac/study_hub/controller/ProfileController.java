@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +32,7 @@ public class ProfileController {
 
     ProfileService profileService;
 
-    @GetMapping("/")
+    @GetMapping("")
     public BaseResponse<ProfileResponseDto> getProfile(@CookieValue("JSESSIONID") Cookie cookie,
         HttpServletRequest request) {
         User user = SessionProvider.getValidUser(cookie.getValue(), request);
@@ -55,6 +56,13 @@ public class ProfileController {
         User user = SessionProvider.getValidUser(cookie.getValue(), request);
         profileService.updateUser(user, profileRequestDto);
         return BaseResponse.success(SuccessType.UPDATE_PROFILE_SUCCESS, null);
+    }
+
+    @DeleteMapping("")
+    public BaseResponse<Void> deleteProfile(@CookieValue("JSESSIONID") Cookie cookie,
+        HttpServletRequest request) {
+        User user = SessionProvider.getValidUser(cookie.getValue(), request);
+        profileService.deleteUser(user);
     }
 
 }
