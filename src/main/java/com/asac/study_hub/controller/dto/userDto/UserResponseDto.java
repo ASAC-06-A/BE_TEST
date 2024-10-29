@@ -1,4 +1,4 @@
-package com.asac.study_hub.controller.dto.userDto.signupDto;
+package com.asac.study_hub.controller.dto.userDto;
 
 import com.asac.study_hub.domain.User;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
@@ -14,16 +14,16 @@ import lombok.experimental.FieldDefaults;
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class SignupResponseDto {
+public class UserResponseDto {
 
     Integer userId;
     int status;
 
-    private SignupResponseDto(User user) {
+    private UserResponseDto(User user) {
         this.userId = user.getId();
     }
 
-    public static SignupResponseDto of(User user) {
-        return new SignupResponseDto(user);
+    public static UserResponseDto of(User user) {
+        return new UserResponseDto(user);
     }
 }
