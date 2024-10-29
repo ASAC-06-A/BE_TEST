@@ -18,10 +18,10 @@ public class ProfileService {
 
     UserRepository userRepository;
 
-    public void updateUser(Integer id, ProfileRequestDto requestDto) {
-        User user = Optional.ofNullable(userRepository.findByUserId(id))
+    public void updateUser(User wantUpdateUser, ProfileRequestDto requestDto) {
+        User user = Optional.ofNullable(userRepository.findByUserId(wantUpdateUser.getId()))
             .orElseThrow(() -> new CustomException(
-                ExceptionType.NOT_FOUNT_USER_BY_ID, id));
+                ExceptionType.NOT_FOUNT_USER_BY_ID, wantUpdateUser.getId()));
         User newUser = requestDto.to();
         if (!checkAuthorization(user, newUser)) {
             throw new CustomException(ExceptionType.INVALID_ACCESS);
