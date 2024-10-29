@@ -2,6 +2,7 @@ package com.asac.study_hub.service;
 
 import com.asac.study_hub.controller.dto.studyDto.StudyRequestDto;
 import com.asac.study_hub.domain.Category;
+import com.asac.study_hub.domain.Status;
 import com.asac.study_hub.domain.Study;
 import com.asac.study_hub.domain.User;
 import com.asac.study_hub.exception.CustomException;
@@ -31,7 +32,7 @@ class StudyServiceTest {
     @Test
     void update() {
         //given
-        User user = new User(10, "김지연", "example@gmail.com", "1234");
+        User user = new User(10, "김지연", "example@gmail.com", "1234", Status.ACTIVE);
         Study study = Study.builder()
                 .id(50) //인메모리 저장 방식이라 강의 다수 삭제에서 스터디 id 10이랑 겹치면서 다수 삭제 test에서 id = 10인 스터디 삭제해도 이 데이터가 메모리에 남아 있으므로 예외가 터지지 않음
                 .category(new Category("Backend"))
@@ -64,7 +65,7 @@ class StudyServiceTest {
     @Test
     void deleteAll() {
         //given
-        User user = new User(10, "김지연", "example@gmail.com", "1234");
+        User user = new User(10, "김지연", "example@gmail.com", "1234", Status.ACTIVE);
         Study study1 = Study.builder()
                 .id(10)
                 .category(new Category("Backend"))
