@@ -34,9 +34,6 @@ public class UserService {
         if (checkEmailExist(email)) {
             throw new CustomException(ExceptionType.EXIST_EMAIL, email);
         }
-        if (checkDuplicatedName(name)) {
-            throw new CustomException(ExceptionType.EXIST_NICKNAME, name);
-        }
 
         signupRequestDto.setId(userRepository.findAll().size() + 1);
         User user = userRepository.save(SignupRequestDto.of(signupRequestDto));
@@ -73,7 +70,4 @@ public class UserService {
         return userRepository.findAll().stream().anyMatch(user -> user.getEmail().equals(email));
     }
 
-    private boolean checkDuplicatedName(String name) {
-        return userRepository.findAll().stream().anyMatch(user -> user.getName().equals(name));
-    }
 }
