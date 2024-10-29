@@ -1,7 +1,8 @@
 package com.asac.study_hub.service;
 
+import com.asac.study_hub.controller.dto.userDto.signinDto.SigninRequestDto;
 import com.asac.study_hub.controller.dto.userDto.signupDto.SignupRequestDto;
-import com.asac.study_hub.controller.dto.userDto.signupDto.SignupResponseDto;
+import com.asac.study_hub.controller.dto.userDto.UserResponseDto;
 import com.asac.study_hub.domain.User;
 import com.asac.study_hub.exception.CustomException;
 import com.asac.study_hub.exception.ExceptionType;
@@ -12,7 +13,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +24,7 @@ public class UserService {
 
     UserRepository userRepository;
 
-    public SignupResponseDto signup(SignupRequestDto signupRequestDto) {
+    public UserResponseDto signup(SignupRequestDto signupRequestDto) {
         String email = signupRequestDto.getEmail();
         String name = signupRequestDto.getUserName();
 
@@ -38,24 +38,24 @@ public class UserService {
         signupRequestDto.setId(userRepository.findAll().size() + 1);
         User user = userRepository.save(SignupRequestDto.of(signupRequestDto));
 
-        return SignupResponseDto.builder()
+        return UserResponseDto.builder()
                 .userId(user.getId())
                 .status(HttpStatus.CREATED.value())
                 .build();
 
     }
 
-    public SignupResponseDto signin(HttpServletRequest request, HttpServletResponse response, SignupRequestDto userDto) {
+    public UserResponseDto signin(HttpServletRequest request, HttpServletResponse response, SigninRequestDto userDto) {
 
         saveSession(request, userDto);
-
-        return SignupResponseDto.builder()
-                .userId(SignupRequestDto.of(userDto).getId())
+        User user = userRepository.findByEmail(userDto.getEmail());
+        return UserResponseDto.builder()
+                .userId(user.getId())
                 .status(HttpStatus.OK.value())
                 .build();
     }
 
-    private void saveSession(HttpServletRequest request, SignupRequestDto userDto) {
+    private void saveSession(HttpServletRequest request, SigninRequestDto userDto) {
         //로그인 한정 사용하는 메서드 따라서 세션이 있으면 그대로 사용하고 없으면 새로 생성하는 getSession 메서드 사용
         User user = userRepository.findByEmail(userDto.getEmail());
         SessionProvider.createSession(request, user);
