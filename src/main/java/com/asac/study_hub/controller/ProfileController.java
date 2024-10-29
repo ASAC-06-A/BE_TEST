@@ -53,8 +53,8 @@ public class ProfileController {
     public BaseResponse<ProfileResponseDto> updateProfile(@CookieValue("JSESSIONID") Cookie cookie,
         HttpServletRequest request, @PathVariable Integer id, @Valid @RequestBody
     ProfileRequestDto profileRequestDto) {
-        User user = SessionProvider.getValidUser(cookie.getValue(), request);
-        profileService.updateUser(user, profileRequestDto);
+        SessionProvider.getValidSession(request);
+        profileService.updateUser(id, profileRequestDto);
         return BaseResponse.success(SuccessType.UPDATE_PROFILE_SUCCESS, null);
     }
 
@@ -63,6 +63,7 @@ public class ProfileController {
         HttpServletRequest request) {
         User user = SessionProvider.getValidUser(cookie.getValue(), request);
         profileService.deleteUser(user);
+        return BaseResponse.success(SuccessType.DELETE_PROFILE, null);
     }
 
 }
