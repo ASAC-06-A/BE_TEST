@@ -19,7 +19,6 @@ public class User {
     String name;
     String email;
     String password;
-    Enum<Status> status;
 
     public void update(User newUser) {
         this.name = Optional.ofNullable(newUser.getName()).orElse(this.name);
@@ -30,5 +29,8 @@ public class User {
     public void delete() {
         this.status = Status.DELETED;
     }
+
+    Status status;
+
 
 }
