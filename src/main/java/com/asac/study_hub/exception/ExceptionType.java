@@ -25,9 +25,8 @@ public enum ExceptionType {
     NOT_FOUNT_USER_BY_EMAIL(HttpStatus.NOT_FOUND, "해당 email로 가입된 유저가 없습니다. email: ", "not found user by email", Level.WARN),
     NOT_FOUNT_USER_BY_ID(HttpStatus.NOT_FOUND, "해당 id의 유저가 없습니다. id: ", "not found user by id", Level.WARN),
     INVALID_AUTHORIZATION(HttpStatus.UNAUTHORIZED, "권한이 없는 접근입니다.", "Invalid Authorization", Level.WARN),
-    UNCLASSIFIED_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "내부에서 에러가 발생했습니다.", "Internal server error", Level.ERROR),
 
-    INVALID_ACCESS(HttpStatus.NOT_FOUND, "잘못된 접근 입니다.", "Invalid access", Level.WARN);
+    INVALID_ACCESS(HttpStatus.NOT_FOUND, "잘못된 접근 입니다.", "Invalid access", Level.WARN),
     INVALID_USER(HttpStatus.BAD_REQUEST, "유효하지 않은 사용자 입니다. status: " , "Invalid User", Level.WARN),
     WRONG_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다", "wrong password", Level.WARN),
     UNCLASSIFIED_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "내부에서 에러가 발생했습니다.", "Internal server error", Level.ERROR);

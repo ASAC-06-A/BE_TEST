@@ -49,7 +49,7 @@ public class ProfileController {
 
     // abstract BaseResponse<ProfileResponseDto> deleteUser()
 
-    @PatchMapping("/${id}")
+    @PatchMapping("/{id}")
     public BaseResponse<ProfileResponseDto> updateProfile(@CookieValue("JSESSIONID") Cookie cookie,
         HttpServletRequest request, @PathVariable Integer id, @Valid @RequestBody
     ProfileRequestDto profileRequestDto) {

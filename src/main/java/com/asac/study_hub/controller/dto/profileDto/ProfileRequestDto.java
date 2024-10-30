@@ -40,12 +40,12 @@ public class ProfileRequestDto {
 
     public User to() {
         return User.builder()
-            .id(this.id)
-            .name(this.userName)
-            .email(this.email)
-            .password(this.password)
-            .status(this.status)
-            .build();
+                .id(this.id)
+                .name(this.userName)
+                .email(this.email)
+                .password(this.password)
+//                .status(this.status)
+                .build();
     }
 
 }
