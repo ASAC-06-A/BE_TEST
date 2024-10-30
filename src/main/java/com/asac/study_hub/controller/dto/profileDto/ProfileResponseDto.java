@@ -12,7 +12,6 @@ import lombok.experimental.FieldDefaults;
 
 @Getter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ProfileResponseDto {
