@@ -64,9 +64,12 @@ public class UserRepository implements IRepository {
         user.delete();
     }
 
+    /**
+    * unit 테스트에서 사용하는 메서드, db 연결하면 삭제할 예정
+     * */
     @Override
     public void delete(User user) {
-
+        users.values().remove(user);
     }
 
 
