@@ -48,7 +48,7 @@ public class SessionProvider {
             session.removeAttribute(sessionId); // 해당 세션에서 사용자 정보 무효화, 세션은 살아있음
             session.invalidate(); // 세션 완전 무효화, 멀티 로그인 구현 시, 전무 로그아웃시 사용하면 좋을듯
         } else {// 에러
-            new CustomException(ExceptionType.INVALID_SESSION);
+            throw new CustomException(ExceptionType.INVALID_SESSION);
         }
 
 
