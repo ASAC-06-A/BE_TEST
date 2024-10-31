@@ -2,8 +2,6 @@ package com.asac.study_hub.controller.dto.profileDto;
 
 import com.asac.study_hub.domain.Status;
 import com.asac.study_hub.domain.User;
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +18,6 @@ public class ProfileResponseDto {
     String name;
     String email;
     String password;
-    //int loginStatus;
     Enum<Status> status;
 
     private ProfileResponseDto(User user) {

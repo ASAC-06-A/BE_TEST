@@ -4,13 +4,6 @@ import com.asac.study_hub.domain.Status;
 import com.asac.study_hub.domain.User;
 import com.asac.study_hub.exception.CustomException;
 import com.asac.study_hub.exception.ExceptionType;
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
-import org.springframework.stereotype.Repository;
-
-import com.asac.study_hub.domain.User;
-import com.asac.study_hub.exception.CustomException;
-import com.asac.study_hub.exception.ExceptionType;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -77,26 +70,6 @@ public class UserRepository implements IRepository {
     }
 
 
-    /*
-       public Optional<User> findMyProfileByID(String sessionId){
-        User me = sessionStorage.get(sessionId);
-        //Integer myDBId = me.getId();
-        Optional<User> myProfile = Optional.of(users.get(me.getId()));
-        return myProfile.isEmpty();
-}
-
-// Session에 저장된 키값을 이용해 DB user를 찾음
-private Integer searchUserBySessionkey(String sessionId){
-    User user = sessionStorage.get(sessionId);
-    return user.getId();
-}
-
-public User searchUser(Integer id){
-    return users.get(id);
-}
-    */
-
-
     public User findByUserId(Integer id) {
         User findUser = users.values().stream()
             .filter((user) -> id.equals(user.getId()))
@@ -112,8 +85,9 @@ public User searchUser(Integer id){
 
     public User findByEmail(String email) {
         User findUser = users.values().stream()
-                .filter((user) -> email.equals(user.getEmail()))
-                .findAny().orElseThrow(() -> new CustomException(ExceptionType.FAILD_SIGNIN)); //백엔드 개발자에게는 어떤 정보가 틀렸는지 알려줘야함. 클라이언트에게는 그냥 로그인 실패로 띄어주고
+            .filter((user) -> email.equals(user.getEmail()))
+            .findAny().orElseThrow(() -> new CustomException(
+                ExceptionType.FAILD_SIGNIN)); //백엔드 개발자에게는 어떤 정보가 틀렸는지 알려줘야함. 클라이언트에게는 그냥 로그인 실패로 띄어주고
         return findUser;
     }
 }
