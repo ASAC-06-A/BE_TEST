@@ -2,10 +2,8 @@ package com.asac.study_hub.controller.dto.profileDto;
 
 import com.asac.study_hub.domain.Status;
 import com.asac.study_hub.domain.User;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -24,11 +22,10 @@ public class ProfileRequestDto {
     Integer id;
 
     @NotBlank
-    @JsonProperty(value = "user_name")
     String userName;
 
-    @Email
-    String email;
+//    @Email
+//    String email;
 
     @Size(min = 8, max = 20)
     @NotBlank
@@ -40,12 +37,11 @@ public class ProfileRequestDto {
 
     public User to() {
         return User.builder()
-                .id(this.id)
-                .name(this.userName)
-                .email(this.email)
-                .password(this.password)
-//                .status(this.status)
-                .build();
+            .id(this.id)
+            .name(this.userName)
+            //.email(this.email) 이메일이 아이디이기에 변경은 안하는게 나을 듯
+            .password(this.password)
+            .build();
     }
 
 }
