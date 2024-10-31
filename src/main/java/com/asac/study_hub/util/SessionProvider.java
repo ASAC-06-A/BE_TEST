@@ -45,7 +45,7 @@ public class SessionProvider {
         if (session.getAttribute(session.getId()) != null) {
             // 현재는 로그아웃이라 session 자체를 지우면 되기에, 쿠키에 담긴 sessionId 필요없음
             // 여러 정보들이 session에 들어간다면 session.invalidate()
-            //session.removeAttribute(sessionId); // sessionId에 해당하는 세션에서 사용자 정보 무효화, 세션은 살아있음
+            //session.removeAttribute(sessionId); // sessionId에 해당하는 세션에서 사용자 정보 무효화, 세션은 살아있음 ->  세션 ID는 속성이 아니므로 아무 효과 없음 세션 ID는 속성이 아니므로 아무 효과 없음
             session.invalidate(); // 세션 완전 무효화, 멀티 로그인 구현 시, 전무 로그아웃시 사용하면 좋을듯
         } else {// 에러
             throw new CustomException(ExceptionType.INVALID_SESSION);
