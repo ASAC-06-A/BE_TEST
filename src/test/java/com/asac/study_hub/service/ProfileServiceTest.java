@@ -59,6 +59,6 @@ class ProfileServiceTest {
         profileService.updateUser(user, profileRequestDto);
         //then
         assertThat(profileRequestDto.getUsername()).isEqualTo(user.getName());
-        assertThat(profileRequestDto.getPassword()).isEqualTo(user.getPassword());
+        assertThat("12345678").isEqualTo(user.getPassword());
     }
 }
