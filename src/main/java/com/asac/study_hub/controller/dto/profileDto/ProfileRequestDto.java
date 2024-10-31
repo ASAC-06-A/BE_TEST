@@ -22,7 +22,7 @@ public class ProfileRequestDto {
     Integer id;
 
     @NotBlank
-    String userName;
+    String username;
 
     @Size(min = 8, max = 20)
     @NotBlank
@@ -35,7 +35,7 @@ public class ProfileRequestDto {
     public User to() {
         return User.builder()
             .id(this.id)
-            .name(this.userName)
+            .name(this.username)
             .password(this.password)
             .build();
     }
