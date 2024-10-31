@@ -78,28 +78,27 @@ class SessionProviderTest {
         MockHttpServletRequest req = new MockHttpServletRequest("GET", "/study");
 
         // 세션 생성 및 user 저장
-        HttpSession session = SessionProvider.createSession(req, user);
+        HttpSession session = SessionProvider.createSession(req, user); //req
+
         String sessionId = session.getId();
+        //String newSessionId = newSession.getId();
         if (!(session.getAttribute(sessionId) == null)) {
             logger.info("세션이 정상적으로 생성되었습니다.");
-            logger.info("세션 ID: " + sessionId + ", user객체: " + session.getAttribute(sessionId));
+            logger.info(
+                "세션 ID: " + sessionId + ", user객체: " + session.getAttribute(sessionId));
         } else {
             logger.info("세션 생성실패");
         }
 
         // when: 테스트 대상 메서드 실행 (user를 세션에서 삭제)
-        SessionProvider.removeSession(sessionId, req);
+        SessionProvider.removeSession(/*sessionId,*/ req);
 
         // then: 기대 결과 검증 (세션에서 user가 제거되었는지 확인)
         Assertions.assertThatThrownBy(() -> SessionProvider.getValidUser(sessionId, req))
             .isInstanceOf(CustomException.class)
-            .hasMessageContaining(ExceptionType.INVALID_SESSION.getMessage());
+            .hasMessageContaining(ExceptionType.EXPIRED_SESSION.getMessage());
 
-        // 로그 출력: user 삭제 여부 확인
-        if (session.getAttribute(sessionId) == null) {
-            logger.info("세션에서 user 객체가 성공적으로 삭제되었습니다.");
-        } else {
-            logger.warning("세션에서 user 객체 삭제에 실패했습니다.");
-        }
+        // removeSession의 첫줄에서 HttpSession session = getValidSession(request);
+        // 세션이 비어있으면 getValidSession부분에서 EXPIRED_SESSION가 뜸
     }
 }
