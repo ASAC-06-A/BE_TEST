@@ -13,8 +13,6 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProfileRequestDto {
 
-    Integer id;
-
     @NotBlank
     String username;
 
@@ -24,10 +22,11 @@ public class ProfileRequestDto {
 
     public User to() {
         return User.builder()
-            .id(this.id)
             .name(this.username)
             .password(this.password)
             .build();
     }
 
 }
+
+
