@@ -24,9 +24,6 @@ public class ProfileRequestDto {
     @NotBlank
     String userName;
 
-//    @Email
-//    String email;
-
     @Size(min = 8, max = 20)
     @NotBlank
     String password;
@@ -39,7 +36,6 @@ public class ProfileRequestDto {
         return User.builder()
             .id(this.id)
             .name(this.userName)
-            //.email(this.email) 이메일이 아이디이기에 변경은 안하는게 나을 듯
             .password(this.password)
             .build();
     }
