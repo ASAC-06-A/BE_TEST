@@ -54,4 +54,12 @@ public class ProfileController {
         return BaseResponse.success(SuccessType.DELETE_PROFILE, null);
     }
 
+    @DeleteMapping("/logout")
+    public BaseResponse<Void> logoutProfile(@CookieValue("JSESSIONID") Cookie cookie,
+        HttpServletRequest request) {
+        SessionProvider.removeSession(cookie.getValue(), request);
+        return BaseResponse.success(SuccessType.LOGOUT_PROFILE, null);
+    }
+
+
 }
