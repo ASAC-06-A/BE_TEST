@@ -16,7 +16,6 @@ public enum SuccessType {
     SIGNIN(HttpStatus.OK, "로그인 성공"),
 
 
-
     GETPROFILE(HttpStatus.OK, "프로필 조회 성공"),
 
     GET_STUDY(HttpStatus.OK, null),
@@ -28,7 +27,8 @@ public enum SuccessType {
     // 통합여부에 따라 삭제 예정
     UPDATE_PROFILE_SUCCESS(HttpStatus.OK, "수정에 성공하였습니다"),
     GET_PROFILE(HttpStatus.OK, "프로필 검색 성공"),
-    DELETE_PROFILE(HttpStatus.OK, "삭제가 완료되었습니다");
+    DELETE_PROFILE(HttpStatus.OK, "삭제가 완료되었습니다"),
+    LOGOUT_PROFILE(HttpStatus.OK, "로그아웃 되었습니다");
 
     HttpStatus status;
     String message;
