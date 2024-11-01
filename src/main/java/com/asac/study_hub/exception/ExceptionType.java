@@ -26,6 +26,7 @@ public enum ExceptionType {
     INVALID_AUTHORIZATION(HttpStatus.UNAUTHORIZED, "권한이 없는 접근입니다.", "Invalid Authorization", Level.WARN),
     INVALID_USER(HttpStatus.BAD_REQUEST, "유효하지 않은 사용자 입니다. status: " , "Invalid User", Level.WARN),
     WRONG_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다", "wrong password", Level.WARN),
+    NOT_FOUND_ROADMAP_BY_ID(HttpStatus.BAD_REQUEST, "해당 id로 등록된 강의가 존재하지 않습니다. id: ", "not found roadmap by id", Level.WARN),
     UNCLASSIFIED_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "내부에서 에러가 발생했습니다.", "Internal server error", Level.ERROR);
 
 
