@@ -70,8 +70,10 @@ public class StudyController {
         return BaseResponse.success(SuccessType.DELETE_ALL_SUCCESS, null);
     }
 
-  @GetMapping("/studies")
-  public BaseResponse<List<com.asac.study_hub.controller.studyDto.StudyResponseDto>> getStudy() {
-    return BaseResponse.success(SuccessType.FINDALL, studyService.findAll());
-  }
+    @GetMapping
+    public BaseResponse<ListResponseDto<StudyResponseDto>> getStudy(@CookieValue Cookie cookie, HttpServletRequest request, @RequestBody List<Integer> id) {
+        User user = SessionProvider.getValidUser(cookie.getValue(), request);
+        ListResponseDto<StudyResponseDto> studyResponseDto = studyService.findAll(user);
+        return BaseResponse.success(SuccessType.GET_ALL_STUDY, studyResponseDto);
+    }
 }

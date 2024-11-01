@@ -34,13 +34,14 @@ public class StudyService {
         return studyResponseDtoList;
     }*/
 
-    public List<com.asac.study_hub.controller.studyDto.StudyResponseDto> findAll(){
-        List<Study> studyList = studyRepository.findAll();
-        return studyList
-                .stream()
-                .map(com.asac.study_hub.controller.studyDto.StudyResponseDto::of)
-                .toList();
+    public ListResponseDto<StudyResponseDto> findAll(User user){
+        List<StudyResponseDto> studyList = studyRepository.findAll(user)
+            .stream()
+            .map(StudyResponseDto::of)
+            .toList();
+        return new ListResponseDto<StudyResponseDto>(studyList.size(), studyList);
     }
+
 
     public StudyResponseDto findById(Integer id) {
         Study study = studyRepository.findById(id).orElseThrow(() -> new CustomException(ExceptionType.NOT_FOUND_STUDY_BY_ID, id));

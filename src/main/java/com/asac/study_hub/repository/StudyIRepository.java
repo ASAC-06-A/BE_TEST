@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface StudyIRepository {
 
-    List<Study> findAll();
+    List<Study> findAll(User user);
     Optional<Study> findById(Integer id);
     Integer save(Study study);
     Integer getId();
