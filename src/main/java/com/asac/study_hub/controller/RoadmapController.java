@@ -1,5 +1,6 @@
 package com.asac.study_hub.controller;
 
+import com.asac.study_hub.controller.dto.ListResponseDto;
 import com.asac.study_hub.controller.dto.ResponseIdDto;
 import com.asac.study_hub.controller.dto.common.BaseResponse;
 import com.asac.study_hub.controller.dto.common.SuccessType;
@@ -22,9 +23,9 @@ public class RoadmapController {
     RoadmapService roadmapService;
 
     @GetMapping
-    public BaseResponse<List<RoadmapResponseDto>> findAll(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request) {
+    public BaseResponse<ListResponseDto<RoadmapResponseDto>> findAll(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request) {
         User user = SessionProvider.getValidUser(cookie.getValue(), request);
-        List<RoadmapResponseDto> responseDto = roadmapService.findAll(user);
+        ListResponseDto<RoadmapResponseDto> responseDto = roadmapService.findAll(user);
         return BaseResponse.success(SuccessType.GET_ALL_ROADMAP, responseDto);
     }
 

@@ -30,14 +30,12 @@ public class RoadmapService {
     RoadmapStudyRepository roadmapStudyRepository; //roadmapStudyRepository, service 둘중 어느걸 roadmapService에 주입해야할지 고민
     RoadmapStudyService roadmapStudyService;
 
-    public List<RoadmapResponseDto> findAll(User user) {
+    public ListResponseDto<RoadmapResponseDto> findAll(User user) {
         List<Roadmap> roadmapList = roadmapRepository.findByUser(user);
-        List<RoadmapResponseDto> roadmapResponseDtoList = new ArrayList<>();
-        roadmapList.forEach(roadmap -> {
-            RoadmapResponseDto responseDto = RoadmapResponseDto.to(roadmap);
-            roadmapResponseDtoList.add(responseDto);
-        });
-        return roadmapResponseDtoList;
+        List<RoadmapResponseDto> roadmapResponseDtoList = roadmapList.stream()
+                .map(RoadmapResponseDto::to)
+                .toList();
+        return new ListResponseDto<>(roadmapResponseDtoList.size(), roadmapResponseDtoList);
     }
 
     public void delete(User user, Integer roadmapId) {
