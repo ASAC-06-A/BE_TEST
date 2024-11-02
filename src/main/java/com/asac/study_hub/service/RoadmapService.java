@@ -39,7 +39,7 @@ public class RoadmapService {
 
     public void delete(User user, Integer roadmapId) {
 
-        Roadmap roadmap = findById(roadmapId);
+        Roadmap roadmap = findById(user, roadmapId);
         //해당 로드맵을 삭제할 수 있는 유저인가
         if (!validUser(user, roadmap)) {
             throw new CustomException(ExceptionType.INVALID_AUTHORIZATION);
@@ -69,15 +69,19 @@ public class RoadmapService {
         return roadmap.getUser().equals(user) && isActiveUser(user);
     }
 
-    public Roadmap findById(Integer roadmapId) {
+    public Roadmap findById(User user, Integer roadmapId) {
+        if (!isActiveUser(user)) {
+            throw new CustomException(ExceptionType.INVALID_AUTHORIZATION);
+        }
         //RoadmapStudy 에서 Roadmap 관련 칼럼 삭제
         Roadmap roadmap = roadmapRepository.findById(roadmapId)
                 .orElseThrow(() -> new CustomException(ExceptionType.NOT_FOUND_ROADMAP_BY_ID, roadmapId));
+
         return roadmap;
 
     }
 
-    private boolean isActiveUser(User user) {
+    private boolean isActiveUser(User user) { //-> user가 write 작업할 때 사용해야할 메서드
         //로드맵 생성시 사용자 검사하는 이유: 유저가 탈퇴했는데 유저 토큰 혹은 세션이 탈취되서 탈퇴한 후에도 요청을 보내서 로드맵을 생성할 수 있는 가능성이 있음
         return user.getStatus().equals(Status.ACTIVE);
     }
