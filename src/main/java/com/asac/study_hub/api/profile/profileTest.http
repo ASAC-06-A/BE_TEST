@@ -1,0 +1,11 @@
+### Get Profile for 김정현 (세션 ID: 1)
+GET http://localhost:8080/profile/
+Content-Type: application/json
+Cookie: session_key=1
+
+//{
+//  "user_id": 1,
+//  "user_name": "김정현",
+//  "email": "solee3020@gmail.com",
+//  "password": "solee6810"
+//}

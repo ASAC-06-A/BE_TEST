@@ -67,7 +67,7 @@ public class StudyController {
         studyService.update(id, studyRequestDto, user);
         return BaseResponse.success(SuccessType.UPDATE_SUCCESS, null);
     }
-
+  
     @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
     @PostMapping("/delete")
     public BaseResponse<Void> deleteAll(@CookieValue Cookie cookie, HttpServletRequest request, @RequestBody List<Integer> id) {
