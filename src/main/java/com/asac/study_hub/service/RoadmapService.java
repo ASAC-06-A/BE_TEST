@@ -1,8 +1,10 @@
 package com.asac.study_hub.service;
 
+import com.asac.study_hub.controller.dto.ListResponseDto;
 import com.asac.study_hub.controller.dto.ResponseIdDto;
 import com.asac.study_hub.controller.dto.roadmapDto.RoadmapRequestDto;
 import com.asac.study_hub.controller.dto.roadmapDto.RoadmapResponseDto;
+import com.asac.study_hub.controller.dto.studyDto.StudyResponseDto;
 import com.asac.study_hub.domain.Roadmap;
 import com.asac.study_hub.domain.RoadmapStudy;
 import com.asac.study_hub.domain.Status;
@@ -26,6 +28,7 @@ public class RoadmapService {
 
     RoadmapRepository roadmapRepository;
     RoadmapStudyRepository roadmapStudyRepository; //roadmapStudyRepository, service 둘중 어느걸 roadmapService에 주입해야할지 고민
+    RoadmapStudyService roadmapStudyService;
 
     public List<RoadmapResponseDto> findAll(User user) {
         List<Roadmap> roadmapList = roadmapRepository.findByUser(user);
@@ -70,15 +73,18 @@ public class RoadmapService {
         return roadmap.getUser().equals(user) && isActiveUser(user);
     }
 
-    public Roadmap findById(User user, Integer roadmapId) {
+    public RoadmapResponseDto findById(User user, Integer roadmapId) {
         if (!isActiveUser(user)) {
             throw new CustomException(ExceptionType.INVALID_AUTHORIZATION);
         }
         //RoadmapStudy 에서 Roadmap 관련 칼럼 삭제
         Roadmap roadmap = roadmapRepository.findById(roadmapId)
                 .orElseThrow(() -> new CustomException(ExceptionType.NOT_FOUND_ROADMAP_BY_ID, roadmapId));
+        ListResponseDto<StudyResponseDto> studyResponseDto = roadmapStudyService.findStudyByRoadmap(roadmap);
+        RoadmapResponseDto responseDto = RoadmapResponseDto.to(roadmap);
+        responseDto.setStudy(studyResponseDto);
 
-        return roadmap;
+        return responseDto;
 
     }
 

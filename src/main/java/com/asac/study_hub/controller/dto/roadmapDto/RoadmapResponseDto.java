@@ -1,13 +1,14 @@
 package com.asac.study_hub.controller.dto.roadmapDto;
 
+import com.asac.study_hub.controller.dto.ListResponseDto;
 import com.asac.study_hub.controller.dto.studyDto.StudyResponseDto;
 import com.asac.study_hub.domain.Roadmap;
-import com.asac.study_hub.repository.RoadmapRepository;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @AllArgsConstructor
@@ -17,7 +18,7 @@ public class RoadmapResponseDto {
     String category;
     LocalDateTime createAt;
     @Setter
-    StudyResponseDto study;
+    ListResponseDto<StudyResponseDto> study;
 
     public static RoadmapResponseDto to(Roadmap roadmap) {
         return new RoadmapResponseDto(roadmap.getId(), roadmap.getRoadmapTitle(), roadmap.getCategory().getCategory(), roadmap.getCreateAt());
