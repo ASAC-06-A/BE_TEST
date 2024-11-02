@@ -1,7 +1,9 @@
 package com.asac.study_hub.service;
 
+import com.asac.study_hub.controller.dto.userDto.signinDto.SigninRequestDto;
 import com.asac.study_hub.controller.dto.userDto.signupDto.SignupRequestDto;
-import com.asac.study_hub.controller.dto.userDto.signupDto.SignupResponseDto;
+import com.asac.study_hub.controller.dto.userDto.UserResponseDto;
+import com.asac.study_hub.domain.Status;
 import com.asac.study_hub.domain.User;
 import com.asac.study_hub.exception.CustomException;
 import com.asac.study_hub.exception.ExceptionType;
@@ -19,52 +21,61 @@ import org.springframework.stereotype.Service;
 @Service
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 @RequiredArgsConstructor
+@Slf4j
 public class UserService {
 
     UserRepository userRepository;
 
-    public SignupResponseDto signup(SignupRequestDto signupRequestDto) {
+    public UserResponseDto signup(SignupRequestDto signupRequestDto) {
         String email = signupRequestDto.getEmail();
         String name = signupRequestDto.getUserName();
 
-        if (checkDuplicatedEmail(email)) {
+        if (checkEmailExist(email)) {
             throw new CustomException(ExceptionType.EXIST_EMAIL, email);
-        }
-        if (checkDuplicatedName(name)) {
-            throw new CustomException(ExceptionType.EXIST_NICKNAME, name);
         }
 
         signupRequestDto.setId(userRepository.findAll().size() + 1);
         User user = userRepository.save(SignupRequestDto.of(signupRequestDto));
 
-        return SignupResponseDto.builder()
-                .userId(user.getId())
+        return UserResponseDto.builder()
+                .user(user)
                 .status(HttpStatus.CREATED.value())
                 .build();
 
     }
 
-    public SignupResponseDto signin(HttpServletRequest request, HttpServletResponse response, SignupRequestDto userDto) {
+    public UserResponseDto signin(HttpServletRequest request, HttpServletResponse response, SigninRequestDto userDto) {
 
         saveSession(request, userDto);
+        if (!checkEmailExist(userDto.getEmail())) { //메모리에 해당 이메일로 회원가입한 데이터가 없다면
+            log.warn(ExceptionType.NOT_FOUNT_USER_BY_EMAIL.getMessage() + userDto.getEmail()); //내부고객(동료 개발자)에게 어떤 정보가 틀렸는지 로그로 알려주기
+            throw new CustomException(ExceptionType.FAILD_SIGNIN);
+        }
 
-        return SignupResponseDto.builder()
-                .userId(SignupRequestDto.of(userDto).getId())
+        User user = userRepository.findByEmail(userDto.getEmail());
+
+        if (!validPassword(user, userDto)) {
+            log.warn(ExceptionType.WRONG_PASSWORD.getMessage());
+            throw new CustomException(ExceptionType.FAILD_SIGNIN);
+        }
+        return UserResponseDto.builder()
+                .user(user)
                 .status(HttpStatus.OK.value())
                 .build();
     }
 
-    private void saveSession(HttpServletRequest request, SignupRequestDto userDto) {
+    private void saveSession(HttpServletRequest request, SigninRequestDto userDto) {
         //로그인 한정 사용하는 메서드 따라서 세션이 있으면 그대로 사용하고 없으면 새로 생성하는 getSession 메서드 사용
         User user = userRepository.findByEmail(userDto.getEmail());
         SessionProvider.createSession(request, user);
     }
 
-    private boolean checkDuplicatedEmail(String email) {
+    private boolean checkEmailExist(String email) {
         return userRepository.findAll().stream().anyMatch(user -> user.getEmail().equals(email));
     }
 
-    private boolean checkDuplicatedName(String name) {
-        return userRepository.findAll().stream().anyMatch(user -> user.getName().equals(name));
+    private boolean validPassword(User user, SigninRequestDto userDto) {
+        return user.getPassword().equals(userDto.getPassword());
     }
+
 }

@@ -35,6 +35,7 @@ public class StudyController {
         return BaseResponse.success(SuccessType.GET_ALL_STUDY, studyResponseDto);
     }*/
 
+    @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
     @GetMapping("/{id}")
     public BaseResponse<StudyResponseDto> getStudy(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request, @Valid @PathVariable Integer id) {
         SessionProvider.getValidUser(cookie.getValue(), request);
@@ -42,6 +43,7 @@ public class StudyController {
         return BaseResponse.success(SuccessType.GET_STUDY, studyResponseDto);
     }
 
+    @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
     @PostMapping
     public BaseResponse<ResponseIdDto> save(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request, @Valid @RequestBody StudyRequestDto studyRequestDto) {
         User user = SessionProvider.getValidUser(cookie.getValue(), request);
@@ -49,6 +51,7 @@ public class StudyController {
         return BaseResponse.success(SuccessType.SAVE_STUDY, studyId);
     }
 
+    @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
     @GetMapping
     public BaseResponse<ListResponseDto<StudyResponseDto>> getStudyByCategory(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request, @RequestParam String category) {
         SessionProvider.getValidSession(request);
@@ -56,6 +59,7 @@ public class StudyController {
     }
 
     //부분 수정
+    @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
     @PatchMapping("/{id}")
     public BaseResponse<StudyResponseDto> update(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request, @PathVariable Integer id, @Valid @RequestBody StudyRequestDto studyRequestDto){
         User user = SessionProvider.getValidUser(cookie.getValue(), request);
@@ -63,6 +67,7 @@ public class StudyController {
         return BaseResponse.success(SuccessType.UPDATE_SUCCESS, null);
     }
 
+    @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
     @PostMapping("/delete")
     public BaseResponse<Void> deleteAll(@CookieValue Cookie cookie, HttpServletRequest request, @RequestBody List<Integer> id) {
         User user = SessionProvider.getValidUser(cookie.getValue(), request);

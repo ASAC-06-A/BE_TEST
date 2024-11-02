@@ -19,6 +19,7 @@ public class SessionController {
 
     private final SessionService sessionService;
     //@SessionAttribute 는 나중에 jwt를 사용하게 된다면 jwt 검증 어노테이션을 사용할 것임
+    @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
     @GetMapping("/session")
     public BaseResponse<User> checkSession(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request) {
        //인증된 유저

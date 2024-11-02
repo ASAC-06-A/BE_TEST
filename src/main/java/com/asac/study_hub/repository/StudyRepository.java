@@ -1,6 +1,7 @@
 package com.asac.study_hub.repository;
 
 import com.asac.study_hub.domain.Category;
+import com.asac.study_hub.domain.Status;
 import com.asac.study_hub.domain.Study;
 import com.asac.study_hub.domain.User;
 import lombok.AccessLevel;
@@ -27,7 +28,7 @@ public class StudyRepository implements StudyIRepository{
 
     static {
         studyList = new HashMap<>();
-        User user = new User(1, "jiyeon", "jiyeon@gmail.com", "jiyeon7890");
+        User user = new User(1, "jiyeon", "jiyeon@gmail.com", "jiyeon7890", Status.ACTIVE);
         studyList.put(1, Study.builder()
                 .id(1)
                 .category(new Category("Backend"))
