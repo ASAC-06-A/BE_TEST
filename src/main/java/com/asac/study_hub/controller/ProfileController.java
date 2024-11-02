@@ -14,13 +14,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -43,7 +37,7 @@ public class ProfileController {
         HttpServletRequest request, @Valid @RequestBody ProfileRequestDto profileRequestDto) {
         User user = SessionProvider.getValidUser(cookie.getValue(), request);
         profileService.updateUser(user, profileRequestDto);
-        return BaseResponse.success(SuccessType.UPDATE_PROFILE_SUCCESS, null);
+        return BaseResponse.success(SuccessType.UPDATE_PROFILE_SUCCESS, null); //업데이터 된 정보 넘겨주는게 나은지 아니면 응답 성공 여부만 넘겨주는게 나은지
     }
 
     @DeleteMapping
@@ -54,7 +48,7 @@ public class ProfileController {
         return BaseResponse.success(SuccessType.DELETE_PROFILE, null);
     }
 
-    @DeleteMapping("/logout")
+    @PostMapping("/logout") //로그아웃은 get 또는 post로 하는데 post로 하는게 좋다고 함. 이유는 찾아보기
     public BaseResponse<Void> logoutProfile(/*@CookieValue("JSESSIONID") Cookie cookie,*/
         HttpServletRequest request) {
         SessionProvider.removeSession(/*cookie.getValue(),*/ request);
