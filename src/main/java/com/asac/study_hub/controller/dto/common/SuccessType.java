@@ -24,7 +24,7 @@ public enum SuccessType {
     UPDATE_SUCCESS(HttpStatus.OK, null),
     DELETE_ALL_SUCCESS(HttpStatus.OK, "강의 다수 삭제 성공"),
     FINDALL(HttpStatus.OK, "전체 조회 성공"),
-    GET_ALL_STUDY(HttpStatus.OK, "강의 전체 조회 성공");
+    GET_ALL_STUDY(HttpStatus.OK, "강의 전체 조회 성공"),
 
     // 통합여부에 따라 삭제 예정
     UPDATE_PROFILE_SUCCESS(HttpStatus.OK, "수정에 성공하였습니다"),
