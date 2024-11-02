@@ -65,9 +65,14 @@ public class StudyRepository implements StudyIRepository{
 
     }
 
-    public List<Study> findAll() {
-        return List.of();
+    public List<Study> findAll(User user) {
+        return studyList
+            .values()
+            .stream()
+            .filter((Study) -> user.equals(Study.getUser()))
+            .toList();
     }
+
 
     public Optional<Study> findById(Integer studyId) {
 
@@ -117,5 +122,4 @@ public class StudyRepository implements StudyIRepository{
                 .filter((study) -> id.equals(study.getId()) && user.equals(study.getUser()))
                 .findAny();
     }
-
 }

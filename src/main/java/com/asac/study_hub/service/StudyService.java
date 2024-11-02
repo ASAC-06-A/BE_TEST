@@ -21,7 +21,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class StudyService {
-
     StudyIRepository studyRepository;
 
     //모든 스터디 조회하는 메서드 구현하시면 됩니다.
@@ -34,6 +33,15 @@ public class StudyService {
         List<StudyResponseDto> studyResponseDtoList = studyRepository.findAll();
         return studyResponseDtoList;
     }*/
+
+    public ListResponseDto<StudyResponseDto> findAll(User user){
+        List<StudyResponseDto> studyList = studyRepository.findAll(user)
+            .stream()
+            .map(StudyResponseDto::of)
+            .toList();
+        return new ListResponseDto<StudyResponseDto>(studyList.size(), studyList);
+    }
+
 
     public StudyResponseDto findById(Integer id) {
         Study study = studyRepository.findById(id).orElseThrow(() -> new CustomException(ExceptionType.NOT_FOUND_STUDY_BY_ID, id));

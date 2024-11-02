@@ -26,7 +26,6 @@ import java.util.List;
 public class StudyController {
 
     StudyService studyService;
-
     /**
      * TODO: UserController 참고하면서 스터디 조회 컨트롤러 구현
      * 아래 주석처리된 컨트롤러처럼 구현하시면 됩니다!
@@ -52,12 +51,13 @@ public class StudyController {
         return BaseResponse.success(SuccessType.SAVE_STUDY, studyId);
     }
 
-    @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
-    @GetMapping
+    //카테고리 조회는 나중에 사용하면 주석 삭제
+    /*@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+    @GetMapping("/{category}")
     public BaseResponse<ListResponseDto<StudyResponseDto>> getStudyByCategory(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request, @RequestParam String category) {
         SessionProvider.getValidSession(request);
         return BaseResponse.success(SuccessType.GET_STUDY_BY_CATEGORY, studyService.getStudyByCategory(category));
-    }
+    }*/
 
     //부분 수정
     @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
@@ -76,4 +76,10 @@ public class StudyController {
         return BaseResponse.success(SuccessType.DELETE_ALL_SUCCESS, null);
     }
 
+    @GetMapping
+    public BaseResponse<ListResponseDto<StudyResponseDto>> getStudy(@CookieValue Cookie cookie, HttpServletRequest request) {
+        User user = SessionProvider.getValidUser(cookie.getValue(), request);
+        ListResponseDto<StudyResponseDto> studyResponseDto = studyService.findAll(user);
+        return BaseResponse.success(SuccessType.GET_ALL_STUDY, studyResponseDto);
+    }
 }
