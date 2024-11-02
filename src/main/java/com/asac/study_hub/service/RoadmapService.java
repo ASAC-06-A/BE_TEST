@@ -39,7 +39,8 @@ public class RoadmapService {
 
     public void delete(User user, Integer roadmapId) {
 
-        Roadmap roadmap = findById(user, roadmapId);
+        Roadmap roadmap = roadmapRepository.findById(roadmapId)
+                .orElseThrow(() -> new CustomException(ExceptionType.NOT_FOUND_ROADMAP_BY_ID, roadmapId));
         //해당 로드맵을 삭제할 수 있는 유저인가
         if (!validUser(user, roadmap)) {
             throw new CustomException(ExceptionType.INVALID_AUTHORIZATION);

@@ -28,7 +28,14 @@ public class RoadmapController {
         return BaseResponse.success(SuccessType.GET_ALL_ROADMAP, responseDto);
     }
 
-    @DeleteMapping({"roadmapId"})
+    @GetMapping("/{roadmapId}")
+    public BaseResponse<RoadmapResponseDto> findById(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request, @PathVariable Integer roadmapId) {
+        User user = SessionProvider.getValidUser(cookie.getValue(), request);
+        roadmapService.findById(user, roadmapId);
+        return BaseResponse.success(SuccessType.GET_ROADMAP, )
+    }
+
+    @DeleteMapping("/{roadmapId}")
     public BaseResponse<Void> delete(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request, @PathVariable Integer roadmapId) {
         User user = SessionProvider.getValidUser(cookie.getValue(), request);
         roadmapService.delete(user, roadmapId);
