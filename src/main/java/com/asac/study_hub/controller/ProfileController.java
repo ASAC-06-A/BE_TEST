@@ -49,8 +49,11 @@ public class ProfileController {
     }
 
     @PostMapping("/logout") //로그아웃은 get 또는 post로 하는데 post로 하는게 좋다고 함. 이유는 찾아보기
-    public BaseResponse<Void> logoutProfile(/*@CookieValue("JSESSIONID") Cookie cookie,*/
-        HttpServletRequest request) {
+    public BaseResponse<Void> logoutProfile(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request) {
+        //만료된 session인지 검사는 removeSession 내부에서 getValidSession으로 진행되고 있음
+        // 잘못된 형식의 session으로 요청이 올 경우를 대비해서 getValidUser를 사용하는 것이 맞는거같음
+        // 코드 일관성도 지키는 게 좋음
+        SessionProvider.getValidUser(cookie.getValue(), request);
         SessionProvider.removeSession(/*cookie.getValue(),*/ request);
         return BaseResponse.success(SuccessType.LOGOUT_PROFILE, null);
     }
