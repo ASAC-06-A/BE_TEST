@@ -1,6 +1,7 @@
 package com.asac.study_hub.service;
 
 import com.asac.study_hub.controller.dto.profileDto.ProfileRequestDto;
+import com.asac.study_hub.controller.dto.profileDto.ProfileUpdateRequestDto;
 import com.asac.study_hub.domain.User;
 import com.asac.study_hub.exception.CustomException;
 import com.asac.study_hub.exception.ExceptionType;
@@ -18,7 +19,7 @@ public class ProfileService {
 
     UserRepository userRepository;
 
-    public void updateUser(User willUpdateUser, /*Integer id*/ ProfileRequestDto requestDto) {
+    public void updateUser(User willUpdateUser, /*Integer id*/ ProfileUpdateRequestDto requestDto) {
         User user = Optional.ofNullable(userRepository.findByUserId(willUpdateUser.getId()))
             .orElseThrow(() -> new CustomException(
                 ExceptionType.NOT_FOUNT_USER_BY_ID, willUpdateUser.getId()));

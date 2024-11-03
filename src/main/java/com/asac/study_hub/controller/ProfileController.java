@@ -4,6 +4,7 @@ import com.asac.study_hub.controller.dto.common.BaseResponse;
 import com.asac.study_hub.controller.dto.common.SuccessType;
 import com.asac.study_hub.controller.dto.profileDto.ProfileRequestDto;
 import com.asac.study_hub.controller.dto.profileDto.ProfileResponseDto;
+import com.asac.study_hub.controller.dto.profileDto.ProfileUpdateRequestDto;
 import com.asac.study_hub.domain.User;
 import com.asac.study_hub.service.ProfileService;
 import com.asac.study_hub.util.SessionProvider;
@@ -34,7 +35,7 @@ public class ProfileController {
 
     @PatchMapping
     public BaseResponse<ProfileResponseDto> updateProfile(@CookieValue("JSESSIONID") Cookie cookie,
-        HttpServletRequest request, @Valid @RequestBody ProfileRequestDto profileRequestDto) {
+        HttpServletRequest request, @Valid @RequestBody ProfileUpdateRequestDto profileRequestDto) {
         User user = SessionProvider.getValidUser(cookie.getValue(), request);
         profileService.updateUser(user, profileRequestDto);
         return BaseResponse.success(SuccessType.UPDATE_PROFILE_SUCCESS, null); //업데이터 된 정보 넘겨주는게 나은지 아니면 응답 성공 여부만 넘겨주는게 나은지
