@@ -38,8 +38,8 @@ public class StudyController {
     @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
     @GetMapping("/{id}")
     public BaseResponse<StudyResponseDto> getStudy(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request, @Valid @PathVariable Integer id) {
-        SessionProvider.getValidUser(cookie.getValue(), request);
-        StudyResponseDto studyResponseDto = studyService.findById(id);
+        User user = SessionProvider.getValidUser(cookie.getValue(), request);
+        StudyResponseDto studyResponseDto = studyService.findById(user, id);
         return BaseResponse.success(SuccessType.GET_STUDY, studyResponseDto);
     }
 
