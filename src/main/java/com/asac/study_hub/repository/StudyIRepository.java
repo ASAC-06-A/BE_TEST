@@ -18,4 +18,5 @@ public interface StudyIRepository {
     void update(Study study, Study newstudy);
     void deleteAll(List<Study> study);
     Optional<Study> findByIdAndUser(Integer id, User user);
+    Integer getStudyId();
 }

@@ -51,6 +51,7 @@ public class StudyService {
     public ResponseIdDto save(User user, StudyRequestDto studyRequestDto) {
         //강의 제목 중복 허용
         studyRequestDto.setUser(user);
+        studyRequestDto.setStudyId(studyRepository.getStudyId());
         Integer studyId = studyRepository.save(studyRequestDto.to());
         return new ResponseIdDto(studyId);
     }
