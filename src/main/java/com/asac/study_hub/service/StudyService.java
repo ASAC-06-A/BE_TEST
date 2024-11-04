@@ -43,14 +43,18 @@ public class StudyService {
     }
 
 
-    public StudyResponseDto findById(Integer id) {
+    public StudyResponseDto findById(User user, Integer id) {
         Study study = studyRepository.findById(id).orElseThrow(() -> new CustomException(ExceptionType.NOT_FOUND_STUDY_BY_ID, id));
+        if (!study.getUser().equals(user)) {
+            throw new CustomException(ExceptionType.INVALID_AUTHORIZATION);
+        }
         return StudyResponseDto.of(study);
     }
 
     public ResponseIdDto save(User user, StudyRequestDto studyRequestDto) {
         //강의 제목 중복 허용
         studyRequestDto.setUser(user);
+        studyRequestDto.setStudyId(studyRepository.getStudyId());
         Integer studyId = studyRepository.save(studyRequestDto.to());
         return new ResponseIdDto(studyId);
     }

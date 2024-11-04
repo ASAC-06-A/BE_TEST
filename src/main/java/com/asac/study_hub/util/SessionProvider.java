@@ -39,8 +39,8 @@ public class SessionProvider {
     }
 
     public static void removeSession(/*String sessionId,*/ HttpServletRequest request) {
-        HttpSession session = getValidSession(request); //getValidSession에서 예외가 안터졌다함은 세션이 저장되어 있음을 의미 -> session.getAttribute 검사 안해도됨
-        session.invalidate(); // 세션 완전 무효화, 멀티 로그인 구현 시, 전무 로그아웃시 사용하면 좋을듯
+         //getValidSession에서 예외가 안터졌다함은 세션이 저장되어 있음을 의미 -> session.getAttribute 검사 안해도됨
+        request.getSession().invalidate(); // 세션 완전 무효화, 멀티 로그인 구현 시, 전무 로그아웃시 사용하면 좋을듯
     }
 }
 

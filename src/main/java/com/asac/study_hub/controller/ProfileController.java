@@ -4,6 +4,7 @@ import com.asac.study_hub.controller.dto.common.BaseResponse;
 import com.asac.study_hub.controller.dto.common.SuccessType;
 import com.asac.study_hub.controller.dto.profileDto.ProfileRequestDto;
 import com.asac.study_hub.controller.dto.profileDto.ProfileResponseDto;
+import com.asac.study_hub.controller.dto.profileDto.ProfileUpdateRequestDto;
 import com.asac.study_hub.domain.User;
 import com.asac.study_hub.service.ProfileService;
 import com.asac.study_hub.util.SessionProvider;
@@ -34,7 +35,7 @@ public class ProfileController {
 
     @PatchMapping
     public BaseResponse<ProfileResponseDto> updateProfile(@CookieValue("JSESSIONID") Cookie cookie,
-        HttpServletRequest request, @Valid @RequestBody ProfileRequestDto profileRequestDto) {
+        HttpServletRequest request, @Valid @RequestBody ProfileUpdateRequestDto profileRequestDto) {
         User user = SessionProvider.getValidUser(cookie.getValue(), request);
         profileService.updateUser(user, profileRequestDto);
         return BaseResponse.success(SuccessType.UPDATE_PROFILE_SUCCESS, null); //업데이터 된 정보 넘겨주는게 나은지 아니면 응답 성공 여부만 넘겨주는게 나은지
@@ -49,8 +50,11 @@ public class ProfileController {
     }
 
     @PostMapping("/logout") //로그아웃은 get 또는 post로 하는데 post로 하는게 좋다고 함. 이유는 찾아보기
-    public BaseResponse<Void> logoutProfile(/*@CookieValue("JSESSIONID") Cookie cookie,*/
-        HttpServletRequest request) {
+    public BaseResponse<Void> logoutProfile(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request) {
+        //만료된 session인지 검사는 removeSession 내부에서 getValidSession으로 진행되고 있음
+        // 잘못된 형식의 session으로 요청이 올 경우를 대비해서 getValidUser를 사용하는 것이 맞는거같음
+        // 코드 일관성도 지키는 게 좋음
+        SessionProvider.getValidUser(cookie.getValue(), request);
         SessionProvider.removeSession(/*cookie.getValue(),*/ request);
         return BaseResponse.success(SuccessType.LOGOUT_PROFILE, null);
     }

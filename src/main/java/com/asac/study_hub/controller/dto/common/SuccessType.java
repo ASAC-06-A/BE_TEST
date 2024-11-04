@@ -21,7 +21,7 @@ public enum SuccessType {
     SAVE_STUDY(HttpStatus.OK, "강의 저장 성공"),
     VALID_SESSION(HttpStatus.OK, "세션 검증 성공"),
     GET_STUDY_BY_CATEGORY(HttpStatus.OK, null),
-    UPDATE_SUCCESS(HttpStatus.OK, null),
+    UPDATE_SUCCESS(HttpStatus.OK, "강의 수정 성공"),
     DELETE_ALL_SUCCESS(HttpStatus.OK, "강의 다수 삭제 성공"),
     FINDALL(HttpStatus.OK, "전체 조회 성공"),
     GET_ALL_STUDY(HttpStatus.OK, "강의 전체 조회 성공"),

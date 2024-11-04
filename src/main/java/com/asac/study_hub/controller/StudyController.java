@@ -38,8 +38,8 @@ public class StudyController {
     @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
     @GetMapping("/{id}")
     public BaseResponse<StudyResponseDto> getStudy(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request, @Valid @PathVariable Integer id) {
-        SessionProvider.getValidUser(cookie.getValue(), request);
-        StudyResponseDto studyResponseDto = studyService.findById(id);
+        User user = SessionProvider.getValidUser(cookie.getValue(), request);
+        StudyResponseDto studyResponseDto = studyService.findById(user, id);
         return BaseResponse.success(SuccessType.GET_STUDY, studyResponseDto);
     }
 
@@ -70,14 +70,15 @@ public class StudyController {
   
     @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
     @PostMapping("/delete")
-    public BaseResponse<Void> deleteAll(@CookieValue Cookie cookie, HttpServletRequest request, @RequestBody List<Integer> id) {
+    public BaseResponse<Void> deleteAll(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request, @RequestBody List<Integer> id) {
         User user = SessionProvider.getValidUser(cookie.getValue(), request);
         studyService.deleteAll(user, id);
         return BaseResponse.success(SuccessType.DELETE_ALL_SUCCESS, null);
     }
 
+    @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
     @GetMapping
-    public BaseResponse<ListResponseDto<StudyResponseDto>> getStudy(@CookieValue Cookie cookie, HttpServletRequest request) {
+    public BaseResponse<ListResponseDto<StudyResponseDto>> getStudy(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request) {
         User user = SessionProvider.getValidUser(cookie.getValue(), request);
         ListResponseDto<StudyResponseDto> studyResponseDto = studyService.findAll(user);
         return BaseResponse.success(SuccessType.GET_ALL_STUDY, studyResponseDto);
