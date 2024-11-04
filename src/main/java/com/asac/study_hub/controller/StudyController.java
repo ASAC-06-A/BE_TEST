@@ -76,6 +76,7 @@ public class StudyController {
         return BaseResponse.success(SuccessType.DELETE_ALL_SUCCESS, null);
     }
 
+    @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
     @GetMapping
     public BaseResponse<ListResponseDto<StudyResponseDto>> getStudy(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request) {
         User user = SessionProvider.getValidUser(cookie.getValue(), request);
