@@ -1,6 +1,7 @@
 package com.asac.study_hub.service;
 
 import com.asac.study_hub.controller.dto.profileDto.ProfileRequestDto;
+import com.asac.study_hub.controller.dto.profileDto.ProfileUpdateRequestDto;
 import com.asac.study_hub.domain.Status;
 import com.asac.study_hub.domain.User;
 import com.asac.study_hub.repository.UserRepository;
@@ -26,7 +27,7 @@ class ProfileServiceTest {
         //given
 
         //업데이트할 때 email 변경 가능? -> 협의 후 진행
-        ProfileRequestDto profileRequestDto = ProfileRequestDto.builder()
+        ProfileUpdateRequestDto profileRequestDto = ProfileUpdateRequestDto.builder()
                 .username("username")
                 .password("123456789")
                 .build();
@@ -48,7 +49,7 @@ class ProfileServiceTest {
     @Test
     void update() {
         //given
-        ProfileRequestDto profileRequestDto = ProfileRequestDto.builder()
+        ProfileUpdateRequestDto profileRequestDto = ProfileUpdateRequestDto.builder()
                 .username("username")
                 .build();
         User user = new User(40, "user", "user@gmail.com", "12345678", Status.ACTIVE);
