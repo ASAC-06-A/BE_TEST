@@ -39,7 +39,8 @@ public class SessionProvider {
     }
 
     public static void removeSession(/*String sessionId,*/ HttpServletRequest request) {
-        request.getSession().invalidate();
+        request.getSession().invalidate(); // 세션 완전 무효화, 멀티 로그인 구현 시, 전무 로그아웃시 사용하면 좋을듯
+
     }
 }
 
