@@ -60,7 +60,7 @@ public class ProfileController {
     public BaseResponse<Void> logoutProfile(@CookieValue("JSESSIONID") Cookie cookie,
         HttpServletRequest request) {
         User user = SessionProvider.getValidUser(cookie.getValue(), request);
-        profileService.logoutUser(user);
+        //profileService.logoutUser(user);
         SessionProvider.removeSession(request);
         return BaseResponse.success(SuccessType.LOGOUT_PROFILE, null);
     }
