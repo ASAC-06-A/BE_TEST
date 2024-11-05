@@ -22,8 +22,11 @@ public class UserRepository implements IRepository {
 
     static {
         users = new HashMap<>();
-        users.put(1, new User(1, "김정현", "solee3020@gmail.com", "solee6810", Status.ACTIVE));
-        users.put(2, new User(2, "김지연", "jykim9335@gmail.com", "asas5656", Status.ACTIVE));
+        users.put(1,
+            new User(1, "김정현", "solee3020@gmail.com", "solee6810", /* new Category("FrontEnd"),
+                "나는 김정현. 탐정이죠", */Status.ACTIVE));
+        users.put(2, new User(2, "김지연", "jykim9335@gmail.com", "asas5656", /* new Category("BackEnd"),
+            "나는 김지연. 탐정이죠", */Status.ACTIVE));
 
         sessionStorage = new HashMap<>();
     }
@@ -59,17 +62,19 @@ public class UserRepository implements IRepository {
     }
 
 
-    public void deleteUser(User user) {
-//        User user = findByUserId(id);
-        user.delete();
-    }
-
     /**
-    * unit 테스트에서 사용하는 메서드, db 연결하면 삭제할 예정
-     * */
+     * unit 테스트에서 사용하는 메서드, db 연결하면 삭제할 예정
+     */
     @Override
     public void delete(User user) {
+        // 삭제하고자하는 유저의 정보가 없을 때 or 다른 유저의 악의적 공격에 대비하기위해
+        if (!users.values().contains(user)) {
+            // 악의적 공격이면 힌트를 주지 않고자 INVALID_ACCESS로 Exception 처리
+            throw new CustomException(ExceptionType.INVALID_ACCESS, user);
+        }
+
         users.values().remove(user);
+
     }
 
 
@@ -83,6 +88,10 @@ public class UserRepository implements IRepository {
 
     public void updateUser(User user, User newUser) {
         user.update(newUser);
+    }
+
+    public void logoutUser(User user) {
+        user.logout();
     }
 
 
