@@ -55,11 +55,12 @@ public class ProfileController {
     }
 
     @DeleteMapping("/logout")
-    public BaseResponse<Void> logoutProfile(/*@CookieValue("JSESSIONID") Cookie cookie,*/
+    public BaseResponse<Void> logoutProfile(@CookieValue("JSESSIONID") Cookie cookie,
         HttpServletRequest request) {
-        SessionProvider.removeSession(/*cookie.getValue(),*/ request);
+        User user = SessionProvider.getValidUser(cookie.getValue(), request);
+        profileService.logoutUser(user);
+        SessionProvider.removeSession(request);
         return BaseResponse.success(SuccessType.LOGOUT_PROFILE, null);
     }
-
 
 }
