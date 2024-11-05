@@ -18,7 +18,7 @@ public class ProfileResponseDto {
     String name;
     String email;
     String password;
-    Enum<Status> status;
+    Status status;
 
     private ProfileResponseDto(User user) {
         this.userId = user.getId();
