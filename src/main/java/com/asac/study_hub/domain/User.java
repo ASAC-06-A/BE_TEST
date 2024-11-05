@@ -19,20 +19,16 @@ public class User {
     String name;
     String email;
     String password;
-//    Category profileCategory;
-//    String selfIntroduction;
+
 
     public void update(User newUser) {
         this.name = Optional.ofNullable(newUser.getName()).orElse(this.name);
         this.password = Optional.ofNullable(newUser.getPassword()).orElse(this.password);
-//        this.profileCategory = Optional.ofNullable(newUser.getProfileCategory())
-//            .orElse(this.profileCategory);
-//        this.selfIntroduction = Optional.ofNullable(newUser.getSelfIntroduction())
-//            .orElse(this.selfIntroduction);
+
     }
 
     public void logout() {
-        this.status = Status.DELETED;
+        this.status = Status.INACTIVE;
     }
 
     Status status;
