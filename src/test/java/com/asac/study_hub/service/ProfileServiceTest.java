@@ -6,6 +6,7 @@ import com.asac.study_hub.controller.dto.profileDto.ProfileUpdateRequestDto;
 import com.asac.study_hub.domain.Status;
 import com.asac.study_hub.domain.User;
 import com.asac.study_hub.repository.UserRepository;
+import java.util.logging.Logger;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ class ProfileServiceTest {
     private ProfileService profileService;
     @Autowired
     private UserRepository userRepository;
+
+    private static final Logger logger = Logger.getLogger(ProfileServiceTest.class.getName());
 
     @DisplayName("유저 일부 업데이트")
     @Test
@@ -60,5 +63,19 @@ class ProfileServiceTest {
         //then
         assertThat(profileRequestDto.getUsername()).isEqualTo(user.getName());
         assertThat("12345678").isEqualTo(user.getPassword());
+    }
+
+    @DisplayName("유저 삭제")
+    @Test
+    void delete() {
+        User user = new User(44, "userDelete", "testDelete@gmail.com", "12345678", Status.ACTIVE);
+        userRepository.save(user);
+
+        logger.info("[before Delete] users is : " + userRepository.findAll());
+
+        profileService.deleteUser(user);
+
+        logger.info("[after Delete] users is : " + userRepository.findAll());
+
     }
 }
