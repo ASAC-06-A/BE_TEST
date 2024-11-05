@@ -31,12 +31,11 @@ public class ProfileService {
     }
 
     public void deleteUser(User user) {
-        userRepository.deleteUser(user);
+        userRepository.delete(user);
     }
 
-//    private boolean checkAuthorization(User user, User newUser) {
-//        //수정할 권한이 있는지 확인
-//        return user.getId().equals(newUser.getId());
-//    }
+    public void logoutUser(User user) {
+        userRepository.logoutUser(user);
+    }
 
 }
