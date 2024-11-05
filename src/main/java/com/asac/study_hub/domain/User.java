@@ -19,8 +19,8 @@ public class User {
     String name;
     String email;
     String password;
-    Category profileCategory;
-    String selfIntroduction;
+//    Category profileCategory;
+//    String selfIntroduction;
 
     public void update(User newUser) {
         this.name = Optional.ofNullable(newUser.getName()).orElse(this.name);
