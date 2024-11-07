@@ -24,7 +24,9 @@ public enum SuccessType {
     DELETE_ROADMAP(HttpStatus.OK, "로드맵 삭제 성공"),
     CREATE(HttpStatus.OK, "저장 완료"),
 
-    GET_ROADMAP(HttpStatus.OK, "로드맵 단일 조회 성공");
+    GET_ROADMAP(HttpStatus.OK, "로드맵 단일 조회 성공"),
+
+    SAVE_STUDY_TO_ROADMAP(HttpStatus.OK, "로드멥에 강의 추가 성공");
 
     HttpStatus status;
     String message;

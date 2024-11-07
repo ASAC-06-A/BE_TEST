@@ -4,15 +4,14 @@ import com.asac.study_hub.controller.dto.ListResponseDto;
 import com.asac.study_hub.controller.dto.ResponseIdDto;
 import com.asac.study_hub.controller.dto.roadmapDto.RoadmapRequestDto;
 import com.asac.study_hub.controller.dto.roadmapDto.RoadmapResponseDto;
+import com.asac.study_hub.controller.dto.studyDto.StudyIdRequestDto;
 import com.asac.study_hub.controller.dto.studyDto.StudyResponseDto;
-import com.asac.study_hub.domain.Roadmap;
-import com.asac.study_hub.domain.RoadmapStudy;
-import com.asac.study_hub.domain.Status;
-import com.asac.study_hub.domain.User;
+import com.asac.study_hub.domain.*;
 import com.asac.study_hub.exception.CustomException;
 import com.asac.study_hub.exception.ExceptionType;
 import com.asac.study_hub.repository.RoadmapRepository;
 import com.asac.study_hub.repository.RoadmapStudyRepository;
+import com.asac.study_hub.repository.StudyRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -29,6 +28,7 @@ public class RoadmapService {
     RoadmapRepository roadmapRepository;
     RoadmapStudyRepository roadmapStudyRepository; //roadmapStudyRepository, service 둘중 어느걸 roadmapService에 주입해야할지 고민
     RoadmapStudyService roadmapStudyService;
+    StudyRepository studyRepository;
 
     public ListResponseDto<RoadmapResponseDto> findAll(User user) {
         List<Roadmap> roadmapList = roadmapRepository.findByUser(user);
@@ -84,6 +84,28 @@ public class RoadmapService {
         responseDto.setStudy(studyResponseDto);
 
         return responseDto;
+
+    }
+
+    public void saveAllStudy(User user, Integer roadmapId, StudyIdRequestDto studyIdList) {
+        if (!isActiveUser(user)) {
+            throw new CustomException(ExceptionType.INVALID_AUTHORIZATION);
+        }
+        List<Study> studyList = new ArrayList<>();
+        studyIdList.getStudyId().forEach(studyId -> {
+            Study study = studyRepository.findById(studyId).orElseThrow(() -> new CustomException(ExceptionType.NOT_FOUND_STUDY_BY_ID, studyId));
+            studyList.add(study);
+        });
+        Roadmap roadmap = roadmapRepository.findById(roadmapId)
+                .orElseThrow(() -> new CustomException(ExceptionType.NOT_FOUND_ROADMAP_BY_ID, roadmapId));
+
+        roadmapStudyRepository.findByRoadmap(roadmap).forEach(roadmapStudy -> {
+            if (studyIdList.getStudyId().contains(roadmapStudy.getStudy().getId())) {
+                throw new CustomException(ExceptionType.ALREADY_EXIST, roadmapStudy.getStudy().getId());
+            }
+        });
+
+        studyList.forEach(study -> roadmapStudyRepository.save(new RoadmapStudy(roadmap, study)));
 
     }
 

@@ -6,6 +6,7 @@ import com.asac.study_hub.controller.dto.common.BaseResponse;
 import com.asac.study_hub.controller.dto.common.SuccessType;
 import com.asac.study_hub.controller.dto.roadmapDto.RoadmapRequestDto;
 import com.asac.study_hub.controller.dto.roadmapDto.RoadmapResponseDto;
+import com.asac.study_hub.controller.dto.studyDto.StudyIdRequestDto;
 import com.asac.study_hub.domain.User;
 import com.asac.study_hub.service.RoadmapService;
 import com.asac.study_hub.util.SessionProvider;
@@ -16,8 +17,6 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequestMapping("/roadmap")
 @RestController
@@ -52,6 +51,13 @@ public class RoadmapController {
         User user = SessionProvider.getValidUser(cookie.getValue(), request);
         ResponseIdDto id = roadmapService.save(user, roadmapRequestDto);
         return BaseResponse.success(SuccessType.CREATE, id);
+    }
+
+    @PostMapping("/{roadmapId}/study")
+    public BaseResponse<Void> saveStudy(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request, @Valid @RequestBody StudyIdRequestDto studyIdList, @PathVariable Integer roadmapId) {
+        User user = SessionProvider.getValidUser(cookie.getValue(), request);
+        roadmapService.saveAllStudy(user, roadmapId, studyIdList);
+        return BaseResponse.success(SuccessType.SAVE_STUDY_TO_ROADMAP, null);
     }
 
 }

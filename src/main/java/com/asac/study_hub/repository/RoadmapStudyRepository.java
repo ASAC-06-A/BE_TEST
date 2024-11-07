@@ -2,16 +2,22 @@ package com.asac.study_hub.repository;
 
 import com.asac.study_hub.domain.Roadmap;
 import com.asac.study_hub.domain.RoadmapStudy;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import java.util.HashMap;
 import java.util.List;
 
 @Repository
+@Slf4j
 public class RoadmapStudyRepository {
     private static final HashMap<Integer, RoadmapStudy> roadmapStudyList = new HashMap<>();
+    private Integer roadmapStudyId;
 
     public Integer save(RoadmapStudy roadmapStudy) {
-        roadmapStudyList.put(roadmapStudyList.size() + 1, roadmapStudy);
+        roadmapStudy.setId(roadmapStudyId);
+        roadmapStudyList.put(roadmapStudyId, roadmapStudy);
+        log.info("roadmapStudyId: {}", roadmapStudyId);
+        roadmapStudyId++;
         return roadmapStudy.getId();
     }
 
