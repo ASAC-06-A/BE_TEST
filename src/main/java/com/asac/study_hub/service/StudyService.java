@@ -35,8 +35,9 @@ public class StudyService {
         return studyResponseDtoList;
     }*/
 
-    public StudyResponseDto findById(Integer id) {
+    public StudyResponseDto findById(User user, Integer id) {
         Study study = studyRepository.findById(id).orElseThrow(() -> new CustomException(ExceptionType.NOT_FOUND_STUDY_BY_ID, id));
+        checkAuthorization(user, study);
         return StudyResponseDto.of(study);
     }
 
