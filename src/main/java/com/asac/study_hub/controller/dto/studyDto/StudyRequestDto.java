@@ -23,7 +23,6 @@ public class StudyRequestDto {
     String url;
     String desc;
     Category category;
-    LocalDateTime createAt;
     @Setter
     User user;
     Integer order;
@@ -31,6 +30,7 @@ public class StudyRequestDto {
 
     public Study to() {
         return Study.builder()
+                .id(this.studyId)
                 .title(this.studyTitle)
                 .studyLink(this.url)
                 .description(this.desc)

@@ -35,15 +35,27 @@ public class StudyService {
         return studyResponseDtoList;
     }*/
 
+    public ListResponseDto<StudyResponseDto> findAll(User user){
+        List<StudyResponseDto> studyList = studyRepository.findAll(user)
+            .stream()
+            .map(StudyResponseDto::of)
+            .toList();
+        return new ListResponseDto<StudyResponseDto>(studyList.size(), studyList);
+    }
+
+
     public StudyResponseDto findById(User user, Integer id) {
         Study study = studyRepository.findById(id).orElseThrow(() -> new CustomException(ExceptionType.NOT_FOUND_STUDY_BY_ID, id));
-        checkAuthorization(user, study);
+        if (!study.getUser().equals(user)) {
+            throw new CustomException(ExceptionType.INVALID_AUTHORIZATION);
+        }
         return StudyResponseDto.of(study);
     }
 
     public ResponseIdDto save(User user, StudyRequestDto studyRequestDto) {
         //강의 제목 중복 허용
         studyRequestDto.setUser(user);
+        studyRequestDto.setStudyId(studyRepository.getStudyId());
         Integer studyId = studyRepository.save(studyRequestDto.to());
         return new ResponseIdDto(studyId);
     }

@@ -4,21 +4,22 @@ import com.asac.study_hub.domain.Status;
 import com.asac.study_hub.domain.User;
 import com.asac.study_hub.exception.CustomException;
 import com.asac.study_hub.exception.ExceptionType;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
-
 @Repository
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserRepository implements IRepository {
+
     User user;
 
     private static final HashMap<Integer, User> users;
     private static final HashMap<String, User> sessionStorage;
+
     static {
         users = new HashMap<>();
         users.put(1, new User(1, "김정현", "solee3020@gmail.com", "solee6810", Status.ACTIVE));
@@ -28,12 +29,13 @@ public class UserRepository implements IRepository {
     }
 
     public User save(User user) {
-        users.put(users.size()+1, user);
+        users.put(users.size() + 1, user);
         return user;
     }
 
     public String saveSession(String sessionId, User user) {
         sessionStorage.put(sessionId, user);
+
         return sessionId;
     }
 
@@ -49,15 +51,46 @@ public class UserRepository implements IRepository {
 
     }
 
+    //private String searchSessionId(){}
+
+
+    public User searchMyProfile(String sessionId) {
+        return sessionStorage.get(sessionId);
+    }
+
+
+    public void deleteUser(User user) {
+//        User user = findByUserId(id);
+        user.delete();
+    }
+
+    /**
+    * unit 테스트에서 사용하는 메서드, db 연결하면 삭제할 예정
+     * */
     @Override
     public void delete(User user) {
-
+        users.values().remove(user);
     }
+
+
+    public User findByUserId(Integer id) {
+        User findUser = users.values().stream()
+            .filter((user) -> id.equals(user.getId()))
+            .findAny()
+            .orElseThrow(() -> new CustomException(ExceptionType.NOT_FOUNT_USER_BY_ID, id));
+        return findUser;
+    }
+
+    public void updateUser(User user, User newUser) {
+        user.update(newUser);
+    }
+
 
     public User findByEmail(String email) {
         User findUser = users.values().stream()
-                .filter((user) -> email.equals(user.getEmail()))
-                .findAny().orElseThrow(() -> new CustomException(ExceptionType.FAILD_SIGNIN)); //백엔드 개발자에게는 어떤 정보가 틀렸는지 알려줘야함. 클라이언트에게는 그냥 로그인 실패로 띄어주고
+            .filter((user) -> email.equals(user.getEmail()))
+            .findAny().orElseThrow(() -> new CustomException(
+                ExceptionType.FAILD_SIGNIN)); //백엔드 개발자에게는 어떤 정보가 틀렸는지 알려줘야함. 클라이언트에게는 그냥 로그인 실패로 띄어주고
         return findUser;
     }
 }

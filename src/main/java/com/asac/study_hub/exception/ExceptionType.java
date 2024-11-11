@@ -23,14 +23,15 @@ public enum ExceptionType {
     EXPIRED_SESSION(HttpStatus.BAD_REQUEST, "만료된 세션 id 입니다.", "expired session", Level.WARN),
     INVALID_SESSION(HttpStatus.BAD_REQUEST, "잘못된 형식의 session id 입니다.", "invalid session id", Level.WARN),
     NOT_FOUNT_USER_BY_EMAIL(HttpStatus.NOT_FOUND, "해당 email로 가입된 유저가 없습니다. email: ", "not found user by email", Level.WARN),
+    NOT_FOUNT_USER_BY_ID(HttpStatus.NOT_FOUND, "해당 id의 유저가 없습니다. id: ", "not found user by id", Level.WARN),
     INVALID_AUTHORIZATION(HttpStatus.UNAUTHORIZED, "권한이 없는 접근입니다.", "Invalid Authorization", Level.WARN),
+
+    INVALID_ACCESS(HttpStatus.NOT_FOUND, "잘못된 접근 입니다.", "Invalid access", Level.WARN),
     INVALID_USER(HttpStatus.BAD_REQUEST, "유효하지 않은 사용자 입니다. status: " , "Invalid User", Level.WARN),
     WRONG_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다", "wrong password", Level.WARN),
     NOT_FOUND_ROADMAP_BY_ID(HttpStatus.BAD_REQUEST, "해당 id로 등록된 강의가 존재하지 않습니다. id: ", "not found roadmap by id", Level.WARN),
     ALREADY_EXIST(HttpStatus.BAD_REQUEST, "이미 등록되어 있는 강의 입니다. id: ", "already exist", Level.WARN),
     UNCLASSIFIED_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "내부에서 에러가 발생했습니다.", "Internal server error", Level.ERROR);
-
-
 
     HttpStatus status;
     String message;

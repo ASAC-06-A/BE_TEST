@@ -4,11 +4,13 @@ import com.asac.study_hub.controller.dto.common.BaseResponse;
 import com.asac.study_hub.controller.dto.common.SuccessType;
 import com.asac.study_hub.domain.User;
 import com.asac.study_hub.service.SessionService;
-import com.asac.study_hub.util.SessionProvider;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
