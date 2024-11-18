@@ -16,11 +16,12 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class RoadmapRepository {
 
-    UserRepository userRepository;
-    private static HashMap<Integer, Roadmap> roadmapList = new HashMap<>();
+    final UserRepository userRepository;
+    private static final HashMap<Integer, Roadmap> roadmapList = new HashMap<>();
+    private Integer roadmapId = 0;
 
 
 //    static {
@@ -36,7 +37,10 @@ public class RoadmapRepository {
     }
 
     public Integer save(Roadmap roadmap) {
+        idGenerator();
+        roadmap.setId(roadmapId);
         roadmapList.put(roadmapList.size() + 1, roadmap);
+
         return roadmap.getId();
     }
 
@@ -64,5 +68,10 @@ public class RoadmapRepository {
         for (Roadmap study : roadmapList.values()) {
             roadmapList.put(id++, study);
         }
+    }
+
+    private Integer idGenerator() {
+        roadmapId++;
+        return roadmapId;
     }
 }

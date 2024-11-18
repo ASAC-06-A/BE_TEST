@@ -59,7 +59,6 @@ public class RoadmapService {
             throw new CustomException(ExceptionType.INVALID_AUTHORIZATION);
         }
         ListResponseDto<RoadmapResponseDto> responseDto = findAll(user);
-        roadmapRequestDto.setId(responseDto.getTotal() + 1);
         roadmapRequestDto.setUser(user);
        Integer roadmapId = roadmapRepository.save(roadmapRequestDto.to());
         return new ResponseIdDto(roadmapId);
