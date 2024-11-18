@@ -11,13 +11,13 @@ import java.util.List;
 @Slf4j
 public class RoadmapStudyRepository {
     private static final HashMap<Integer, RoadmapStudy> roadmapStudyList = new HashMap<>();
-    private Integer roadmapStudyId;
+    private Integer roadmapStudyId = 0;
 
     public Integer save(RoadmapStudy roadmapStudy) {
+        generateId();
         roadmapStudy.setId(roadmapStudyId);
         roadmapStudyList.put(roadmapStudyId, roadmapStudy);
         log.info("roadmapStudyId: {}", roadmapStudyId);
-        roadmapStudyId++;
         return roadmapStudy.getId();
     }
 
@@ -46,5 +46,9 @@ public class RoadmapStudyRepository {
         for (RoadmapStudy study : roadmapStudyList.values()) {
             roadmapStudyList.put(id++, study);
         }
+    }
+    private Integer generateId() {
+        roadmapStudyId++;
+        return roadmapStudyId;
     }
 }
