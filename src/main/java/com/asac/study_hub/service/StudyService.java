@@ -21,6 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class StudyService {
+
     StudyIRepository studyRepository;
 
     //모든 스터디 조회하는 메서드 구현하시면 됩니다.
