@@ -25,7 +25,7 @@ public class SessionProvider {
     //로그인할때만 사용됨
     public static HttpSession createSession(HttpServletRequest request, User user) {
         HttpSession session = request.getSession(); //기존 세션이 있다면 기존꺼 사용, 없다면 새로 생성(이전에 setAttribute 해서 SESSIONID로 저장한 User객첻 없어짐)
-        if (session.getAttribute(session.getId()) == null) {
+        if (session.getAttribute(session.getId()) == null) { //null처리하는 이유는 기존에 사용한게 아니라 새로운 세션이 만들어졌을 경우 sessionId로 사용자를 저장돠어 있지 않으므로 null처리
             session.setAttribute(session.getId(), user);
         }
         return session;
@@ -39,8 +39,8 @@ public class SessionProvider {
     }
 
     public static void removeSession(/*String sessionId,*/ HttpServletRequest request) {
+         //getValidSession에서 예외가 안터졌다함은 세션이 저장되어 있음을 의미 -> session.getAttribute 검사 안해도됨
         request.getSession().invalidate(); // 세션 완전 무효화, 멀티 로그인 구현 시, 전무 로그아웃시 사용하면 좋을듯
-
     }
 }
 

@@ -24,6 +24,7 @@ public class StudyRepository implements StudyIRepository{
      */
 
     Study study;
+    Integer studyId = 3; //메모리에 더미 데이터 3개 있으므로
     static final HashMap<Integer, Study> studyList;
 
     static {
@@ -52,7 +53,7 @@ public class StudyRepository implements StudyIRepository{
                 .order(2)
                 .build());
         studyList.put(3, Study.builder()
-                .id(1)
+                .id(3)
                 .category(new Category("Backend"))
                 .title("spring basic3")
                 .studyLink("https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%9E%85%EB%AC%B8-%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8/dashboard")
@@ -65,9 +66,14 @@ public class StudyRepository implements StudyIRepository{
 
     }
 
-    public List<Study> findAll() {
-        return List.of();
+    public List<Study> findAll(User user) {
+        return studyList
+            .values()
+            .stream()
+            .filter((Study) -> user.equals(Study.getUser()))
+            .toList();
     }
+
 
     public Optional<Study> findById(Integer studyId) {
 
@@ -75,12 +81,21 @@ public class StudyRepository implements StudyIRepository{
     }
 
     public Integer save(Study study) {
-        studyList.put(getId()+1, study);
+        studyList.put(getId() + 1, study);
         return getId();
     }
 
     public Integer getId() {
         return studyList.size();
+    }
+
+    private void createStudyId() {
+        //id 채번해주는 메소드 (외부에 노출되면 안됨)
+        studyId++;
+    }
+    public Integer getStudyId() {
+        createStudyId();
+        return studyId;
     }
 
     public List<Study> findByCategory(String category) {
@@ -117,5 +132,4 @@ public class StudyRepository implements StudyIRepository{
                 .filter((study) -> id.equals(study.getId()) && user.equals(study.getUser()))
                 .findAny();
     }
-
 }

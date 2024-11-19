@@ -2,6 +2,7 @@ package com.asac.study_hub.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.asac.study_hub.controller.dto.profileDto.ProfileRequestDto;
 import com.asac.study_hub.controller.dto.profileDto.ProfileUpdateRequestDto;
 import com.asac.study_hub.domain.Status;
 import com.asac.study_hub.domain.User;
@@ -52,8 +53,9 @@ class ProfileServiceTest {
     void update() {
         //given
         ProfileUpdateRequestDto profileRequestDto = ProfileUpdateRequestDto.builder()
-            .username("username")
-            .build();
+                .username("username")
+                .build();
+
         User user = new User(40, "user", "user@gmail.com", "12345678", Status.ACTIVE);
         userRepository.save(user);
 

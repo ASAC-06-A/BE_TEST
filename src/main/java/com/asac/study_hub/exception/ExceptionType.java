@@ -31,9 +31,6 @@ public enum ExceptionType {
     WRONG_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다", "wrong password", Level.WARN),
     UNCLASSIFIED_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "내부에서 에러가 발생했습니다.", "Internal server error", Level.ERROR);
 
-
-
-
     HttpStatus status;
     String message;
     String error;

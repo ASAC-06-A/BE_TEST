@@ -1,5 +1,5 @@
 package com.asac.study_hub.service;
-
+import com.asac.study_hub.controller.dto.profileDto.ProfileRequestDto;
 import com.asac.study_hub.controller.dto.profileDto.ProfileUpdateRequestDto;
 import com.asac.study_hub.domain.User;
 import com.asac.study_hub.exception.CustomException;
