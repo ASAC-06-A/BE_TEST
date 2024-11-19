@@ -43,7 +43,7 @@ public class RoadmapStudyRepository {
         }
 
         roadmapStudyList.clear();
-        for (RoadmapStudy study : roadmapStudyList.values()) {
+        for (RoadmapStudy study : tempList.values()) {
             roadmapStudyList.put(id++, study);
         }
     }

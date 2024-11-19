@@ -15,6 +15,7 @@ import com.asac.study_hub.repository.StudyRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
+@Slf4j
 public class RoadmapService {
 
     RoadmapRepository roadmapRepository;
@@ -116,12 +118,23 @@ public class RoadmapService {
         //삭제할 study가 없다면
         Roadmap roadmap = roadmapRepository.findById(roadmapId).orElseThrow(() -> new CustomException(ExceptionType.NOT_FOUND_ROADMAP_BY_ID, roadmapId));
         List<RoadmapStudy> byRoadmap = roadmapStudyRepository.findByRoadmap(roadmap);
-        byRoadmap.forEach(roadmapStudy -> {
-            if (!studyIdList.getStudyId().contains(roadmapStudy.getStudy().getId())) {
-                throw new CustomException(ExceptionType.NOT_EXIST_STUDY, roadmapStudy.getStudy().getId());
-            }
+//        byRoadmap.forEach(roadmapStudy -> {
+//            if (!studyIdList.getStudyId().contains(Integer.parseInt(String.valueOf(roadmapStudy.getStudy().getId())))) {
+//                throw new CustomException(ExceptionType.NOT_EXIST_STUDY, roadmapStudy.getStudy().getId());
+//            }
+//        });
+        //삭제할 raodmapstudy
+        List<RoadmapStudy> findList = new ArrayList<>();
+        studyIdList.getStudyId().forEach(studyId -> {
+            Study findStudy = studyRepository.findById(studyId).orElseThrow(() -> new CustomException(ExceptionType.NOT_FOUND_STUDY_BY_ID, studyId));
+            byRoadmap.forEach(each -> {
+                if(each.getStudy().equals(findStudy)) findList.add(each);
+            });
         });
-        roadmapStudyRepository.deleteAll(byRoadmap);
+        log.info("request studyId: {}", studyIdList.getStudyId().get(0));
+        findList.forEach(each -> log.info("delete list: {}", each.toString()));
+
+        roadmapStudyRepository.deleteAll(findList);
 
     }
     private boolean isActiveUser(User user) { //-> user가 write 작업할 때 사용해야할 메서드
