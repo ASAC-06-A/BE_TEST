@@ -6,6 +6,7 @@ import com.asac.study_hub.controller.dto.common.BaseResponse;
 import com.asac.study_hub.controller.dto.common.SuccessType;
 import com.asac.study_hub.controller.dto.roadmapDto.RoadmapRequestDto;
 import com.asac.study_hub.controller.dto.roadmapDto.RoadmapResponseDto;
+import com.asac.study_hub.controller.dto.roadmapDto.UpdateRoadmapRequestDto;
 import com.asac.study_hub.controller.dto.studyDto.StudyIdRequestDto;
 import com.asac.study_hub.domain.User;
 import com.asac.study_hub.service.RoadmapService;
@@ -65,6 +66,13 @@ public class RoadmapController {
         User user = SessionProvider.getValidUser(cookie.getValue(), request);
         roadmapService.deleteAllStudy(user, roadmapId, studyIdList);
         return BaseResponse.success(SuccessType.DELETE_STUDY_TO_ROADMAP, null);
+    }
+
+    @PatchMapping("/{roadmapId}")
+    public BaseResponse<Void> updateRoadmap(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request, @RequestBody UpdateRoadmapRequestDto updateRoadmapRequestDto, @PathVariable Integer roadmapId) {
+        User user  = SessionProvider.getValidUser(cookie.getValue(), request);
+        roadmapService.update(user, roadmapId, updateRoadmapRequestDto);
+        return BaseResponse.success(SuccessType.UPDATE_ROADMAP, null);
     }
 
 }
