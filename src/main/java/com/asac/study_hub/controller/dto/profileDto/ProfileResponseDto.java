@@ -17,9 +17,8 @@ public class ProfileResponseDto {
     Integer userId;
     String name;
     String email;
-    String password; //password가 들어갈 필요가 있나? 클라이언트로 넘겨줄 이유가 없다고 생각 -> 정현님과 협의
-    Status status; //status같은 경우도 서버쪽에서만 알아도 된다고 생각
-    //네트워크 통해서 정보를 넘기는 것이므로 민감한 정보는 최대한 제외
+    String password;
+    Status status;
 
     private ProfileResponseDto(User user) {
         this.userId = user.getId();

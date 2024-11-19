@@ -20,14 +20,15 @@ public class User {
     String email;
     String password;
 
+
     public void update(User newUser) {
         this.name = Optional.ofNullable(newUser.getName()).orElse(this.name);
-        this.email = Optional.ofNullable(newUser.getEmail()).orElse(this.email);
         this.password = Optional.ofNullable(newUser.getPassword()).orElse(this.password);
+
     }
 
-    public void delete() {
-        this.status = Status.DELETED;
+    public void logout() {
+        this.status = Status.INACTIVE;
     }
 
     Status status;

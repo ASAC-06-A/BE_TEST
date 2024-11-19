@@ -1,5 +1,4 @@
 package com.asac.study_hub.service;
-
 import com.asac.study_hub.controller.dto.profileDto.ProfileRequestDto;
 import com.asac.study_hub.controller.dto.profileDto.ProfileUpdateRequestDto;
 import com.asac.study_hub.domain.User;
@@ -24,20 +23,15 @@ public class ProfileService {
             .orElseThrow(() -> new CustomException(
                 ExceptionType.NOT_FOUNT_USER_BY_ID, willUpdateUser.getId()));
         User newUser = requestDto.to();
-
-//        if (!checkAuthorization(user, newUser)) {
-//            throw new CustomException(ExceptionType.INVALID_ACCESS);
-//        }
         userRepository.updateUser(user, newUser);
     }
 
     public void deleteUser(User user) {
-        userRepository.deleteUser(user);
+        userRepository.delete(user);
     }
 
-//    private boolean checkAuthorization(User user, User newUser) {
-//        //수정할 권한이 있는지 확인
-//        return user.getId().equals(newUser.getId());
-//    }
+    public void logoutUser(User user) {
+        userRepository.logoutUser(user);
+    }
 
 }
