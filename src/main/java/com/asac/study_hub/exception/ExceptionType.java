@@ -25,6 +25,7 @@ public enum ExceptionType {
     NOT_FOUNT_USER_BY_EMAIL(HttpStatus.NOT_FOUND, "해당 email로 가입된 유저가 없습니다. email: ", "not found user by email", Level.WARN),
     NOT_FOUNT_USER_BY_ID(HttpStatus.NOT_FOUND, "해당 id의 유저가 없습니다. id: ", "not found user by id", Level.WARN),
     INVALID_AUTHORIZATION(HttpStatus.UNAUTHORIZED, "권한이 없는 접근입니다.", "Invalid Authorization", Level.WARN),
+    NOT_EXIST_STUDY(HttpStatus.BAD_REQUEST, "로드랩에 삭제할 스터디가 존재하지 않습니다", "not exist study", Level.WARN),
 
     INVALID_ACCESS(HttpStatus.NOT_FOUND, "잘못된 접근 입니다.", "Invalid access", Level.WARN),
     INVALID_USER(HttpStatus.BAD_REQUEST, "유효하지 않은 사용자 입니다. status: " , "Invalid User", Level.WARN),

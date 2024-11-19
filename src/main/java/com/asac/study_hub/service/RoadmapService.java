@@ -108,8 +108,25 @@ public class RoadmapService {
 
     }
 
+    public void deleteAllStudy(User user, Integer roadmapId, StudyIdRequestDto studyIdList) {
+        if (!isActiveUser(user)) {
+            throw new CustomException(ExceptionType.INVALID_AUTHORIZATION);
+        }
+
+        //삭제할 study가 없다면
+        Roadmap roadmap = roadmapRepository.findById(roadmapId).orElseThrow(() -> new CustomException(ExceptionType.NOT_FOUND_ROADMAP_BY_ID, roadmapId));
+        List<RoadmapStudy> byRoadmap = roadmapStudyRepository.findByRoadmap(roadmap);
+        byRoadmap.forEach(roadmapStudy -> {
+            if (!studyIdList.getStudyId().contains(roadmapStudy.getStudy().getId())) {
+                throw new CustomException(ExceptionType.NOT_EXIST_STUDY, roadmapStudy.getStudy().getId());
+            }
+        });
+        roadmapStudyRepository.deleteAll(byRoadmap);
+
+    }
     private boolean isActiveUser(User user) { //-> user가 write 작업할 때 사용해야할 메서드
         //로드맵 생성시 사용자 검사하는 이유: 유저가 탈퇴했는데 유저 토큰 혹은 세션이 탈취되서 탈퇴한 후에도 요청을 보내서 로드맵을 생성할 수 있는 가능성이 있음
         return user.getStatus().equals(Status.ACTIVE);
     }
+
 }

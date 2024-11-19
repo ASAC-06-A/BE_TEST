@@ -60,4 +60,11 @@ public class RoadmapController {
         return BaseResponse.success(SuccessType.SAVE_STUDY_TO_ROADMAP, null);
     }
 
+    @DeleteMapping("/{roadmapId}/study")
+    public BaseResponse<Void> deleteStudy(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request, @Valid @RequestBody StudyIdRequestDto studyIdList, @PathVariable Integer roadmapId) {
+        User user = SessionProvider.getValidUser(cookie.getValue(), request);
+        roadmapService.deleteAllStudy(user, roadmapId, studyIdList);
+        return BaseResponse.success(SuccessType.DELETE_STUDY_TO_ROADMAP, null);
+    }
+
 }
