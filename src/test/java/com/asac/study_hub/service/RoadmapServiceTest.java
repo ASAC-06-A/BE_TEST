@@ -41,7 +41,7 @@ class RoadmapServiceTest {
                 .order(1)
                 .build();
         studyRepository.save(study);
-        roadmapRepository.save(new Roadmap(1, "new roadmap", new Category("Backend"), LocalDateTime.now(), LocalDateTime.now(), validUser));
+        roadmapRepository.save(new Roadmap(1, "new roadmap", new Category("Backend"), "desc", LocalDateTime.now(), LocalDateTime.now(), validUser));
 
         Study study2 = Study.builder()
                 .id(101) //인메모리 저장 방식이라 강의 다수 삭제에서 스터디 id 10이랑 겹치면서 다수 삭제 test에서 id = 10인 스터디 삭제해도 이 데이터가 메모리에 남아 있으므로 예외가 터지지 않음
@@ -55,7 +55,7 @@ class RoadmapServiceTest {
                 .order(1)
                 .build();
         studyRepository.save(study2);
-        roadmapRepository.save(new Roadmap(2, "new roadmap", new Category("Backend"), LocalDateTime.now(), LocalDateTime.now(), inactiveUser));
+        roadmapRepository.save(new Roadmap(2, "new roadmap", new Category("Backend"),"desc", LocalDateTime.now(), LocalDateTime.now(), inactiveUser));
 
 
         //when
