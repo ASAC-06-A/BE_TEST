@@ -17,11 +17,12 @@ public class RoadmapRequestDto {
     @NotBlank
     String roadmapTitle;
     String category;
+    String desc;
     LocalDateTime createAt;
     User user;
 
     public Roadmap to() {
-        return new Roadmap(this.id, this.roadmapTitle, new Category(this.category), this.createAt, null, this.user);
+        return new Roadmap(this.id, this.roadmapTitle, new Category(this.category), this.desc, this.createAt, null, this.user);
     }
 
 }

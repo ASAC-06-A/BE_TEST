@@ -16,18 +16,20 @@ public class RoadmapResponseDto {
     Integer roadmapId;
     String roadmapTitle;
     String category;
+    String desc;
     LocalDateTime createAt;
     @Setter
     ListResponseDto<StudyResponseDto> study;
 
     public static RoadmapResponseDto to(Roadmap roadmap) {
-        return new RoadmapResponseDto(roadmap.getId(), roadmap.getRoadmapTitle(), roadmap.getCategory().getCategory(), roadmap.getCreateAt());
+        return new RoadmapResponseDto(roadmap.getId(), roadmap.getRoadmapTitle(), roadmap.getCategory().getCategory(), roadmap.getDescription(), roadmap.getCreateAt());
     }
 
-    public RoadmapResponseDto(Integer roadmapId, String roadmapTitle, String category, LocalDateTime createAt) {
+    public RoadmapResponseDto(Integer roadmapId, String roadmapTitle, String category, String desc, LocalDateTime createAt) {
         this.roadmapId = roadmapId;
         this.roadmapTitle = roadmapTitle;
         this.category = category;
         this.createAt = createAt;
+        this.desc = desc;
     }
 }
