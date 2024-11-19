@@ -28,7 +28,7 @@ public class RoadmapStudyRepository {
 
     public List<RoadmapStudy> findByRoadmap(Roadmap roadmap) {
         return roadmapStudyList.values().stream()
-                .filter(each -> each.equals(roadmap)).toList();
+                .filter(each -> each.getRoadmap().equals(roadmap)).toList();
     }
 
     public void deleteAll(List<RoadmapStudy> roadmapStudys) {
