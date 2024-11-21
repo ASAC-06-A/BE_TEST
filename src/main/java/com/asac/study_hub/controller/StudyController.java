@@ -84,4 +84,12 @@ public class StudyController {
         ListResponseDto<StudyResponseDto> studyResponseDto = studyService.findAll(user);
         return BaseResponse.success(SuccessType.GET_ALL_STUDY, studyResponseDto);
     }
+
+    @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+    @DeleteMapping("/{studyId}")
+    public BaseResponse<Void> deleteById(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request, @PathVariable Integer studyId) {
+        User user = SessionProvider.getValidUser(cookie.getValue(), request);
+        studyService.deleteById(user, studyId);
+        return BaseResponse.success(SuccessType.DELETE_BY_STUDY_ID, null);
+    }
 }

@@ -97,4 +97,12 @@ public class StudyService {
         studyRepository.deleteAll(findStudyList);
     }
 
+    public void deleteById(User user, Integer studyId) {
+        Study study = studyRepository.findById(studyId).orElseThrow(() -> new CustomException(ExceptionType.NOT_FOUND_STUDY_BY_ID));
+        if (!checkAuthorization(user, study)) {
+            throw new CustomException(ExceptionType.INVALID_AUTHORIZATION);
+        }
+        studyRepository.delete(study);
+    }
+
 }
