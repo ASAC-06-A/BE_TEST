@@ -65,7 +65,7 @@ public class RoadmapRepository {
         }
 
         roadmapList.clear();
-        for (Roadmap study : roadmapList.values()) {
+        for (Roadmap study : tempList.values()) {
             roadmapList.put(id++, study);
         }
     }
