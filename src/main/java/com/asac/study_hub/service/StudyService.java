@@ -2,6 +2,7 @@ package com.asac.study_hub.service;
 
 import com.asac.study_hub.controller.dto.ListResponseDto;
 import com.asac.study_hub.controller.dto.ResponseIdDto;
+import com.asac.study_hub.controller.dto.StudyIdListRequestDto;
 import com.asac.study_hub.controller.dto.studyDto.StudyRequestDto;
 import com.asac.study_hub.controller.dto.studyDto.StudyResponseDto;
 import com.asac.study_hub.domain.Study;
@@ -85,9 +86,9 @@ public class StudyService {
         return study.getUser().equals(user);
     }
 
-    public void deleteAll(User user, List<Integer> ids) {
+    public void deleteAll(User user, StudyIdListRequestDto ids) {
         List<Study> findStudyList = new ArrayList<>();
-        ids.forEach((id) -> {
+        ids.getStudyIdList().forEach((id) -> {
                     Study findStudy = studyRepository.findByIdAndUser(id, user)
                             .orElseThrow(() -> new CustomException(ExceptionType.NOT_FOUND_STUDY_BY_ID));
                     findStudyList.add(findStudy);

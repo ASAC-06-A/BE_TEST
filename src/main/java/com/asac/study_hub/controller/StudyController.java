@@ -2,6 +2,7 @@ package com.asac.study_hub.controller;
 
 import com.asac.study_hub.controller.dto.ListResponseDto;
 import com.asac.study_hub.controller.dto.ResponseIdDto;
+import com.asac.study_hub.controller.dto.StudyIdListRequestDto;
 import com.asac.study_hub.controller.dto.common.BaseResponse;
 import com.asac.study_hub.controller.dto.common.SuccessType;
 import com.asac.study_hub.controller.dto.studyDto.StudyRequestDto;
@@ -70,7 +71,7 @@ public class StudyController {
   
     @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
     @PostMapping("/delete")
-    public BaseResponse<Void> deleteAll(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request, @RequestBody List<Integer> id) {
+    public BaseResponse<Void> deleteAll(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request, @RequestBody StudyIdListRequestDto id) {
         User user = SessionProvider.getValidUser(cookie.getValue(), request);
         studyService.deleteAll(user, id);
         return BaseResponse.success(SuccessType.DELETE_ALL_SUCCESS, null);
