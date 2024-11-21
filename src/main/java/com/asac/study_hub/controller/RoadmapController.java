@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
 public class RoadmapController {
     RoadmapService roadmapService;
 
-    @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+    @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
     @GetMapping
     public BaseResponse<ListResponseDto<RoadmapResponseDto>> findAll(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request) {
         User user = SessionProvider.getValidUser(cookie.getValue(), request);
@@ -34,7 +34,7 @@ public class RoadmapController {
         return BaseResponse.success(SuccessType.GET_ALL_ROADMAP, responseDto);
     }
 
-    @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+    @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
     @GetMapping("/{roadmapId}")
     public BaseResponse<RoadmapResponseDto> findById(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request, @PathVariable Integer roadmapId) {
         User user = SessionProvider.getValidUser(cookie.getValue(), request);
@@ -42,7 +42,7 @@ public class RoadmapController {
         return BaseResponse.success(SuccessType.GET_ROADMAP, roadmapResponseDto);
     }
 
-    @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+    @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
     @DeleteMapping("/{roadmapId}")
     public BaseResponse<Void> delete(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request, @PathVariable Integer roadmapId) {
         User user = SessionProvider.getValidUser(cookie.getValue(), request);
@@ -50,7 +50,7 @@ public class RoadmapController {
         return BaseResponse.success(SuccessType.DELETE_ROADMAP, null);
     }
 
-    @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+    @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
     @PostMapping
     public BaseResponse<ResponseIdDto> save(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request, @Valid @RequestBody RoadmapRequestDto roadmapRequestDto) {
         User user = SessionProvider.getValidUser(cookie.getValue(), request);
@@ -58,7 +58,7 @@ public class RoadmapController {
         return BaseResponse.success(SuccessType.CREATE, id);
     }
 
-    @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+    @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
     @PostMapping("/{roadmapId}/study")
     public BaseResponse<Void> saveStudy(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request, @Valid @RequestBody StudyIdRequestDto studyIdList, @PathVariable Integer roadmapId) {
         User user = SessionProvider.getValidUser(cookie.getValue(), request);
@@ -66,7 +66,7 @@ public class RoadmapController {
         return BaseResponse.success(SuccessType.SAVE_STUDY_TO_ROADMAP, null);
     }
 
-    @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+    @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
     @DeleteMapping("/{roadmapId}/study")
     public BaseResponse<Void> deleteStudy(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request, @Valid @RequestBody StudyIdRequestDto studyIdList, @PathVariable Integer roadmapId) {
         User user = SessionProvider.getValidUser(cookie.getValue(), request);
@@ -74,7 +74,7 @@ public class RoadmapController {
         return BaseResponse.success(SuccessType.DELETE_STUDY_TO_ROADMAP, null);
     }
 
-    @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+    @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
     @PatchMapping("/{roadmapId}")
     public BaseResponse<Void> updateRoadmap(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request, @RequestBody UpdateRoadmapRequestDto updateRoadmapRequestDto, @PathVariable Integer roadmapId) {
         User user  = SessionProvider.getValidUser(cookie.getValue(), request);

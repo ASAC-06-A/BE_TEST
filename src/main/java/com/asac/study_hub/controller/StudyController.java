@@ -36,7 +36,7 @@ public class StudyController {
         return BaseResponse.success(SuccessType.GET_ALL_STUDY, studyResponseDto);
     }*/
 
-    @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+    @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
     @GetMapping("/{id}")
     public BaseResponse<StudyResponseDto> getStudy(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request, @Valid @PathVariable Integer id) {
         User user = SessionProvider.getValidUser(cookie.getValue(), request);
@@ -44,7 +44,7 @@ public class StudyController {
         return BaseResponse.success(SuccessType.GET_STUDY, studyResponseDto);
     }
 
-    @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+    @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
     @PostMapping
     public BaseResponse<ResponseIdDto> save(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request, @Valid @RequestBody StudyRequestDto studyRequestDto) {
         User user = SessionProvider.getValidUser(cookie.getValue(), request);
@@ -61,15 +61,15 @@ public class StudyController {
     }*/
 
     //부분 수정
-    @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+    @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
     @PatchMapping("/{id}")
     public BaseResponse<StudyResponseDto> update(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request, @PathVariable Integer id, @Valid @RequestBody StudyRequestDto studyRequestDto){
         User user = SessionProvider.getValidUser(cookie.getValue(), request);
         studyService.update(id, studyRequestDto, user);
         return BaseResponse.success(SuccessType.UPDATE_SUCCESS, null);
     }
-  
-    @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+
+    @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
     @PostMapping("/delete")
     public BaseResponse<Void> deleteAll(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request, @RequestBody StudyIdListRequestDto id) {
         User user = SessionProvider.getValidUser(cookie.getValue(), request);
@@ -77,7 +77,7 @@ public class StudyController {
         return BaseResponse.success(SuccessType.DELETE_ALL_SUCCESS, null);
     }
 
-    @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+    @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
     @GetMapping
     public BaseResponse<ListResponseDto<StudyResponseDto>> getStudy(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request) {
         User user = SessionProvider.getValidUser(cookie.getValue(), request);
