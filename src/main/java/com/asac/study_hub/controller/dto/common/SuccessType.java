@@ -40,7 +40,8 @@ public enum SuccessType {
 
     SAVE_STUDY_TO_ROADMAP(HttpStatus.OK, "로드멥에 강의 추가 성공"),
     DELETE_STUDY_TO_ROADMAP(HttpStatus.OK, "로드맵에 강의 삭제 성공"),
-    UPDATE_ROADMAP(HttpStatus.OK, "로드맵 수정 성공");
+    UPDATE_ROADMAP(HttpStatus.OK, "로드맵 수정 성공"),
+    DELETE_BY_STUDY_ID(HttpStatus.OK, "단일 강의 삭제");
 
     HttpStatus status;
     String message;

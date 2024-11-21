@@ -19,4 +19,5 @@ public interface StudyIRepository {
     void deleteAll(List<Study> study);
     Optional<Study> findByIdAndUser(Integer id, User user);
     Integer getStudyId();
+    void delete(Study study);
 }

@@ -132,4 +132,9 @@ public class StudyRepository implements StudyIRepository{
                 .filter((study) -> id.equals(study.getId()) && user.equals(study.getUser()))
                 .findAny();
     }
+
+    public void delete(Study study) {
+        studyList.values().remove(study);
+        reassignId();
+    }
 }
