@@ -16,11 +16,33 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest #이후에 도커에 배포하면 OS환경 우분투로 통일
     permissions:
       contents: read
 
     steps:
+
+    - name: Shutdown Ubuntu MySQL (SUDO)
+      run: sudo service mysql stop
+
+    - name: Set up MySQL
+      uses: mirromutth/mysql-action@v1.1
+      with:
+        host port: 33066
+        container port: 3306
+        mysql version: '8.0'
+        character set server: 'utf8'
+        mysql database: 'study_hub'
+        mysql user: ${{ secrets.DB_USERNAME }}
+        mysql root password: ${{ secrets.DB_ROOT_PASSWORD }}
+        mysql password: ${{ secrets.DB_PASSWORD }}
+
+    - name: Set YML
+      run: |
+          mkdir -p src/main/resources
+          echo "${{ secrets.APPLICATION_YML }}" | base64 --decode > src/main/resources/application.yml
+          find src
+
     - uses: actions/checkout@v4
     - name: Set up JDK 17
       uses: actions/setup-java@v4
@@ -35,6 +57,10 @@ jobs:
 
     - name: Build with Gradle Wrapper
       run: ./gradlew build
+      env:
+        DB_NAME: ${{ secrets.DB_NAME }}
+        DB_USERNAME: ${{ secrets.DB_USERNAME }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
     # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
     # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
