@@ -1,15 +1,23 @@
 package com.asac.study_hub.repository;
 
-import com.asac.study_hub.domain.User;
+import jakarta.persistence.Entity;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface IRepository {
+public interface IRepository<I, E> {
 
-    User save(User user);
-    Optional<User> findById(Integer id);
-    List<User> findAll();
-    void update(User user);
-    void delete(User user);
+    E save(E entity);
+    Optional<E> findById(I id);
+    Optional<E> find(E entity);
+    List<E> findAll();
+    void update(E entity);
+    void delete(E entity);
+    default Optional<E> findByEntity(Entity o) {
+        return null;
+    }
+
+    default Optional<E> findByIdAndEntity(Entity o) {
+        return null;
+    }
 }
