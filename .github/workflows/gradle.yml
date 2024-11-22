@@ -37,6 +37,9 @@ jobs:
         mysql root password: ${{ secrets.DB_ROOT_PASSWORD }}
         mysql password: ${{ secrets.DB_PASSWORD }}
 
+
+    - uses: actions/checkout@v4
+      
     - name: Set YML
       run: |
         sudo mkdir ./src/main/resources
