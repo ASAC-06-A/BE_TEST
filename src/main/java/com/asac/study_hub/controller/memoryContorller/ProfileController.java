@@ -1,11 +1,11 @@
-package com.asac.study_hub.controller;
+package com.asac.study_hub.controller.memoryContorller;
 
 import com.asac.study_hub.controller.dto.common.BaseResponse;
 import com.asac.study_hub.controller.dto.common.SuccessType;
 import com.asac.study_hub.controller.dto.profileDto.ProfileResponseDto;
 import com.asac.study_hub.controller.dto.profileDto.ProfileUpdateRequestDto;
 import com.asac.study_hub.domain.User;
-import com.asac.study_hub.service.ProfileService;
+import com.asac.study_hub.service.memoryService.ProfileService;
 import com.asac.study_hub.util.SessionProvider;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,7 +16,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+//@RestController
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 @RequestMapping("/profile")
@@ -39,7 +39,7 @@ public class ProfileController {
         HttpServletRequest request,
         @Valid @RequestBody ProfileUpdateRequestDto requestDto) {
         User user = SessionProvider.getValidUser(cookie.getValue(), request);
-        profileService.updateUser(user, requestDto);
+//        profileService.updateUser(user, requestDto);
         return BaseResponse.success(SuccessType.UPDATE_PROFILE_SUCCESS, null);
     }
 
@@ -48,7 +48,7 @@ public class ProfileController {
     public BaseResponse<Void> deleteProfile(@CookieValue("JSESSIONID") Cookie cookie,
         HttpServletRequest request) {
         User user = SessionProvider.getValidUser(cookie.getValue(), request);
-        profileService.deleteUser(user);
+//        profileService.deleteUser(user);
         return BaseResponse.success(SuccessType.DELETE_PROFILE, null);
     }
 

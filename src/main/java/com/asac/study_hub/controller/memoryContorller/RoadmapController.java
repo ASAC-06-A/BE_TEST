@@ -1,4 +1,4 @@
-package com.asac.study_hub.controller;
+package com.asac.study_hub.controller.memoryContorller;
 
 import com.asac.study_hub.controller.dto.ListResponseDto;
 import com.asac.study_hub.controller.dto.ResponseIdDto;
@@ -9,7 +9,7 @@ import com.asac.study_hub.controller.dto.roadmapDto.RoadmapResponseDto;
 import com.asac.study_hub.controller.dto.roadmapDto.UpdateRoadmapRequestDto;
 import com.asac.study_hub.controller.dto.studyDto.StudyIdRequestDto;
 import com.asac.study_hub.domain.User;
-import com.asac.study_hub.service.RoadmapService;
+import com.asac.study_hub.service.memoryService.RoadmapService;
 import com.asac.study_hub.util.SessionProvider;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,7 +20,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/roadmap")
-@RestController
+//@RestController
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class RoadmapController {

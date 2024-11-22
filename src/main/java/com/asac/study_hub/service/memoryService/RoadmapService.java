@@ -1,4 +1,4 @@
-package com.asac.study_hub.service;
+package com.asac.study_hub.service.memoryService;
 
 import com.asac.study_hub.controller.dto.ListResponseDto;
 import com.asac.study_hub.controller.dto.ResponseIdDto;
@@ -10,19 +10,18 @@ import com.asac.study_hub.controller.dto.studyDto.StudyResponseDto;
 import com.asac.study_hub.domain.*;
 import com.asac.study_hub.exception.CustomException;
 import com.asac.study_hub.exception.ExceptionType;
-import com.asac.study_hub.repository.RoadmapRepository;
-import com.asac.study_hub.repository.RoadmapStudyRepository;
-import com.asac.study_hub.repository.StudyRepository;
+import com.asac.study_hub.repository.memoryRepository.RoadmapRepository;
+import com.asac.study_hub.repository.memoryRepository.RoadmapStudyRepository;
+import com.asac.study_hub.repository.memoryRepository.StudyRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+//@Service
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 @Slf4j

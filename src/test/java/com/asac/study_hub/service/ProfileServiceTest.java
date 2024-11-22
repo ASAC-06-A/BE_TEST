@@ -5,8 +5,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.asac.study_hub.controller.dto.profileDto.ProfileUpdateRequestDto;
 import com.asac.study_hub.domain.UserStatus;
 import com.asac.study_hub.domain.User;
-import com.asac.study_hub.repository.UserRepository;
+import com.asac.study_hub.repository.memoryRepository.UserRepository;
 import java.util.logging.Logger;
+
+import com.asac.study_hub.service.memoryService.ProfileService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

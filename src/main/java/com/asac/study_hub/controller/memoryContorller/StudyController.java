@@ -1,4 +1,4 @@
-package com.asac.study_hub.controller;
+package com.asac.study_hub.controller.memoryContorller;
 
 import com.asac.study_hub.controller.dto.ListResponseDto;
 import com.asac.study_hub.controller.dto.ResponseIdDto;
@@ -8,7 +8,7 @@ import com.asac.study_hub.controller.dto.common.SuccessType;
 import com.asac.study_hub.controller.dto.studyDto.StudyRequestDto;
 import com.asac.study_hub.controller.dto.studyDto.StudyResponseDto;
 import com.asac.study_hub.domain.User;
-import com.asac.study_hub.service.StudyService;
+import com.asac.study_hub.service.memoryService.StudyService;
 import com.asac.study_hub.util.SessionProvider;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,9 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@RestController
+//@RestController
 @RequestMapping("/study")
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 @RequiredArgsConstructor
