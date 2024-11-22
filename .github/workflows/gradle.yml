@@ -39,9 +39,9 @@ jobs:
 
     - name: Set YML
       run: |
-          mkdir -p src/main/resources
-          echo "${{ secrets.APPLICATION_YML }}" | base64 --decode > src/main/resources/application.yml
-          find src
+        cd ./src/main/resources
+        touch ./application.yml
+        echo "${{ secrets.APPLICATION_YML }}" > ./application.yml
 
     - uses: actions/checkout@v4
     - name: Set up JDK 17
