@@ -45,7 +45,7 @@ jobs:
         sudo mkdir ./src/main/resources
         cd ./src/main/resources
         sudo touch ./application.yml
-        sudo chmod +x script.sh
+        sudo chmod +x application.yml
         echo "${{ secrets.APPLICATION_YML }}" > ./application.yml
 
     - name: Set up JDK 17
