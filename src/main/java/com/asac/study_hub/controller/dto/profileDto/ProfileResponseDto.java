@@ -1,6 +1,6 @@
 package com.asac.study_hub.controller.dto.profileDto;
 
-import com.asac.study_hub.domain.Status;
+import com.asac.study_hub.domain.UserStatus;
 import com.asac.study_hub.domain.User;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -18,14 +18,14 @@ public class ProfileResponseDto {
     String name;
     String email;
     String password;
-    Status status;
+    UserStatus status;
 
     private ProfileResponseDto(User user) {
-        this.userId = user.getId();
-        this.name = user.getName();
+        this.userId = user.getUserId();
+//        this.name = user.getUsername();
         this.email = user.getEmail();
         this.password = user.getPassword();
-        this.status = user.getStatus();
+        this.status = user.getUserStatus();
     }
 
     public static ProfileResponseDto of(User user) {

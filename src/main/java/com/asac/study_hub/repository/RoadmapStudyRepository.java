@@ -15,7 +15,7 @@ public class RoadmapStudyRepository {
 
     public Integer save(RoadmapStudy roadmapStudy) {
         generateId();
-        roadmapStudy.setId(roadmapStudyId);
+//        roadmapStudy.setId(roadmapStudyId);
         roadmapStudyList.put(roadmapStudyId, roadmapStudy);
         log.info("roadmapStudyId: {}", roadmapStudyId);
         return roadmapStudy.getId();

@@ -19,9 +19,9 @@ public class ProfileService {
     UserRepository userRepository;
 
     public void updateUser(User willUpdateUser, /*Integer id*/ ProfileUpdateRequestDto requestDto) {
-        User user = Optional.ofNullable(userRepository.findByUserId(willUpdateUser.getId()))
+        User user = Optional.ofNullable(userRepository.findByUserId(willUpdateUser.getUserId()))
             .orElseThrow(() -> new CustomException(
-                ExceptionType.NOT_FOUNT_USER_BY_ID, willUpdateUser.getId()));
+                ExceptionType.NOT_FOUNT_USER_BY_ID, willUpdateUser.getUserId()));
         User newUser = requestDto.to();
         userRepository.updateUser(user, newUser);
     }

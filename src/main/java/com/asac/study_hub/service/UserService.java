@@ -3,7 +3,6 @@ package com.asac.study_hub.service;
 import com.asac.study_hub.controller.dto.userDto.signinDto.SigninRequestDto;
 import com.asac.study_hub.controller.dto.userDto.UserResponseDto;
 import com.asac.study_hub.controller.dto.userDto.signupDto.SignupRequestDto;
-import com.asac.study_hub.domain.Status;
 import com.asac.study_hub.domain.User;
 import com.asac.study_hub.exception.CustomException;
 import com.asac.study_hub.exception.ExceptionType;

@@ -1,6 +1,6 @@
 package com.asac.study_hub.repository;
 
-import com.asac.study_hub.domain.Status;
+import com.asac.study_hub.domain.UserStatus;
 import com.asac.study_hub.domain.User;
 import com.asac.study_hub.exception.CustomException;
 import com.asac.study_hub.exception.ExceptionType;
@@ -18,29 +18,29 @@ public class UserRepository implements IRepository {
     User user;
 
     private static final HashMap<Integer, User> users;
-    private static final HashMap<String, User> sessionStorage;
+//    private static final HashMap<String, User> sessionStorage;
 
     static {
         users = new HashMap<>();
-        users.put(1,
-            new User(1, "김정현", "solee3020@gmail.com", "solee6810", /* new Category("FrontEnd"),
-                "나는 김정현. 탐정이죠", */Status.ACTIVE));
-        users.put(2, new User(2, "김지연", "jykim9335@gmail.com", "asas5656", /* new Category("BackEnd"),
-            "나는 김지연. 탐정이죠", */Status.ACTIVE));
-
-        sessionStorage = new HashMap<>();
+//        users.put(1,
+//            new User(1, "김정현", "solee3020@gmail.com", "solee6810", /* new Category("FrontEnd"),
+//                "나는 김정현. 탐정이죠", */UserStatus.ACTIVE));
+//        users.put(2, new User(2, "김지연", "jykim9335@gmail.com", "asas5656", /* new Category("BackEnd"),
+//            "나는 김지연. 탐정이죠", */UserStatus.ACTIVE));
+//
+//        sessionStorage = new HashMap<>();
     }
 
     public User save(User user) {
         users.put(users.size() + 1, user);
         return user;
     }
-
-    public String saveSession(String sessionId, User user) {
-        sessionStorage.put(sessionId, user);
-
-        return sessionId;
-    }
+//
+//    public String saveSession(String sessionId, User user) {
+//        sessionStorage.put(sessionId, user);
+//
+//        return sessionId;
+//    }
 
     public Optional<User> findById(Integer id) {
         return Optional.empty();
@@ -57,9 +57,9 @@ public class UserRepository implements IRepository {
     //private String searchSessionId(){}
 
 
-    public User searchMyProfile(String sessionId) {
-        return sessionStorage.get(sessionId);
-    }
+//    public User searchMyProfile(String sessionId) {
+//        return sessionStorage.get(sessionId);
+//    }
 
 
     /**
@@ -80,7 +80,7 @@ public class UserRepository implements IRepository {
 
     public User findByUserId(Integer id) {
         User findUser = users.values().stream()
-            .filter((user) -> id.equals(user.getId()))
+            .filter((user) -> id.equals(user.getUserId()))
             .findAny()
             .orElseThrow(() -> new CustomException(ExceptionType.NOT_FOUNT_USER_BY_ID, id));
         return findUser;

@@ -1,7 +1,7 @@
 package com.asac.study_hub.repository;
 
 import com.asac.study_hub.domain.Category;
-import com.asac.study_hub.domain.Status;
+import com.asac.study_hub.domain.UserStatus;
 import com.asac.study_hub.domain.Study;
 import com.asac.study_hub.domain.User;
 import lombok.AccessLevel;
@@ -29,39 +29,39 @@ public class StudyRepository implements StudyIRepository{
 
     static {
         studyList = new HashMap<>();
-        User user = new User(1, "jiyeon", "jiyeon@gmail.com", "jiyeon7890", Status.ACTIVE);
+//        User user = new User(1, "jiyeon", "jiyeon@gmail.com", "jiyeon7890", UserStatus.ACTIVE);
         studyList.put(1, Study.builder()
-                .id(1)
-                .category(new Category("Backend"))
-                .title("spring basic1")
+                .studyId(1)
+//                .category(new Category("Backend"))
+//                .title("spring basic1")
                 .studyLink("https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%9E%85%EB%AC%B8-%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8/dashboard")
                 .description("인프런 스프링 기초 강의")
-                .user(user)
+//                .user(user)
                 .createAt(LocalDateTime.now())
                 .updateAt(LocalDateTime.now())
-                .order(1)
+//                .order(1)
                 .build());
         studyList.put(2, Study.builder()
-                .id(2)
-                .category(new Category("Backend"))
-                .title("spring basic2")
+                .studyId(2)
+//                .category(new Category("Backend"))
+//                .title("spring basic2")
                 .studyLink("https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%9E%85%EB%AC%B8-%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8/dashboard")
                 .description("인프런 스프링 기초 강의")
-                .user(user)
+//                .user(user)
                 .createAt(LocalDateTime.now())
                 .updateAt(LocalDateTime.now())
-                .order(2)
+//                .order(2)
                 .build());
         studyList.put(3, Study.builder()
-                .id(3)
-                .category(new Category("Backend"))
-                .title("spring basic3")
+                .studyId(3)
+//                .category(new Category("Backend"))
+//                .title("spring basic3")
                 .studyLink("https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%9E%85%EB%AC%B8-%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8/dashboard")
                 .description("인프런 스프링 기초 강의")
-                .user(user)
+//                .user(user)
                 .createAt(LocalDateTime.now())
                 .updateAt(LocalDateTime.now())
-                .order(3)
+//                .order(3)
                 .build());
 
     }
@@ -77,7 +77,7 @@ public class StudyRepository implements StudyIRepository{
 
     public Optional<Study> findById(Integer studyId) {
 
-        return studyList.values().stream().filter((study) -> studyId.equals(study.getId())).findFirst();
+        return studyList.values().stream().filter((study) -> studyId.equals(study.getStudyId())).findFirst();
     }
 
     public Integer save(Study study) {
@@ -100,7 +100,7 @@ public class StudyRepository implements StudyIRepository{
 
     public List<Study> findByCategory(String category) {
         return studyList.values().stream()
-                .filter((study) -> category.equals(study.getCategory().getCategory()))
+//                .filter((study) -> category.equals(study.getCategory().getCategory()))
                 .toList();
     }
 
@@ -129,7 +129,7 @@ public class StudyRepository implements StudyIRepository{
 
     public Optional<Study> findByIdAndUser(Integer id, User user) {
         return studyList.values().stream()
-                .filter((study) -> id.equals(study.getId()) && user.equals(study.getUser()))
+                .filter((study) -> id.equals(study.getStudyId()) && user.equals(study.getUser()))
                 .findAny();
     }
 

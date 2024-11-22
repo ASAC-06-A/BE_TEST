@@ -15,6 +15,6 @@ public class UpdateRoadmapRequestDto {
     private String desc;
 
     public Roadmap to() {
-        return new Roadmap(this.roadmapTitle, new Category(this.category), this.desc);
+        return new Roadmap(this.roadmapTitle, this.category, this.desc);
     }
 }

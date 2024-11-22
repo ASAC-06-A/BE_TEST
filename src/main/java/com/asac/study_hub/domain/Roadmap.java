@@ -1,9 +1,7 @@
 package com.asac.study_hub.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -11,16 +9,26 @@ import java.util.Optional;
 @AllArgsConstructor
 @Getter
 @ToString
+@Entity
+@NoArgsConstructor
 public class Roadmap {
     //Roadmap:Study = N:M -> 별도 테이블 필요
-    @Setter
-    Integer id;
-    String roadmapTitle;
-    Category category;
-    String description;
-    LocalDateTime createAt;
-    LocalDateTime updateAt;
-    User user; //FK
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer roadmapId;
+
+    @Column(length = 20, nullable=false)
+    private String roadmapTitle;
+    @Column(length = 10)
+    private String category;
+    @Column(columnDefinition = "TEXT")
+    private String description;
+    private LocalDateTime createAt;
+    private LocalDateTime updateAt;
+
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
 
     public void update(Roadmap newRoadmap) {
         this.roadmapTitle = Optional.ofNullable(newRoadmap.getRoadmapTitle()).orElse(this.roadmapTitle);
@@ -29,7 +37,7 @@ public class Roadmap {
         this.updateAt = LocalDateTime.now();
     }
 
-    public Roadmap(String roadmapTitle, Category category, String description) {
+    public Roadmap(String roadmapTitle, String category, String description) {
         this.roadmapTitle = roadmapTitle;
         this.category = category;
         this.description = description;

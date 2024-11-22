@@ -1,6 +1,6 @@
 package com.asac.study_hub.util;
 
-import com.asac.study_hub.domain.Status;
+import com.asac.study_hub.domain.UserStatus;
 import com.asac.study_hub.domain.User;
 import com.asac.study_hub.exception.CustomException;
 import com.asac.study_hub.exception.ExceptionType;
@@ -21,7 +21,7 @@ class SessionProviderTest {
     @Test
     void createSession() {
         //given
-        User user = new User(10, "김지연", "example@gmail.com", "1234", Status.ACTIVE);
+        User user = new User(10, "김지연", "example@gmail.com", "1234", UserStatus.ACTIVE);
         MockHttpServletRequest req = new MockHttpServletRequest("GET", "/study");
 
         //when
@@ -36,7 +36,7 @@ class SessionProviderTest {
     @Test
     void expiredSession() throws InterruptedException {
         //given
-        User user = new User(10, "김지연", "example@gmail.com", "1234", Status.ACTIVE);
+        User user = new User(10, "김지연", "example@gmail.com", "1234", UserStatus.ACTIVE);
         MockHttpServletRequest req = new MockHttpServletRequest("GET", "/study");
         HttpSession session = SessionProvider.createSession(req, user);
         String sessionId = session.getId(); //탈취된 세션으로 만료시간 후 요청을 보냈을 때 예외 발생
@@ -74,7 +74,7 @@ class SessionProviderTest {
     @Test
     void removeSession() {
         // given: 테스트 준비 단계
-        User user = new User(10, "김지연", "example@gmail.com", "1234", Status.ACTIVE);
+        User user = new User(10, "김지연", "example@gmail.com", "1234", UserStatus.ACTIVE);
         MockHttpServletRequest req = new MockHttpServletRequest("GET", "/study");
 
         // 세션 생성 및 user 저장

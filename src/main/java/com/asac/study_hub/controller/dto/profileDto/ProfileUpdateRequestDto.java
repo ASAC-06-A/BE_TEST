@@ -21,7 +21,7 @@ public class ProfileUpdateRequestDto {
 
     public User to() {
         return User.builder()
-                .name(this.username)
+//                .name(this.username)
                 .password(this.password)
                 .build();
     }

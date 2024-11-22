@@ -1,6 +1,6 @@
 package com.asac.study_hub.controller.dto.userDto.signupDto;
 
-import com.asac.study_hub.domain.Status;
+import com.asac.study_hub.domain.UserStatus;
 import com.asac.study_hub.domain.User;
 import jakarta.validation.constraints.*;
 import lombok.AccessLevel;
@@ -28,6 +28,6 @@ public class SignupRequestDto {
     String password;
 
     public static User of(SignupRequestDto userDto) {
-        return new User(userDto.getId(), userDto.getUserName(), userDto.getEmail(), userDto.getPassword(), Status.ACTIVE);
+        return new User(userDto.getId(), userDto.getEmail(), userDto.getPassword(), UserStatus.ACTIVE);
     }
 }

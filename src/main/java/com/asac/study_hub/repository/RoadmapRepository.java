@@ -38,10 +38,10 @@ public class RoadmapRepository {
 
     public Integer save(Roadmap roadmap) {
         idGenerator();
-        roadmap.setId(roadmapId);
+//        roadmap.setId(roadmapId);
         roadmapList.put(roadmapList.size() + 1, roadmap);
 
-        return roadmap.getId();
+        return roadmap.getRoadmapId();
     }
 
     public Optional<Roadmap> find(Roadmap roadmap) {
@@ -49,7 +49,7 @@ public class RoadmapRepository {
     }
 
     public Optional<Roadmap> findById(Integer roadmapId) {
-        return roadmapList.values().stream().filter(each -> each.getId().equals(roadmapId)).findFirst();
+        return roadmapList.values().stream().filter(each -> each.getRoadmapId().equals(roadmapId)).findFirst();
     }
 
     public void delete(Roadmap roadmap) {

@@ -22,7 +22,7 @@ public class ProfileRequestDto {
 
     public User to() {
         return User.builder()
-            .name(this.username)
+//            .username(this.username)
             .password(this.password)
             .build();
     }

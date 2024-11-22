@@ -1,11 +1,9 @@
 package com.asac.study_hub.domain;
 
 import java.util.Optional;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
+
+import jakarta.persistence.*;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -13,25 +11,28 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @ToString
 @Builder
+@Entity
+@NoArgsConstructor
 public class User {
 
-    Integer id;
-    String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Integer userId;
+    @Column(nullable = false, unique = true)
     String email;
+    @Column(nullable = false)
     String password;
+    @Enumerated(EnumType.STRING)
+    UserStatus userStatus;
 
 
     public void update(User newUser) {
-        this.name = Optional.ofNullable(newUser.getName()).orElse(this.name);
+//        this.name = Optional.ofNullable(newUser.getName()).orElse(this.name); / => 프로필 엔티티로이동
         this.password = Optional.ofNullable(newUser.getPassword()).orElse(this.password);
 
     }
-
     public void logout() {
-        this.status = Status.INACTIVE;
+        this.userStatus = UserStatus.INACTIVE;
     }
-
-    Status status;
-
 
 }

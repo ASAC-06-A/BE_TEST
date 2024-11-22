@@ -6,7 +6,7 @@ import lombok.experimental.FieldDefaults;
 
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
-public enum Status {
+public enum UserStatus {
     ACTIVE("활성화"),
     INACTIVE("비활성화"),
     DELETED("삭제된 데이터");

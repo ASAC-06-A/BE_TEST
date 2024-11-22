@@ -2,9 +2,8 @@ package com.asac.study_hub.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.asac.study_hub.controller.dto.profileDto.ProfileRequestDto;
 import com.asac.study_hub.controller.dto.profileDto.ProfileUpdateRequestDto;
-import com.asac.study_hub.domain.Status;
+import com.asac.study_hub.domain.UserStatus;
 import com.asac.study_hub.domain.User;
 import com.asac.study_hub.repository.UserRepository;
 import java.util.logging.Logger;
@@ -33,7 +32,7 @@ class ProfileServiceTest {
             .username("username")
             .password("123456789")
             .build();
-        User user = new User(40, "user", "user@gmail.com", "12345678", Status.ACTIVE);
+        User user = new User(40, "user", "user@gmail.com", "12345678", UserStatus.ACTIVE);
         userRepository.save(user);
 
         //when
@@ -56,7 +55,7 @@ class ProfileServiceTest {
                 .username("username")
                 .build();
 
-        User user = new User(40, "user", "user@gmail.com", "12345678", Status.ACTIVE);
+        User user = new User(40, "user", "user@gmail.com", "12345678", UserStatus.ACTIVE);
         userRepository.save(user);
 
         //when
@@ -70,7 +69,7 @@ class ProfileServiceTest {
     @DisplayName("유저 삭제")
     @Test
     void delete() {
-        User user = new User(44, "userDelete", "testDelete@gmail.com", "12345678", Status.ACTIVE);
+        User user = new User(44, "userDelete", "testDelete@gmail.com", "12345678", UserStatus.ACTIVE);
         userRepository.save(user);
 
         logger.info("[before Delete] users is : " + userRepository.findAll());
