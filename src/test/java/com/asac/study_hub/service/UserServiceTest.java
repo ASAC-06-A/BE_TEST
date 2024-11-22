@@ -3,13 +3,12 @@ package com.asac.study_hub.service;
 import com.asac.study_hub.controller.dto.userDto.signupDto.SignupRequestDto;
 import com.asac.study_hub.exception.CustomException;
 import com.asac.study_hub.exception.ExceptionType;
-import com.asac.study_hub.repository.UserRepository;
+import com.asac.study_hub.service.memoryService.UserService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.yaml.snakeyaml.constructor.SafeConstructor;
 
 @SpringBootTest
 class UserServiceTest {

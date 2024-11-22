@@ -1,5 +1,6 @@
 package com.asac.study_hub.domain;
 
+import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;

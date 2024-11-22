@@ -1,7 +1,8 @@
-package com.asac.study_hub.service;
+package com.asac.study_hub.service.memoryService;
 
 import com.asac.study_hub.controller.dto.ListResponseDto;
 import com.asac.study_hub.controller.dto.ResponseIdDto;
+import com.asac.study_hub.controller.dto.StudyIdListRequestDto;
 import com.asac.study_hub.controller.dto.studyDto.StudyRequestDto;
 import com.asac.study_hub.controller.dto.studyDto.StudyResponseDto;
 import com.asac.study_hub.domain.Study;
@@ -12,12 +13,11 @@ import com.asac.study_hub.repository.StudyIRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+//@Service
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class StudyService {
@@ -35,14 +35,27 @@ public class StudyService {
         return studyResponseDtoList;
     }*/
 
-    public StudyResponseDto findById(Integer id) {
+    public ListResponseDto<StudyResponseDto> findAll(User user){
+        List<StudyResponseDto> studyList = studyRepository.findAll(user)
+            .stream()
+            .map(StudyResponseDto::of)
+            .toList();
+        return new ListResponseDto<StudyResponseDto>(studyList.size(), studyList);
+    }
+
+
+    public StudyResponseDto findById(User user, Integer id) {
         Study study = studyRepository.findById(id).orElseThrow(() -> new CustomException(ExceptionType.NOT_FOUND_STUDY_BY_ID, id));
+        if (!study.getUser().equals(user)) {
+            throw new CustomException(ExceptionType.INVALID_AUTHORIZATION);
+        }
         return StudyResponseDto.of(study);
     }
 
     public ResponseIdDto save(User user, StudyRequestDto studyRequestDto) {
         //강의 제목 중복 허용
         studyRequestDto.setUser(user);
+        studyRequestDto.setStudyId(studyRepository.getStudyId());
         Integer studyId = studyRepository.save(studyRequestDto.to());
         return new ResponseIdDto(studyId);
     }
@@ -72,15 +85,23 @@ public class StudyService {
         return study.getUser().equals(user);
     }
 
-    public void deleteAll(User user, List<Integer> ids) {
+    public void deleteAll(User user, StudyIdListRequestDto ids) {
         List<Study> findStudyList = new ArrayList<>();
-        ids.forEach((id) -> {
+        ids.getStudyIdList().forEach((id) -> {
                     Study findStudy = studyRepository.findByIdAndUser(id, user)
                             .orElseThrow(() -> new CustomException(ExceptionType.NOT_FOUND_STUDY_BY_ID));
                     findStudyList.add(findStudy);
                 }
         );
         studyRepository.deleteAll(findStudyList);
+    }
+
+    public void deleteById(User user, Integer studyId) {
+        Study study = studyRepository.findById(studyId).orElseThrow(() -> new CustomException(ExceptionType.NOT_FOUND_STUDY_BY_ID));
+        if (!checkAuthorization(user, study)) {
+            throw new CustomException(ExceptionType.INVALID_AUTHORIZATION);
+        }
+        studyRepository.delete(study);
     }
 
 }

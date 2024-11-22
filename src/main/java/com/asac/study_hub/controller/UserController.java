@@ -1,14 +1,7 @@
 package com.asac.study_hub.controller;
 
 import com.asac.study_hub.controller.dto.common.BaseResponse;
-import com.asac.study_hub.controller.dto.common.SuccessType;
-import com.asac.study_hub.controller.dto.userDto.UserResponseDto;
-import com.asac.study_hub.controller.dto.userDto.signinDto.SigninRequestDto;
-import com.asac.study_hub.controller.dto.userDto.signupDto.SignupRequestDto;
-import com.asac.study_hub.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
+import com.asac.study_hub.service.dbService.UserService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -23,16 +16,16 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     UserService userService;
-
-    @CrossOrigin(origins = "http://localhost:5173")
+    //cors 어노테이션 적용때문에 일단 메서드 껍데기만 작성하거여서 껍데기 구현하기면 됩니다
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/signup")
-    public BaseResponse<UserResponseDto> signup(@RequestBody @Valid SignupRequestDto signupRequestDto) {
-        return BaseResponse.success(SuccessType.SIGNUP, userService.signup(signupRequestDto));
+    public BaseResponse signup() {
+        return BaseResponse.success(null, null);
     }
 
-    @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+    @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
     @PostMapping("/signin")
-    public BaseResponse<UserResponseDto> signin(HttpServletRequest request, HttpServletResponse response, @RequestBody @Valid SigninRequestDto userDto) {
-        return BaseResponse.success(SuccessType.SIGNIN, userService.signin(request, response, userDto));
+    public BaseResponse signin() {
+        return BaseResponse.success(null, null);
     }
 }

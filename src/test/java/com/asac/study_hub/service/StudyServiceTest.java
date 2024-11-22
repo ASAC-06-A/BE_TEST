@@ -2,11 +2,13 @@ package com.asac.study_hub.service;
 
 import com.asac.study_hub.controller.dto.studyDto.StudyRequestDto;
 import com.asac.study_hub.domain.Category;
+import com.asac.study_hub.domain.UserStatus;
 import com.asac.study_hub.domain.Study;
 import com.asac.study_hub.domain.User;
 import com.asac.study_hub.exception.CustomException;
 import com.asac.study_hub.exception.ExceptionType;
-import com.asac.study_hub.repository.StudyRepository;
+import com.asac.study_hub.repository.memoryRepository.StudyRepository;
+import com.asac.study_hub.service.memoryService.StudyService;
 import com.asac.study_hub.util.SessionProvider;
 import jakarta.servlet.http.HttpSession;
 import org.assertj.core.api.Assertions;
@@ -31,9 +33,9 @@ class StudyServiceTest {
     @Test
     void update() {
         //given
-        User user = new User(10, "김지연", "example@gmail.com", "1234");
+        User user = new User(10, "김지연", "example@gmail.com", "1234", UserStatus.ACTIVE);
         Study study = Study.builder()
-                .id(10)
+                .id(50) //인메모리 저장 방식이라 강의 다수 삭제에서 스터디 id 10이랑 겹치면서 다수 삭제 test에서 id = 10인 스터디 삭제해도 이 데이터가 메모리에 남아 있으므로 예외가 터지지 않음
                 .category(new Category("Backend"))
                 .title("spring basic1")
                 .studyLink("https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%9E%85%EB%AC%B8-%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8/dashboard")
@@ -48,8 +50,8 @@ class StudyServiceTest {
         //when
         MockHttpServletRequest req = new MockHttpServletRequest("PATCH", "/study/10");
         HttpSession session = SessionProvider.createSession(req, user);
-        Integer studyId = 10;
-        StudyRequestDto studyRequestDto = new StudyRequestDto(10, "수정", "http://localhost:8080/study/1", "desc", null, null, null, null, null);
+        Integer studyId = 50;
+        StudyRequestDto studyRequestDto = new StudyRequestDto(50, "수정", "http://localhost:8080/study/1", "desc", null, null, 1, null);
         studyService.update(studyId, studyRequestDto, user);
         //then
         Assertions.assertThat(study.getTitle()).isEqualTo(studyRequestDto.getStudyTitle());
@@ -64,7 +66,7 @@ class StudyServiceTest {
     @Test
     void deleteAll() {
         //given
-        User user = new User(10, "김지연", "example@gmail.com", "1234");
+        User user = new User(10, "김지연", "example@gmail.com", "1234", UserStatus.ACTIVE);
         Study study1 = Study.builder()
                 .id(10)
                 .category(new Category("Backend"))
@@ -112,16 +114,77 @@ class StudyServiceTest {
         studyService.deleteAll(user, ids);
 
         //then
-        Assertions.assertThatThrownBy(() -> studyService.findById(10))
+        Assertions.assertThatThrownBy(() -> studyService.findById(user, 10))
                 .isInstanceOf(CustomException.class)
                 .hasFieldOrPropertyWithValue("type", ExceptionType.NOT_FOUND_STUDY_BY_ID);
 
-        Assertions.assertThatThrownBy(() -> studyService.findById(11))
+        Assertions.assertThatThrownBy(() -> studyService.findById(user, 11))
                 .isInstanceOf(CustomException.class)
                 .hasFieldOrPropertyWithValue("type", ExceptionType.NOT_FOUND_STUDY_BY_ID);
 
         Assertions.assertThat(id)
                 .isNotEqualTo(studyRepository.getId());
+        List<Study> studyList = new ArrayList<>();
+        studyList.add(study1);
+        studyList.add(study2);
+        studyList.add(study3);
+        studyRepository.deleteAll(studyList);
 
     }
+
+ /*   @DisplayName("강의 id")
+    @Test
+    void save(){
+        //given
+        User user = new User(10, "김지연", "example@gmail.com", "1234", Status.ACTIVE);
+        Study study1 = Study.builder()
+                .id(10)
+                .category(new Category("Backend"))
+                .title("spring basic1")
+                .studyLink("https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%9E%85%EB%AC%B8-%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8/dashboard")
+                .description("인프런 스프링 기초 강의")
+                .user(user)
+                .createAt(LocalDateTime.now())
+                .updateAt(LocalDateTime.now())
+                .order(1)
+                .build();
+        studyRepository.save(study1);
+        //when
+        Study study2 = Study.builder()
+                .id(11)
+                .category(new Category("Backend"))
+                .title("spring basic1")
+                .studyLink("https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%9E%85%EB%AC%B8-%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8/dashboard")
+                .description("인프런 스프링 기초 강의")
+                .user(user)
+                .createAt(LocalDateTime.now())
+                .updateAt(LocalDateTime.now())
+                .order(1)
+                .build();
+        studyRepository.save(study2);
+
+        Study study3 = Study.builder()
+                .id(12)
+                .category(new Category("Backend"))
+                .title("spring basic1")
+                .studyLink("https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%9E%85%EB%AC%B8-%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8/dashboard")
+                .description("인프런 스프링 기초 강의")
+                .user(user)
+                .createAt(LocalDateTime.now())
+                .updateAt(LocalDateTime.now())
+                .order(1)
+                .build();
+        studyRepository.save(study3);
+
+        List<Study> studyList = new ArrayList<>();
+
+        studyList.add(study2);
+        studyList.add(study3);
+
+        studyRepository.deleteAll(studyList);
+        //then
+
+
+    }*/
+
 }

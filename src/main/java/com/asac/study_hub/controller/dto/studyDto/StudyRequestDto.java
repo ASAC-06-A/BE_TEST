@@ -22,8 +22,7 @@ public class StudyRequestDto {
     @NotNull
     String url;
     String desc;
-    Category category;
-    LocalDateTime createAt;
+    String category;
     @Setter
     User user;
     Integer order;
@@ -31,13 +30,14 @@ public class StudyRequestDto {
 
     public Study to() {
         return Study.builder()
-                .title(this.studyTitle)
+                .studyId(this.studyId)
+                .studyTitle(this.studyTitle)
                 .studyLink(this.url)
                 .description(this.desc)
                 .category(this.category)
                 .createAt(LocalDateTime.now())
                 .user(this.user)
-                .order(this.order)
+                .studyOrder(this.order)
                 .build();
     }
 }
