@@ -45,9 +45,9 @@ jobs:
         sudo mkdir ./src/main/resources
         cd ./src/main/resources
         sudo touch ./application.yml
+        sudo chmod +x script.sh
         echo "${{ secrets.APPLICATION_YML }}" > ./application.yml
 
-    - uses: actions/checkout@v4
     - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
