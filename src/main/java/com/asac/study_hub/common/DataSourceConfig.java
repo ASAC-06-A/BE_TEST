@@ -1,4 +1,4 @@
-package com.asac.study_hub.controller.dto.common;
+package com.asac.study_hub.common;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
