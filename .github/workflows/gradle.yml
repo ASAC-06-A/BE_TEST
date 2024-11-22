@@ -39,12 +39,12 @@ jobs:
 
 
     - uses: actions/checkout@v4
-      
+
     - name: Set YML
       run: |
         sudo mkdir ./src/main/resources
         cd ./src/main/resources
-        touch ./application.yml
+        sudo touch ./application.yml
         echo "${{ secrets.APPLICATION_YML }}" > ./application.yml
 
     - uses: actions/checkout@v4
