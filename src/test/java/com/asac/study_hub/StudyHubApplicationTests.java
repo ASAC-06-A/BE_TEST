@@ -3,10 +3,10 @@ package com.asac.study_hub;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-//@SpringBootTest
+@SpringBootTest
 class StudyHubApplicationTests {
 
-	//@Test
+	@Test
 	void contextLoads() {
 	}
 
