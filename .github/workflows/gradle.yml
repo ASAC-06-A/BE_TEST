@@ -1,97 +1,91 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
-
 name: Java CI with Gradle
 
+# main 브랜치에 push 혹은 pull request 가 merged 시 동작.
 on:
   push:
-    branches: [ "develop" ]
-  pull_request:
-    branches: [ "develop" ]
+    branches: [ "main" ]
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest #이후에 도커에 배포하면 OS환경 우분투로 통일
-    permissions:
-      contents: read
-
-    steps:
-
-    - name: Shutdown Ubuntu MySQL (SUDO)
-      run: sudo service mysql stop
-
-    - name: Set up MySQL
-      uses: mirromutth/mysql-action@v1.1
-      with:
-        host port: 33066
-        container port: 3306
-        mysql version: '8.0'
-        character set server: 'utf8'
-        mysql database: 'study_hub'
-        mysql user: ${{ secrets.DB_USERNAME }}
-        mysql root password: ${{ secrets.DB_ROOT_PASSWORD }}
-        mysql password: ${{ secrets.DB_PASSWORD }}
-
-
-    - uses: actions/checkout@v4
-
-    - name: Set YML
-      run: |
-        sudo mkdir ./src/main/resources
-        cd ./src/main/resources
-        sudo touch ./application.yml
-        sudo chmod +x application.yml
-        echo "${{ secrets.APPLICATION_YML }}" > ./application.yml
-
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-
-    # Configure Gradle for optimal use in GitHub Actions, including caching of downloaded dependencies.
-    # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
-
-    - name: Build with Gradle Wrapper
-      run: ./gradlew build
-      env:
-        DB_NAME: ${{ secrets.DB_NAME }}
-        DB_USERNAME: ${{ secrets.DB_USERNAME }}
-        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-
-    # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
-    # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
-    #
-    # - name: Setup Gradle
-    #   uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
-    #   with:
-    #     gradle-version: '8.9'
-    #
-    # - name: Build with Gradle 8.9
-    #   run: gradle build
-
-  dependency-submission:
-
+  deploy:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
+      - uses: actions/checkout@v4
 
-    # Generates and submits a dependency graph, enabling Dependabot Alerts for all project dependencies.
-    # See: https://github.com/gradle/actions/blob/main/dependency-submission/README.md
-    - name: Generate and submit dependency graph
-      uses: gradle/actions/dependency-submission@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+      - name: Set YML
+        run: |
+          sudo mkdir ./src/main/resources
+          cd ./src/main/resources
+          sudo touch ./application.yml
+          sudo chmod +x application.yml
+          echo "${{ secrets.APPLICATION_YML }}" > ./application.yml
+      # (1) 프로그램 빌드 (Java 빌드) 1) Java 및 Docker 빌드를 위한 환경 설정
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      # (1) 프로그램 빌드 (Java 빌드) 2) Java 빌드를 위한 ./gradlew 파일 권한 변경
+      - name: Run chmod to make gradlew executable
+        run: chmod +x ./gradlew
+
+      # (1) 프로그램 빌드 (Java 빌드) 3) Java 빌드
+      - name: Spring Boot Build
+        run: ./gradlew clean build
+
+      # (2) Docker 이미지 빌드 1) DockerFile 을 기반으로 Docker Image 빌드
+      - name: docker image build
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/study-hub-demo .
+
+      # (2) Docker 이미지 빌드 2) Docker Hub 에 Login
+      - name: docker login
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PW }}
+
+      # (2) Docker 이미지 빌드 3) Docker Hub 에 빌드된 이미지 push
+      - name: docker Hub push
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/study-hub-demo
+
+      # (3) CD : Docker 컨테이너 수행 1) Get GitHub IP
+      - name: get GitHub IP
+        id: ip
+        uses: haythem/public-ip@v1.2
+
+      # (3) CD : Docker 컨테이너 수행 2) Configure AWS Credentials - AWS 접근 권한 취득(IAM)
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+            
+      # (3) CD : Docker 컨테이너 수행 3) Add github ip to AWS
+      - name: Add GitHub IP to AWS
+        run: |
+          aws ec2 authorize-security-group-ingress --group-id ${{ secrets.AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+
+      - name: AWS EC2 Connection
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          password: ${{ secrets.EC2_PASSWORD }}
+          port: ${{ secrets.EC2_SSH_PORT }}
+          timeout: 60s
+          script: |
+            sudo docker stop study-hub-demo
+            sudo docker rm study-hub-demo
+            sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/study-hub-demo
+            #           sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/study-hub-demo
+            sudo docker run -it -d -p 8080:8080 --name study-hub-demo ${{ secrets.DOCKERHUB_USERNAME }}/study-hub-demo
+
+      # (3) CD : Docker 컨테이너 수행 5) Remove Github IP from security group
+      - name: Remove IP FROM security group
+        run: |
+          aws ec2 revoke-security-group-ingress --group-id ${{ secrets.AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+
+
