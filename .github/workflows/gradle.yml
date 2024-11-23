@@ -18,7 +18,7 @@ jobs:
           sudo mkdir ./src/main/resources
           cd ./src/main/resources
           sudo touch ./application.yml
-          sudo chmod +x application.yml
+          sudo chmod 777 application.yml
           echo "${{ secrets.APPLICATION_YML }}" > ./application.yml
       # (1) 프로그램 빌드 (Java 빌드) 1) Java 및 Docker 빌드를 위한 환경 설정
 
